@@ -2,12 +2,32 @@ package com.zagayevskiy.lang.tokenization;
 
 public class Token {
 
-    public static int FINISH = 0x0;
-    public static int PLUS = 0x1;
-    public static int MINUS = 0x2;
-    public static int ASTERISK = 0x3;
-    public static int ASSIGN = 0x4;
-    public static int EQUALS = 0x5;
+    public static int FINISH = 0;
+    public static int PLUS = 1;
+    public static int MINUS = 2;
+    public static int ASTERISK = 3;
+
+    public static int ASSIGN = 4;
+    public static int EQUALS = 5;
+
+    public static int BIT_OR = 8;
+    public static int BIT_AND = 9;
+    public static int BIT_XOR = 10;
+    public static int BIT_SHIFT_LEFT = 11;
+    public static int BIT_SHIFT_RIGHT = 12;
+
+    public static int LESS = 20;
+    public static int GREATER = 21;
+    public static int LESS_OR_EQUALS = 22;
+    public static int GREATER_OR_EQUALS = 23;
+
+    public static int LOGIC_NOT = 30;
+    public static int LOGIC_OR = 31;
+    public static int LOGIC_AND = 32;
+
+    public static int SEMICOLON = 0x01000000;
+    public static int BRACE_OPEN = 0x01000001;
+    public static int BRACE_CLOSE = 0x01000002;
 
     public static int IDENTIFIER = 0x0100;
     public static int INTEGER = 0x0101;

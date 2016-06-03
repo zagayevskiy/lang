@@ -6,10 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class InputStreamTokenizer implements Tokenizer {
 
@@ -20,6 +17,25 @@ public class InputStreamTokenizer implements Tokenizer {
         mapSymbol("*", Token.ASTERISK);
         mapSymbol("=", Token.ASSIGN);
         mapSymbol("==", Token.EQUALS);
+
+        mapSymbol("|", Token.BIT_OR);
+        mapSymbol("&", Token.BIT_AND);
+        mapSymbol("^", Token.BIT_XOR);
+        mapSymbol("<<", Token.BIT_SHIFT_LEFT);
+        mapSymbol(">>", Token.BIT_SHIFT_RIGHT);
+
+        mapSymbol(">", Token.GREATER);
+        mapSymbol(">=", Token.GREATER_OR_EQUALS);
+        mapSymbol("<", Token.LESS);
+        mapSymbol("<=", Token.LESS_OR_EQUALS);
+
+        mapSymbol("!", Token.LOGIC_NOT);
+        mapSymbol("||", Token.LOGIC_OR);
+        mapSymbol("&&", Token.LOGIC_AND);
+
+        mapSymbol(";", Token.SEMICOLON);
+        mapSymbol("{", Token.BRACE_OPEN);
+        mapSymbol("}", Token.BRACE_CLOSE);
     }
 
     static final Map<String, Integer> KEYWORD_TOKENS = new HashMap<>();
@@ -30,10 +46,14 @@ public class InputStreamTokenizer implements Tokenizer {
     }
 
     private static void mapSymbol(@Nonnull String value, int tokenType) {
+        assert !SYMBOL_TOKENS.containsKey(value);
+        assert !SYMBOL_TOKENS.containsValue(tokenType);
         SYMBOL_TOKENS.put(value, tokenType);
     }
 
     private static void mapKeyword(@Nonnull String keyword, int tokenType) {
+        assert !KEYWORD_TOKENS.containsKey(keyword);
+        assert !KEYWORD_TOKENS.containsValue(tokenType);
         KEYWORD_TOKENS.put(keyword, tokenType);
     }
 
@@ -142,10 +162,19 @@ public class InputStreamTokenizer implements Tokenizer {
         }
     }
 
+    //TODO: remove
+    private List<String> linesDebug = new ArrayList<>();
+    @Nullable
+    @Override
+    public String getLineDebug(int lineNumber) {
+        return linesDebug.get(lineNumber);
+    }
+
     private void initCharReader() throws IOException {
         lineNumber = 0;
         currentIndex = 0;
         currentLine = bufferedReader.readLine();
+        linesDebug.add(currentLine);
         nextChar();
     }
 
@@ -163,6 +192,7 @@ public class InputStreamTokenizer implements Tokenizer {
 
         while (currentIndex >= currentLine.length()) {
             currentLine = bufferedReader.readLine();
+            linesDebug.add(currentLine);
             ++lineNumber;
 
             if (currentLine == null) {

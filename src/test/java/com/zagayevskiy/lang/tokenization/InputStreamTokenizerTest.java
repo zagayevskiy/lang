@@ -1,5 +1,6 @@
 package com.zagayevskiy.lang.tokenization;
 
+import com.zagayevskiy.lang.TestUtils;
 import javafx.util.Pair;
 import org.junit.Test;
 
@@ -14,13 +15,19 @@ import static org.junit.Assert.*;
 public class InputStreamTokenizerTest {
 
     @Test
+    public void mapsFilledRight() {
+        assertMapFilledRight("SYMBOL_TOKENS", InputStreamTokenizer.SYMBOL_TOKENS);
+        assertMapFilledRight("KEYWORD_TOKENS", InputStreamTokenizer.KEYWORD_TOKENS);
+    }
+
+    @Test
     public void symbolicTokenizationOneLine() throws IOException {
         StringBuilder builder = new StringBuilder();
         for (String symbol: InputStreamTokenizer.SYMBOL_TOKENS.keySet()) {
             builder.append(symbol).append("   ");
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         for (Map.Entry<String, Integer> entry: InputStreamTokenizer.SYMBOL_TOKENS.entrySet()) {
             Token token = tokenizer.nextToken();
@@ -39,7 +46,7 @@ public class InputStreamTokenizerTest {
             builder.append(symbol).append("\n");
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         int lineNumber = 0;
         for (Map.Entry<String, Integer> entry: InputStreamTokenizer.SYMBOL_TOKENS.entrySet()) {
@@ -68,7 +75,7 @@ public class InputStreamTokenizerTest {
             expected.add(entry);
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         for(Map.Entry<String, Integer> entry: expected) {
             Token token = tokenizer.nextToken();
@@ -96,7 +103,7 @@ public class InputStreamTokenizerTest {
             builder.append("\n\n\n \n");
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         for (String expected: expectedList) {
             Token token = tokenizer.nextToken();
@@ -126,7 +133,7 @@ public class InputStreamTokenizerTest {
             builder.append("\n\n\n \n");
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         for (Pair<String, Integer> expected: expectedList) {
             Token token = tokenizer.nextToken();
@@ -155,7 +162,7 @@ public class InputStreamTokenizerTest {
             expectedList.add(entry);
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         for(Map.Entry<String, Integer> expected: expectedList) {
             Token token = tokenizer.nextToken();
@@ -192,7 +199,7 @@ public class InputStreamTokenizerTest {
             }
         }
 
-        InputStreamTokenizer tokenizer = new InputStreamTokenizer(stringStream(builder.toString()));
+        InputStreamTokenizer tokenizer = new InputStreamTokenizer(TestUtils.stringStream(builder.toString()));
 
         for (Pair<String, Integer> expected: expectedList) {
             Token token = tokenizer.nextToken();
@@ -220,8 +227,14 @@ public class InputStreamTokenizerTest {
         return new Pair<>(entry.getKey(), entry.getValue());
     }
 
-    private InputStream stringStream(@Nonnull String from) {
-        return new ByteArrayInputStream(from.getBytes());
+    private void assertMapFilledRight(String mapName, Map<String, Integer> map) {
+        Map<Integer, String> exists = new HashMap<>();
+        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+            final Integer value = entry.getValue();
+            final String key = entry.getKey();
+            assertFalse("In " + mapName + ": Values must not be equals! In " + exists.get(value) + " and " + key + " : " + value, exists.containsKey(value));
+            exists.put(value, key);
+        }
     }
 
 }
