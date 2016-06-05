@@ -8,6 +8,8 @@ import javax.annotation.Nonnull;
 
 public interface IFunction {
 
+    int ALREADY_EXISTS = -1;
+
     @Nonnull
     String getName();
 
@@ -16,6 +18,17 @@ public interface IFunction {
 
     @Nonnull
     IFunction removeLastInstruction();
+
+    boolean hasVariable(@Nonnull String name);
+
+    @Nonnull
+    IVariable addVariable(@Nonnull String name);
+
+    @Nonnull
+    IVariable getVariable(int id);
+
+    @Nonnull
+    IVariable getVariable(@Nonnull String name);
 
     void pushOperand(@Nonnull Operand operand);
 

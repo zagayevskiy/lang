@@ -1,12 +1,12 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.instructions.AbsBinaryInstruction;
+import com.zagayevskiy.lang.runtime.instructions.AbsBinaryObjInstruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
-public class PlusInstruction extends AbsBinaryInstruction {
+public class PlusInstruction extends AbsBinaryObjInstruction {
 
     @Nonnull
     @Override

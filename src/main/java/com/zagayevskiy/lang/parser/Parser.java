@@ -3,7 +3,9 @@ package com.zagayevskiy.lang.parser;
 import com.zagayevskiy.lang.logging.Logger;
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.IProgram;
+import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
+import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
 import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
@@ -146,15 +148,29 @@ public class Parser {
         if (token.type != Token.IDENTIFIER) {
             return false;
         }
+
+        if (currentFunction.hasVariable(token.value)) {
+            log("Variable " + token.value + " already defined.");
+            return false;
+        }
+
+        final IVariable variable = currentFunction.addVariable(token.value);
+        final String variableName = token.value;
+
         nextToken();
 
         if (token.type == Token.ASSIGN) {
+
+            currentFunction.addInstruction(VariableInstruction.from(variable.getId(), variableName));
+
             nextToken();
 
             if (!expression()) {
                 log("expression expected after '=' in variable definition");
                 return false;
             }
+
+            currentFunction.addInstruction(Instruction.ASSIGN);
         }
 
         return true;
@@ -308,13 +324,17 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.PLUS) { //TODO: -
+        while (token.type == Token.PLUS || token.type == Token.MINUS) {
+            final Instruction additionInstruction  = token.type == Token.PLUS
+                    ? Instruction.PLUS
+                    : Instruction.MINUS;
+
             nextToken();
             if (!multiplication()) {
                 return false;
             }
 
-            currentFunction.addInstruction(Instruction.PLUS);
+            currentFunction.addInstruction(additionInstruction);
         }
 
         return true;
@@ -357,7 +377,23 @@ public class Parser {
         }
 
         if (token.type == Token.IDENTIFIER) {
+
+            if (currentFunction.hasVariable(token.value)) {
+                currentFunction.addInstruction(VariableInstruction.from(currentFunction.getVariable(token.value).getId(), token.value));
+            }
+
             nextToken();
+
+            if (token.type == Token.ASSIGN) {
+                nextToken();
+                if (!expression()) {
+                    log("expression expected after '='");
+                    return false;
+                }
+
+                currentFunction.addInstruction(Instruction.ASSIGN);
+            }
+
             return true;
         }
 

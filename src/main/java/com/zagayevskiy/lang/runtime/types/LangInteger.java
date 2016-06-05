@@ -100,4 +100,9 @@ public class LangInteger extends LangObject implements Operand {
     public LangInteger multiply(@Nonnull LangInteger by) {
         return from(intValue * by.intValue, isNan || by.isNan);
     }
+
+    @Nonnull
+    public LangInteger minus(@Nonnull LangInteger right) {
+        return from(intValue - right.intValue, isNan || right.isNan);
+    }
 }

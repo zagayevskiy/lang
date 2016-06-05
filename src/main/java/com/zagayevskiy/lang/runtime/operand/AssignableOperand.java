@@ -1,9 +1,10 @@
 package com.zagayevskiy.lang.runtime.operand;
 
+import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
 public interface AssignableOperand extends Operand {
-    void setValue(@Nonnull LangObject value);
+    void setValue(@Nonnull IFunction context, @Nonnull LangObject value);
 }

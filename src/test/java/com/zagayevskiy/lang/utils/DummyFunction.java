@@ -1,7 +1,7 @@
 package com.zagayevskiy.lang.utils;
 
 import com.zagayevskiy.lang.runtime.IFunction;
-import com.zagayevskiy.lang.runtime.IProgram;
+import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
@@ -38,6 +38,29 @@ public class DummyFunction implements IFunction {
     public IFunction removeLastInstruction() {
         instructions.remove(instructions.size() - 1);
         return this;
+    }
+
+    @Override
+    public boolean hasVariable(@Nonnull String name) {
+        return false;
+    }
+
+    @Nonnull
+    @Override
+    public IVariable addVariable(@Nonnull String name) {
+        return new DummyVariable();
+    }
+
+    @Nonnull
+    @Override
+    public IVariable getVariable(int id) {
+        return new DummyVariable();
+    }
+
+    @Nonnull
+    @Override
+    public IVariable getVariable(@Nonnull String name) {
+        return new DummyVariable();
     }
 
     @Override

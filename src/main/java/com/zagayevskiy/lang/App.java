@@ -11,7 +11,7 @@ import java.io.ByteArrayInputStream;
 public class App {
 
     public static void main(String[] args) {
-        final String programText = "main { 2 + 3 * (1 + (1 << 1) * 2); }";
+        final String programText = "main { var x = 3; var y = x + 5; x = y - 7; y = x << x; (y + x)*111; }";
 
         final Parser parser = new Parser(
                 new InputStreamTokenizer(new ByteArrayInputStream(programText.getBytes())),

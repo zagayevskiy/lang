@@ -6,7 +6,7 @@ import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbsBinaryIntInstruction extends AbsBinaryInstruction {
+public abstract class AbsBinaryIntInstruction extends AbsBinaryObjInstruction {
 
     @Nonnull
     @Override

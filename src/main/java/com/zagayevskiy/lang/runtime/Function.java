@@ -3,17 +3,19 @@ package com.zagayevskiy.lang.runtime;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.LangUndefined;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
+import java.util.*;
 
 public class Function implements IFunction {
 
     private final String name;
-    private ArrayList<Instruction> instructions = new ArrayList<>();
+    private final ArrayList<Instruction> instructions = new ArrayList<>();
     private int instructionPointer;
+
+    private final ArrayList<Variable> variables = new ArrayList<>();
+    private final Map<String, Variable> variablesByName = new HashMap<>();
 
     private final Deque<Operand> operandsStack = new ArrayDeque<>();
 
@@ -42,6 +44,42 @@ public class Function implements IFunction {
     }
 
     @Override
+    public boolean hasVariable(@Nonnull String name) {
+        return variablesByName.containsKey(name);
+    }
+
+    @Nonnull
+    @Override
+    public IVariable addVariable(@Nonnull String name) {
+        if (hasVariable(name)) {
+            throw new IllegalStateException("Variable " + name + " already defined. Must check hasVariable before.");
+        }
+
+        final int id = variables.size();
+        final Variable var = new Variable(id);
+        variables.add(var);
+        variablesByName.put(name, var);
+
+        return var;
+    }
+
+    @Nonnull
+    @Override
+    public IVariable getVariable(int id) {
+        return variables.get(id);
+    }
+
+    @Nonnull
+    @Override
+    public IVariable getVariable(@Nonnull String name) {
+        if (!hasVariable(name)) {
+            throw new IllegalStateException("Variable " + name + "not defined. Must check hasVariable before.");
+        }
+
+        return variablesByName.get(name);
+    }
+
+    @Override
     public void pushOperand(@Nonnull Operand operand) {
         operandsStack.push(operand);
     }
@@ -63,7 +101,7 @@ public class Function implements IFunction {
             instruction.execute(this);
         }
 
-        return operandsStack.pop().getValue();
+        return operandsStack.pop().getValue(this);
     }
 
     @Override

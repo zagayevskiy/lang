@@ -21,7 +21,7 @@ public abstract class LangObject implements Instruction, Operand {
 
     @Nonnull
     @Override
-    public LangObject getValue() {
+    public LangObject getValue(@Nonnull IFunction function) {
         return this;
     }
 
