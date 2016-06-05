@@ -3,6 +3,9 @@ package com.zagayevskiy.lang.utils;
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
+import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.LangUndefined;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -38,6 +41,22 @@ public class DummyFunction implements IFunction {
     }
 
     @Override
-    public void execute(@Nonnull IProgram program) {
+    public void pushOperand(@Nonnull Operand operand) {
+    }
+
+    @Nonnull
+    @Override
+    public Operand popOperand() {
+        return LangUndefined.INSTANCE;
+    }
+
+    @Nonnull
+    @Override
+    public LangObject execute() {
+        return LangUndefined.INSTANCE;
+    }
+
+    @Override
+    public void jump(int position) {
     }
 }

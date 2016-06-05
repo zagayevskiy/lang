@@ -1,6 +1,5 @@
 package com.zagayevskiy.lang.runtime;
 
-import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
@@ -22,11 +21,6 @@ public interface IProgram {
         @Nonnull
         IFunction createFunction(@Nonnull String name);
     }
-
-    void pushOperand(@Nonnull Operand operand);
-
-    @Nonnull
-    Operand popOperand();
 
     @Nonnull
     LangObject execute();

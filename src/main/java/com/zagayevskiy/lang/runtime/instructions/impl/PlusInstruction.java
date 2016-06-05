@@ -2,9 +2,7 @@ package com.zagayevskiy.lang.runtime.instructions.impl;
 
 import com.zagayevskiy.lang.runtime.instructions.AbsBinaryInstruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.LangUndefined;
 
 import javax.annotation.Nonnull;
 

@@ -45,16 +45,6 @@ public class DummyProgram implements IProgram {
         }
     }
 
-    @Override
-    public void pushOperand(@Nonnull Operand operand) {
-    }
-
-    @Nonnull
-    @Override
-    public Operand popOperand() {
-        return LangUndefined.INSTANCE;
-    }
-
     @Nonnull
     @Override
     public LangObject execute() {

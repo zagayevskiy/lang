@@ -1,11 +1,11 @@
 package com.zagayevskiy.lang.runtime;
 
-import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.tokenization.Token;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Program implements IProgram {
 
@@ -44,24 +44,11 @@ public class Program implements IProgram {
     }
 
     private Map<String, IFunction> functions = new HashMap<>();
-    private Deque<Operand> operandsStack = new ArrayDeque<>();
     private IFunction main;
-
-    @Override
-    public void pushOperand(@Nonnull Operand operand) {
-        operandsStack.push(operand);
-    }
 
     @Nonnull
     @Override
-    public Operand popOperand() {
-        return operandsStack.pop();
-    }
-
-    @Override
     public LangObject execute() {
-        main.execute(this);
-        //TODO refactor
-        return operandsStack.pop().getValue();
+        return main.execute();
     }
 }
