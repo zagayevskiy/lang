@@ -34,6 +34,8 @@ public class InputStreamTokenizer implements Tokenizer {
         mapSymbol("&&", Token.LOGIC_AND);
 
         mapSymbol(";", Token.SEMICOLON);
+        mapSymbol(",", Token.COMMA);
+
         mapSymbol("{", Token.BRACE_OPEN);
         mapSymbol("}", Token.BRACE_CLOSE);
         mapSymbol("(", Token.PARENTHESIS_OPEN);
@@ -45,6 +47,7 @@ public class InputStreamTokenizer implements Tokenizer {
         mapKeyword(Token.MAIN_NAME, Token.MAIN);
         mapKeyword("function", Token.FUNCTION);
         mapKeyword("struct", Token.STRUCT);
+        mapKeyword("var", Token.VAR);
     }
 
     private static void mapSymbol(@Nonnull String value, int tokenType) {

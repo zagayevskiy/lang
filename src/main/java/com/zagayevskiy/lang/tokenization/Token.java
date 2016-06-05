@@ -32,6 +32,7 @@ public class Token {
     public static final int BRACE_CLOSE = 0x01000002;
     public static final int PARENTHESIS_OPEN = 0x01000003;
     public static final int PARENTHESIS_CLOSE = 0x01000004;
+    public static final int COMMA = 0x01000005;
 
     public static final int IDENTIFIER = 0x0100;
     public static final int INTEGER = 0x0101;
@@ -39,6 +40,7 @@ public class Token {
     public static final int MAIN = 0x010001;
     public static final int FUNCTION = 0x010002;
     public static final int STRUCT = 0x010003;
+    public static final int VAR = 0x010004;
 
     public final int type;
     public final String value;

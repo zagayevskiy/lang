@@ -115,7 +115,49 @@ public class Parser {
     }
 
     private boolean operator() {
-        return expressionOperator() | emptyOperator();
+        return defVariables() | expressionOperator() | emptyOperator();
+    }
+
+    private boolean defVariables() {
+        if (token.type != Token.VAR) {
+            return false;
+        }
+
+        nextToken();
+
+        if (!defSingleVariable()) {
+            log("variable definition expected");
+            return false;
+        }
+
+        while (token.type == Token.COMMA) {
+            nextToken();
+            if (!defSingleVariable()) {
+                log("variable definition expected");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean defSingleVariable() {
+
+        if (token.type != Token.IDENTIFIER) {
+            return false;
+        }
+        nextToken();
+
+        if (token.type == Token.ASSIGN) {
+            nextToken();
+
+            if (!expression()) {
+                log("expression expected after '=' in variable definition");
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private boolean emptyOperator() {
