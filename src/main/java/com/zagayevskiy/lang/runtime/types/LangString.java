@@ -20,7 +20,7 @@ public class LangString extends LangObject {
     @Nonnull
     @Override
     public LangInteger toLangInteger() {
-        return LangInteger.NAN;
+        return LangInteger.NaN;
     }
 
     @Nonnull
@@ -32,5 +32,21 @@ public class LangString extends LangObject {
     @Override
     public String toString() {
         return "string:" + stringValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LangString that = (LangString) o;
+
+        return stringValue.equals(that.stringValue);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return stringValue.hashCode();
     }
 }

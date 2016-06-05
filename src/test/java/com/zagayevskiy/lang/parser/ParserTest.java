@@ -1,10 +1,8 @@
 package com.zagayevskiy.lang.parser;
 
-import com.sun.deploy.util.StringUtils;
 import com.zagayevskiy.lang.runtime.IProgram;
-import com.zagayevskiy.lang.runtime.instructions.ConstInstruction;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.instructions.PopInstruction;
+import com.zagayevskiy.lang.runtime.instructions.impl.PopInstruction;
 import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.tokenization.InputStreamTokenizer;
 import com.zagayevskiy.lang.utils.DummyFunction;
@@ -15,9 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -71,7 +66,7 @@ public class ParserTest {
 
             if (index % 2 == 0) {
                 final int expected = index / 2;
-                LangInteger actual = ((LangInteger)((ConstInstruction)instruction).getValue());
+                LangInteger actual = (LangInteger)instruction;
                 assertEquals(expected, actual.intValue);
                 assertFalse(actual.isNan);
             } else {
@@ -85,7 +80,7 @@ public class ParserTest {
     //TODO: move it
     @Test
     public void generate() {
-        String programText = "main { 2 + 3 * (1 + 4); }";
+        String programText = "main { 2 + 3 * (1 + (1 << 1) * 2); }";
 
         DummyFunction main = mainFrom(programText);
 
@@ -93,8 +88,6 @@ public class ParserTest {
             System.out.print(i.toString());
             System.out.print("; ");
         }
-
-
     }
 
     private void assertParsingCorrect(@Nonnull Parser parser) {

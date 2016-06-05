@@ -13,7 +13,7 @@ public class LangUndefined extends LangObject {
     @Nonnull
     @Override
     public LangInteger toLangInteger() {
-        return LangInteger.NAN;
+        return LangInteger.NaN;
     }
 
     @Nonnull

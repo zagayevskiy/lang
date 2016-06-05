@@ -4,7 +4,6 @@ import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
-public interface Operand {
-    @Nonnull
-    LangObject getValue();
+public interface AssignableOperand extends Operand {
+    void setValue(@Nonnull LangObject value);
 }

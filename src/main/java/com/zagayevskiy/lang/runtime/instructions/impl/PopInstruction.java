@@ -1,16 +1,12 @@
-package com.zagayevskiy.lang.runtime.instructions;
+package com.zagayevskiy.lang.runtime.instructions.impl;
 
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.IProgram;
-import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.instructions.Instruction;
 
 import javax.annotation.Nonnull;
 
 public class PopInstruction implements Instruction {
-
-    public static final PopInstruction INSTANCE = new PopInstruction();
-
-    private PopInstruction() {}
 
     @Override
     public void execute(@Nonnull IProgram program, @Nonnull IFunction function) {

@@ -52,8 +52,7 @@ public class DummyProgram implements IProgram {
     @Nonnull
     @Override
     public Operand popOperand() {
-        return new Operand() {
-        };
+        return LangUndefined.INSTANCE;
     }
 
     @Nonnull

@@ -1,6 +1,5 @@
 package com.zagayevskiy.lang.runtime;
 
-import com.zagayevskiy.lang.runtime.operand.ConstOperand;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.tokenization.Token;
@@ -63,6 +62,6 @@ public class Program implements IProgram {
     public LangObject execute() {
         main.execute(this);
         //TODO refactor
-        return ((ConstOperand)operandsStack.pop()).getValue();
+        return operandsStack.pop().getValue();
     }
 }

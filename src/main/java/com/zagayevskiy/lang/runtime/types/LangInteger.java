@@ -1,20 +1,31 @@
 package com.zagayevskiy.lang.runtime.types;
 
+import com.zagayevskiy.lang.runtime.operand.Operand;
+
 import javax.annotation.Nonnull;
 
-public class LangInteger extends LangObject {
+public class LangInteger extends LangObject implements Operand {
 
-    public static final LangInteger NAN = new LangInteger(0, true);
+    public static final LangInteger NaN = new LangInteger(0, true);
+
+    static final LangInteger[] CACHE = new LangInteger[256];
 
     @Nonnull
     public static LangInteger from(int value) {
-        //TODO: cache here
+        if (0 <= value && value < CACHE.length) {
+            LangInteger cache = CACHE[value];
+            if (cache == null) {
+                cache = new LangInteger(value);
+                CACHE[value] = cache;
+            }
+            return cache;
+        }
         return new LangInteger(value);
     }
 
     @Nonnull
     public static LangInteger from(int value, boolean isNan) {
-        return isNan ? NAN : from(value);
+        return isNan ? NaN : from(value);
     }
 
     public final int intValue;
@@ -41,8 +52,52 @@ public class LangInteger extends LangObject {
         return LangString.from(String.valueOf(intValue));
     }
 
+    @Nonnull
+    @Override
+    public LangObject plus(@Nonnull LangObject other) {
+        if (!(other instanceof LangInteger)) {
+            return super.plus(other);
+        }
+
+        final LangInteger otherInt = other.toLangInteger();
+        return from(intValue + otherInt.intValue, isNan || otherInt.isNan);
+    }
+
     @Override
     public String toString() {
         return "i:" + intValue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LangInteger that = (LangInteger) o;
+
+        return (isNan == that.isNan) && (intValue != that.intValue);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = intValue;
+        result = 31 * result + (isNan ? 1 : 0);
+        return result;
+    }
+
+    @Nonnull
+    public LangInteger shiftLeft(@Nonnull LangInteger by) {
+        return from(intValue << by.intValue, isNan || by.isNan);
+    }
+
+    @Nonnull
+    public LangInteger shiftRight(@Nonnull LangInteger by) {
+        return from(intValue >> by.intValue, isNan || by.isNan);
+    }
+
+    @Nonnull
+    public LangInteger multiply(@Nonnull LangInteger by) {
+        return from(intValue * by.intValue, isNan || by.isNan);
     }
 }

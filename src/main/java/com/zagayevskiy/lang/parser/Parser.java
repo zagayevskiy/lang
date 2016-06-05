@@ -3,7 +3,10 @@ package com.zagayevskiy.lang.parser;
 import com.zagayevskiy.lang.logging.Logger;
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.IProgram;
-import com.zagayevskiy.lang.runtime.instructions.*;
+import com.zagayevskiy.lang.runtime.instructions.Instruction;
+import com.zagayevskiy.lang.runtime.instructions.impl.BitShiftLeftInstruction;
+import com.zagayevskiy.lang.runtime.instructions.impl.PlusInstruction;
+import com.zagayevskiy.lang.runtime.instructions.impl.PopInstruction;
 import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
@@ -99,7 +102,7 @@ public class Parser {
         }
 
         do {
-            currentFunction.addInstruction(PopInstruction.INSTANCE);
+            currentFunction.addInstruction(Instruction.POP);
         } while(operator());
 
         currentFunction.removeLastInstruction();
@@ -255,7 +258,7 @@ public class Parser {
             if (!addition()) {
                 return false;
             }
-            currentFunction.addInstruction(BitShiftLeftInstruction.INSTTANCE);
+            currentFunction.addInstruction(Instruction.BIT_SHIFT_LEFT);
         }
 
         return true;
@@ -272,7 +275,7 @@ public class Parser {
                 return false;
             }
 
-            currentFunction.addInstruction(PlusInstruction.INSTANCE);
+            currentFunction.addInstruction(Instruction.PLUS);
         }
 
         return true;
@@ -288,7 +291,7 @@ public class Parser {
             if (!unary()) {
                 return false;
             }
-            currentFunction.addInstruction(MultiplyInstruction.INSTTANCE);
+            currentFunction.addInstruction(Instruction.MULTIPLY);
         }
 
         return true;
@@ -308,7 +311,7 @@ public class Parser {
         if (token.type == Token.INTEGER) {
             final int intValue = Integer.parseInt(token.value);
 
-            currentFunction.addInstruction(new ConstInstruction(LangInteger.from(intValue)));
+            currentFunction.addInstruction(LangInteger.from(intValue));
 
             nextToken();
             return true;
