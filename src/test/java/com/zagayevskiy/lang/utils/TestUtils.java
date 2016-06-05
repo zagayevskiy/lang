@@ -1,4 +1,4 @@
-package com.zagayevskiy.lang;
+package com.zagayevskiy.lang.utils;
 
 import javax.annotation.Nonnull;
 import java.io.*;

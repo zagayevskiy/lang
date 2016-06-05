@@ -1,13 +1,11 @@
 package com.zagayevskiy.lang.tokenization;
 
-import com.zagayevskiy.lang.TestUtils;
+import com.zagayevskiy.lang.utils.TestUtils;
 import javafx.util.Pair;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 import static org.junit.Assert.*;

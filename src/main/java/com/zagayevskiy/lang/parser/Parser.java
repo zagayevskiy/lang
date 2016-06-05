@@ -1,9 +1,15 @@
 package com.zagayevskiy.lang.parser;
 
+import com.zagayevskiy.lang.logging.Logger;
+import com.zagayevskiy.lang.runtime.IFunction;
+import com.zagayevskiy.lang.runtime.IProgram;
+import com.zagayevskiy.lang.runtime.instructions.*;
+import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 public class Parser {
@@ -13,22 +19,37 @@ public class Parser {
         PARSING
     }
 
+    private final Tokenizer tokenizer;
+    private final IProgram.Builder programBuider;
+    private final IProgram.Factory programFactory;
+    private final Logger logger;
+
     private State state = State.IDLE;
-    private Tokenizer tokenizer;
     private Token token;
+    private IFunction currentFunction;
 
 
-    public Parser(@Nonnull Tokenizer tokenizer) {
+    public Parser(@Nonnull Tokenizer tokenizer,
+                  @Nonnull IProgram.Builder programBuilder,
+                  @Nonnull IProgram.Factory programFactory, @Nonnull Logger logger) {
         this.tokenizer = tokenizer;
+        this.programBuider = programBuilder;
+        this.programFactory = programFactory;
+        this.logger = logger;
     }
 
-    public boolean parse() {
+    @Nullable
+    public IProgram parse() {
         if (state == State.IDLE) {
             initParser();
             state = State.PARSING;
         }
 
-        return program();
+        if (program()) {
+            return programBuider.build();
+        }
+
+        return null;
     }
 
     private boolean program() {
@@ -40,8 +61,23 @@ public class Parser {
             return false;
         }
 
+        final String mainName = token.value;
+
+        if (programBuider.hasFunction(mainName)) {
+            logger.logError(mainName + " already exists");
+        }
+
+        currentFunction = programFactory.createFunction(mainName);
+        programBuider.addFunction(currentFunction);
+
         nextToken();
-        return block();
+
+        if (!block()) {
+            log("block expected");
+            return false;
+        }
+
+        return true;
     }
 
     private boolean defStruct() {
@@ -62,7 +98,11 @@ public class Parser {
             return false;
         }
 
-        while(operator());
+        do {
+            currentFunction.addInstruction(PopInstruction.INSTANCE);
+        } while(operator());
+
+        currentFunction.removeLastInstruction();
 
         if (token.type != Token.BRACE_CLOSE) {
             log("} expected");
@@ -215,6 +255,7 @@ public class Parser {
             if (!addition()) {
                 return false;
             }
+            currentFunction.addInstruction(BitShiftLeftInstruction.INSTTANCE);
         }
 
         return true;
@@ -230,6 +271,8 @@ public class Parser {
             if (!multiplication()) {
                 return false;
             }
+
+            currentFunction.addInstruction(PlusInstruction.INSTANCE);
         }
 
         return true;
@@ -245,6 +288,7 @@ public class Parser {
             if (!unary()) {
                 return false;
             }
+            currentFunction.addInstruction(MultiplyInstruction.INSTTANCE);
         }
 
         return true;
@@ -262,12 +306,33 @@ public class Parser {
     private boolean defValue() {
 
         if (token.type == Token.INTEGER) {
+            final int intValue = Integer.parseInt(token.value);
+
+            currentFunction.addInstruction(new ConstInstruction(LangInteger.from(intValue)));
+
             nextToken();
             return true;
         }
 
         if (token.type == Token.IDENTIFIER) {
             nextToken();
+            return true;
+        }
+
+        if (token.type == Token.PARENTHESIS_OPEN) {
+            nextToken();
+
+            if (!expression()) {
+                log("expression expected after (");
+                return false;
+            }
+
+            if (token.type != Token.PARENTHESIS_CLOSE) {
+                log(") expected");
+                return false;
+            }
+            nextToken();
+
             return true;
         }
 
@@ -287,18 +352,23 @@ public class Parser {
     }
     
     private void log(@Nonnull String message) {
-        System.out.println(String.format(
-                "At %s : %s\t-\t%s. Found: #%s -> '%s'",
+        String line = tokenizer.getLineDebug(token.lineNumber);
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < token.position; ++i) {
+            builder.append("~");
+        }
+        builder.append("^");
+
+        logger.logError(String.format(
+                "At %s : %s   -   %s. Found: #%s -> '%s'\n"
+                + "%s\n"
+                + "%s\n",
                 String.valueOf(token.lineNumber),
                 String.valueOf(token.position),
                 message,
                 String.valueOf(token.type),
-                token.value));
-        String line = tokenizer.getLineDebug(token.lineNumber);
-        System.out.println(line);
-        for (int i = 0; i < token.position; ++i) {
-            System.out.print("~");
-        }
-        System.out.println("^");
+                token.value,
+                line,
+                builder.toString()));
     }
 }

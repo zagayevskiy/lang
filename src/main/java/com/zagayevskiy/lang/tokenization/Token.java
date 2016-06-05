@@ -1,40 +1,44 @@
 package com.zagayevskiy.lang.tokenization;
 
 public class Token {
+    
+    public static final String MAIN_NAME = "main";
 
-    public static int FINISH = 0;
-    public static int PLUS = 1;
-    public static int MINUS = 2;
-    public static int ASTERISK = 3;
+    public static final int FINISH = 0;
+    public static final int PLUS = 1;
+    public static final int MINUS = 2;
+    public static final int ASTERISK = 3;
 
-    public static int ASSIGN = 4;
-    public static int EQUALS = 5;
+    public static final int ASSIGN = 4;
+    public static final int EQUALS = 5;
 
-    public static int BIT_OR = 8;
-    public static int BIT_AND = 9;
-    public static int BIT_XOR = 10;
-    public static int BIT_SHIFT_LEFT = 11;
-    public static int BIT_SHIFT_RIGHT = 12;
+    public static final int BIT_OR = 8;
+    public static final int BIT_AND = 9;
+    public static final int BIT_XOR = 10;
+    public static final int BIT_SHIFT_LEFT = 11;
+    public static final int BIT_SHIFT_RIGHT = 12;
 
-    public static int LESS = 20;
-    public static int GREATER = 21;
-    public static int LESS_OR_EQUALS = 22;
-    public static int GREATER_OR_EQUALS = 23;
+    public static final int LESS = 20;
+    public static final int GREATER = 21;
+    public static final int LESS_OR_EQUALS = 22;
+    public static final int GREATER_OR_EQUALS = 23;
 
-    public static int LOGIC_NOT = 30;
-    public static int LOGIC_OR = 31;
-    public static int LOGIC_AND = 32;
+    public static final int LOGIC_NOT = 30;
+    public static final int LOGIC_OR = 31;
+    public static final int LOGIC_AND = 32;
 
-    public static int SEMICOLON = 0x01000000;
-    public static int BRACE_OPEN = 0x01000001;
-    public static int BRACE_CLOSE = 0x01000002;
+    public static final int SEMICOLON = 0x01000000;
+    public static final int BRACE_OPEN = 0x01000001;
+    public static final int BRACE_CLOSE = 0x01000002;
+    public static final int PARENTHESIS_OPEN = 0x01000003;
+    public static final int PARENTHESIS_CLOSE = 0x01000004;
 
-    public static int IDENTIFIER = 0x0100;
-    public static int INTEGER = 0x0101;
+    public static final int IDENTIFIER = 0x0100;
+    public static final int INTEGER = 0x0101;
 
-    public static int MAIN = 0x010001;
-    public static int FUNCTION = 0x010002;
-    public static int STRUCT = 0x010003;
+    public static final int MAIN = 0x010001;
+    public static final int FUNCTION = 0x010002;
+    public static final int STRUCT = 0x010003;
 
     public final int type;
     public final String value;

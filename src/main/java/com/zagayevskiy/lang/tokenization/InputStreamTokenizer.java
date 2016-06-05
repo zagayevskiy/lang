@@ -36,11 +36,13 @@ public class InputStreamTokenizer implements Tokenizer {
         mapSymbol(";", Token.SEMICOLON);
         mapSymbol("{", Token.BRACE_OPEN);
         mapSymbol("}", Token.BRACE_CLOSE);
+        mapSymbol("(", Token.PARENTHESIS_OPEN);
+        mapSymbol(")", Token.PARENTHESIS_CLOSE);
     }
 
     static final Map<String, Integer> KEYWORD_TOKENS = new HashMap<>();
     static {
-        mapKeyword("main", Token.MAIN);
+        mapKeyword(Token.MAIN_NAME, Token.MAIN);
         mapKeyword("function", Token.FUNCTION);
         mapKeyword("struct", Token.STRUCT);
     }
