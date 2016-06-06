@@ -42,6 +42,12 @@ public class LangInteger extends LangObject implements Operand {
 
     @Nonnull
     @Override
+    public LangBoolean toLangBoolean() {
+        return LangBoolean.from(intValue != 0);
+    }
+
+    @Nonnull
+    @Override
     public LangInteger toLangInteger() {
         return this;
     }
@@ -65,7 +71,7 @@ public class LangInteger extends LangObject implements Operand {
 
     @Override
     public String toString() {
-        return "i:" + intValue;
+        return "i:" + (isNan ? "NaN:" : "")  + intValue;
     }
 
     @Override
@@ -75,7 +81,7 @@ public class LangInteger extends LangObject implements Operand {
 
         LangInteger that = (LangInteger) o;
 
-        return (isNan == that.isNan) && (intValue != that.intValue);
+        return (isNan == that.isNan) && (intValue == that.intValue);
 
     }
 

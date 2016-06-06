@@ -21,6 +21,7 @@ public class InputStreamTokenizer implements Tokenizer {
         mapSymbol("|", Token.BIT_OR);
         mapSymbol("&", Token.BIT_AND);
         mapSymbol("^", Token.BIT_XOR);
+        mapSymbol("~", Token.BIT_NOT);
         mapSymbol("<<", Token.BIT_SHIFT_LEFT);
         mapSymbol(">>", Token.BIT_SHIFT_RIGHT);
 
@@ -48,6 +49,8 @@ public class InputStreamTokenizer implements Tokenizer {
         mapKeyword("function", Token.FUNCTION);
         mapKeyword("struct", Token.STRUCT);
         mapKeyword("var", Token.VAR);
+        mapKeyword("true", Token.TRUE);
+        mapKeyword("false", Token.FALSE);
     }
 
     private static void mapSymbol(@Nonnull String value, int tokenType) {

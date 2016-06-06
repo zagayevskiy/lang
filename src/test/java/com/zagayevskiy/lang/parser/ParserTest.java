@@ -1,14 +1,14 @@
 package com.zagayevskiy.lang.parser;
 
+import com.zagayevskiy.lang.Programs;
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.instructions.impl.PopInstruction;
-import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.tokenization.InputStreamTokenizer;
 import com.zagayevskiy.lang.utils.DummyFunction;
 import com.zagayevskiy.lang.utils.DummyProgram;
 import com.zagayevskiy.lang.utils.TestUtils;
 import com.zagayevskiy.lang.utils.ThrowLogger;
+import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,17 +31,8 @@ public class ParserTest {
 
     @Test
     public void parsingCorrect() {
-        final String[] programs = {
-                "main{;}",
-                "main { 2 + 3 * (1 - 17 + (1 << 1) * 2) - 22; }",
-                "main { var x, y, z=123, t, qwerty,\n asdf=345; var g, h, k; \n var temp = qwerty; }",
-                "main { 1; var x = 2; var y = x + 1, z = y + 2;  x * 10; var result = x<<y<<z; }",
-                "main { var x = 10; var y = x + 5; }",
-                "main { var x = 10; var y = x + 5; x = y + 15; }",
-        };
-
-        for (String program: programs) {
-            assertParsingCorrect(program);
+        for (Pair<String, ?> program: Programs.PROGRAMS) {
+            assertParsingCorrect(program.getKey());
         }
     }
 
@@ -64,8 +55,8 @@ public class ParserTest {
 
         int index = 0;
         for (Instruction instruction: main.instructions) {
-            System.out.print(instruction.toString());
-            System.out.print(" ");
+//            System.out.print(instruction.toString());
+//            System.out.print(" ");
 
 //            if (index % 2 == 0) {
 //                final int expected = index / 2;
@@ -87,10 +78,10 @@ public class ParserTest {
 
         DummyFunction main = mainFrom(programText);
 
-        for (Instruction i: main.instructions) {
-            System.out.print(i.toString());
-            System.out.print("; ");
-        }
+//        for (Instruction i: main.instructions) {
+//            System.out.print(i.toString());
+//            System.out.print("; ");
+//        }
     }
 
     private void assertParsingCorrect(@Nonnull String program) {

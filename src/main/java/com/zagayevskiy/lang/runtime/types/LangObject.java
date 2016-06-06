@@ -9,10 +9,13 @@ import javax.annotation.Nonnull;
 public abstract class LangObject implements Instruction, Operand {
 
     @Nonnull
-    public abstract LangString toLangString();
+    public abstract LangBoolean toLangBoolean();
 
     @Nonnull
     public abstract LangInteger toLangInteger();
+
+    @Nonnull
+    public abstract LangString toLangString();
 
     @Nonnull
     public LangObject plus(@Nonnull LangObject other) {

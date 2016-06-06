@@ -9,8 +9,9 @@ public abstract class AbsUnaryInstruction implements Instruction{
 
     @Override
     public final void execute(@Nonnull IFunction function) {
-        execute(function, function.popOperand());
+        function.pushOperand(execute(function, function.popOperand()));
     }
 
-    protected abstract void execute(@Nonnull IFunction function, @Nonnull Operand operand);
+    @Nonnull
+    protected abstract Operand execute(@Nonnull IFunction function, @Nonnull Operand operand);
 }

@@ -19,6 +19,12 @@ public class LangString extends LangObject {
 
     @Nonnull
     @Override
+    public LangBoolean toLangBoolean() {
+        return LangBoolean.from(!stringValue.isEmpty());
+    }
+
+    @Nonnull
+    @Override
     public LangInteger toLangInteger() {
         return LangInteger.NaN;
     }

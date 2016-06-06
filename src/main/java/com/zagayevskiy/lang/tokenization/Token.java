@@ -17,6 +17,7 @@ public class Token {
     public static final int BIT_XOR = 10;
     public static final int BIT_SHIFT_LEFT = 11;
     public static final int BIT_SHIFT_RIGHT = 12;
+    public static final int BIT_NOT = 13;
 
     public static final int LESS = 20;
     public static final int GREATER = 21;
@@ -41,6 +42,8 @@ public class Token {
     public static final int FUNCTION = 0x010002;
     public static final int STRUCT = 0x010003;
     public static final int VAR = 0x010004;
+    public static final int TRUE = 0x010005;
+    public static final int FALSE = 0x010006;
 
     public final int type;
     public final String value;
@@ -52,5 +55,10 @@ public class Token {
         this.value = value;
         this.position = position;
         this.lineNumber = lineNumber;
+    }
+
+    @Override
+    public String toString() {
+        return value + "#" + type;
     }
 }

@@ -12,6 +12,12 @@ public class LangUndefined extends LangObject {
 
     @Nonnull
     @Override
+    public LangBoolean toLangBoolean() {
+        return LangBoolean.FALSE;
+    }
+
+    @Nonnull
+    @Override
     public LangInteger toLangInteger() {
         return LangInteger.NaN;
     }

@@ -6,6 +6,7 @@ import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
+import com.zagayevskiy.lang.runtime.types.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.LangInteger;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
@@ -204,9 +205,12 @@ public class Parser {
 
         while (token.type == Token.LOGIC_OR) {
             nextToken();
+
             if (!conjunction()) {
+                log("sub-expression expected after '||'");
                 return false;
             }
+            currentFunction.addInstruction(Instruction.LOGIC_OR);
         }
 
         return true;
@@ -221,8 +225,10 @@ public class Parser {
         while (token.type == Token.LOGIC_AND) {
             nextToken();
             if (!bitOr()) {
+                log("sub-expression expected after '&&'");
                 return false;
             }
+            currentFunction.addInstruction(Instruction.LOGIC_AND);
         }
 
         return true;
@@ -233,7 +239,7 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.LOGIC_OR) {
+        while (token.type == Token.BIT_OR) {
             nextToken();
             if (!bitXor()) {
                 return false;
@@ -248,7 +254,7 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.BIT_OR) {
+        while (token.type == Token.BIT_XOR) {
             nextToken();
             if (!bitAnd()) {
                 return false;
@@ -358,23 +364,31 @@ public class Parser {
 
     private boolean unary() {
 
-        if (token.type == Token.LOGIC_NOT) { //TODO ~
+        Instruction unaryInstruction = null;
+        switch (token.type) {
+            case Token.LOGIC_NOT:
+                unaryInstruction = Instruction.LOGIC_NOT;
+                break;
+            case Token.BIT_NOT:
+                //TODO unaryInstruction = Instruction.BIT_NOT
+                break;
+        }
+
+        if (unaryInstruction != null) {
             nextToken();
+            if (!defValue()) {
+                log("value expected afted " + unaryInstruction.toString());
+                return false;
+            }
+
+            currentFunction.addInstruction(unaryInstruction);
+            return true;
         }
 
         return defValue();
     }
 
     private boolean defValue() {
-
-        if (token.type == Token.INTEGER) {
-            final int intValue = Integer.parseInt(token.value);
-
-            currentFunction.addInstruction(LangInteger.from(intValue));
-
-            nextToken();
-            return true;
-        }
 
         if (token.type == Token.IDENTIFIER) {
 
@@ -397,24 +411,59 @@ public class Parser {
             return true;
         }
 
-        if (token.type == Token.PARENTHESIS_OPEN) {
-            nextToken();
+        return defIntConst() |
+                defBooleanConst() |
+                expressionInParenthesis();
+    }
 
-            if (!expression()) {
-                log("expression expected after (");
-                return false;
-            }
-
-            if (token.type != Token.PARENTHESIS_CLOSE) {
-                log(") expected");
-                return false;
-            }
-            nextToken();
-
-            return true;
+    private boolean expressionInParenthesis() {
+        if (token.type != Token.PARENTHESIS_OPEN) {
+            return false;
         }
 
-        return false;
+        nextToken();
+        if (!expression()) {
+            log("expression expected after (");
+            return false;
+        }
+
+        if (token.type != Token.PARENTHESIS_CLOSE) {
+            log(") expected");
+            return false;
+        }
+
+        nextToken();
+        return true;
+    }
+
+    private boolean defIntConst() {
+        if (token.type != Token.INTEGER) {
+            return false;
+        }
+
+        final int intValue = Integer.parseInt(token.value);
+        currentFunction.addInstruction(LangInteger.from(intValue));
+        nextToken();
+
+        return true;
+    }
+
+    private boolean defBooleanConst() {
+
+        switch (token.type) {
+            case Token.TRUE:
+                currentFunction.addInstruction(LangBoolean.TRUE);
+                break;
+
+            case Token.FALSE:
+                currentFunction.addInstruction(LangBoolean.FALSE);
+                break;
+
+            default: return false;
+        }
+
+        nextToken();
+        return true;
     }
 
     private void initParser() {
@@ -432,7 +481,7 @@ public class Parser {
     private void log(@Nonnull String message) {
         String line = tokenizer.getLineDebug(token.lineNumber);
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < token.position; ++i) {
+        for (int i = 1; i < token.position - 1; ++i) {
             builder.append("~");
         }
         builder.append("^");
