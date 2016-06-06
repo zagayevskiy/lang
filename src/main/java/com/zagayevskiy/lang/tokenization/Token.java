@@ -44,6 +44,8 @@ public class Token {
     public static final int VAR = 0x010004;
     public static final int TRUE = 0x010005;
     public static final int FALSE = 0x010006;
+    public static final int IF = 0x010007;
+    public static final int ELSE = 0x010008;
 
     public final int type;
     public final String value;

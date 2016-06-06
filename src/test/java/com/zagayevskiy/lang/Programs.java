@@ -23,6 +23,7 @@ public class Programs {
         p("main { true || false; }", LangBoolean.TRUE);
         p("main { var a = true, b = true, c = false; var AorB = a || b, BandA = b && a, notC = !c; AorB && BandA && notC; }", LangBoolean.TRUE);
         p("main { var a = true, b = true, c = false; var AorB = a || b, BandA = b && a; c = c; AorB && BandA && c; }", LangBoolean.FALSE);
+        p("main { if (true) 1; else 2; }", LangInteger.from(1));
     }
 
     private static void p(String s, LangObject o) {

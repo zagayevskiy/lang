@@ -49,8 +49,12 @@ public class InputStreamTokenizer implements Tokenizer {
         mapKeyword("function", Token.FUNCTION);
         mapKeyword("struct", Token.STRUCT);
         mapKeyword("var", Token.VAR);
+
         mapKeyword("true", Token.TRUE);
         mapKeyword("false", Token.FALSE);
+
+        mapKeyword("if", Token.IF);
+        mapKeyword("else", Token.ELSE);
     }
 
     private static void mapSymbol(@Nonnull String value, int tokenType) {

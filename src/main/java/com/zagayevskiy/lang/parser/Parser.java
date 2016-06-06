@@ -119,7 +119,38 @@ public class Parser {
     }
 
     private boolean operator() {
-        return defVariables() | expressionOperator() | emptyOperator();
+        return defVariables() | expressionOperator() | ifOperator() | emptyOperator();
+    }
+
+    private boolean ifOperator() {
+        if (token.type != Token.IF) {
+            return false;
+        }
+
+        nextToken();
+
+        if (!expressionInParenthesis()) {
+            log("(expression) expected");
+            return false;
+        }
+
+        if(!operator()) {
+            log("operator expected after if(expression)");
+            return false;
+        }
+
+        if (token.type != Token.ELSE) {
+            return true;
+        }
+
+        nextToken();
+
+        if(!operator()) {
+            log("operator expected after else");
+            return false;
+        }
+
+        return true;
     }
 
     private boolean defVariables() {
