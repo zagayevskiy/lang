@@ -8,6 +8,7 @@ import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
 import com.zagayevskiy.lang.runtime.types.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.LangInteger;
+import com.zagayevskiy.lang.runtime.types.LangUndefined;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
 
@@ -134,6 +135,7 @@ public class Parser {
         }
 
         while (token.type == Token.COMMA) {
+            currentFunction.addInstruction(Instruction.POP);
             nextToken();
             if (!defSingleVariable()) {
                 log("variable definition expected");
@@ -172,6 +174,8 @@ public class Parser {
             }
 
             currentFunction.addInstruction(Instruction.ASSIGN);
+        } else {
+            currentFunction.addInstruction(LangUndefined.INSTANCE);
         }
 
         return true;
