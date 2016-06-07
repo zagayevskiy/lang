@@ -3,7 +3,10 @@ package com.zagayevskiy.lang;
 import com.zagayevskiy.lang.runtime.types.*;
 import javafx.util.Pair;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Programs {
@@ -28,6 +31,30 @@ public class Programs {
         p("main { if (true) 100 + 200; else 300*700; }", 100 + 200);
         p("main { if (false) 10 * 222; else {3012*70013;} }", 3012 * 70013);
         p("main { if (1 + 3 - 2 * 2) { var x = 123 } else { var y = 321 }; true; false; 4223; x + y; }", LangUndefined.STRING_VALUE + 321);
+        p("main { []; }", new LangArray());
+        p("main { var x, array; array = [x, x, x]; }", LangUndefined.INSTANCE, LangUndefined.INSTANCE, LangUndefined.INSTANCE);
+        p("main { [1, true, 2, 3, false, 4, 5, 6];}", 1, true, 2, 3, false, 4, 5, 6);
+    }
+
+    private static void p(String s, Object... args) {
+        LangArray array = new LangArray();
+        for (Object arg: args) {
+            LangObject obj;
+            final Class<?> clazz = arg.getClass();
+            if (clazz == Integer.class) {
+                obj = LangInteger.from((Integer)arg);
+            } else if (clazz == Boolean.class) {
+                obj = LangBoolean.from((Boolean) arg);
+            } else obj = LangString.from(clazz.toString());
+            array.add(obj);
+        }
+        p(s, array);
+    }
+
+    private static void p(String s, LangObject... args) {
+        LangArray array = new LangArray();
+        array.addAll(Arrays.asList(args));
+        p(s, array);
     }
 
     private static void p(String s, boolean b) {

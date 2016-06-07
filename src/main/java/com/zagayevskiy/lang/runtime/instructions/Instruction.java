@@ -17,6 +17,7 @@ public interface Instruction {
     Instruction LOGIC_OR = new LogicOrInstruction();
     Instruction MINUS = new MinusInstruction();
     Instruction MULTIPLY = new MultiplyInstruction();
+    Instruction NEW_ARRAY = new NewArrayInstruction();
     Instruction NOP = new NopInstruction();
     Instruction PLUS = new PlusInstruction();
     Instruction POP = new PopInstruction();

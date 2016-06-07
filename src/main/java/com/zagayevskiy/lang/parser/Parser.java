@@ -1,6 +1,5 @@
 package com.zagayevskiy.lang.parser;
 
-import com.sun.org.apache.bcel.internal.generic.NOP;
 import com.zagayevskiy.lang.logging.Logger;
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.IProgram;
@@ -98,14 +97,14 @@ public class Parser {
             return false;
         }
         nextToken();
-        
+
         if (!operator()) {
             return false;
         }
 
         do {
             currentFunction.addInstruction(Instruction.POP);
-        } while(operator());
+        } while (operator());
 
         currentFunction.removeLastInstruction();
 
@@ -158,7 +157,7 @@ public class Parser {
 
             nextToken();
 
-            if(!operator()) {
+            if (!operator()) {
                 log("operator expected after else");
                 return false;
             }
@@ -385,7 +384,7 @@ public class Parser {
         }
 
         while (token.type == Token.PLUS | token.type == Token.MINUS) {
-            final Instruction additionInstruction  = token.type == Token.PLUS
+            final Instruction additionInstruction = token.type == Token.PLUS
                     ? Instruction.PLUS
                     : Instruction.MINUS;
 
@@ -431,7 +430,7 @@ public class Parser {
         if (unaryInstruction != null) {
             nextToken();
             if (!defValue()) {
-                log("value expected afted " + unaryInstruction.toString());
+                log("arrayList expected afted " + unaryInstruction.toString());
                 return false;
             }
 
@@ -467,7 +466,53 @@ public class Parser {
 
         return defIntConst() |
                 defBooleanConst() |
-                expressionInParenthesis();
+                expressionInParenthesis() |
+                defNewArray();
+    }
+
+    private boolean defNewArray() {
+        if (token.type != Token.SQUARE_BRACKET_OPEN) {
+            return false;
+        }
+
+        nextToken();
+
+        final int count = expressionsList();
+        if (count < 0) {
+            log("expressions list expected inside [].");
+            return false;
+        }
+
+        if (token.type != Token.SQUARE_BRACKET_CLOSE) {
+            log("] expected.");
+            return false;
+        }
+        currentFunction
+                .addInstruction(LangInteger.from(count))
+                .addInstruction(Instruction.NEW_ARRAY);
+
+        nextToken();
+
+        return true;
+    }
+
+    private int expressionsList() {
+        if (!expression()) {
+            return 0;
+        }
+
+        int result = 1;
+
+        while (token.type == Token.COMMA) {
+            nextToken();
+            if (!expression()) {
+                log("expression expected after ','");
+                return -1;
+            }
+            ++result;
+        }
+
+        return result;
     }
 
     private boolean expressionInParenthesis() {
@@ -513,7 +558,8 @@ public class Parser {
                 currentFunction.addInstruction(LangBoolean.FALSE);
                 break;
 
-            default: return false;
+            default:
+                return false;
         }
 
         nextToken();
@@ -528,10 +574,10 @@ public class Parser {
         try {
             token = tokenizer.nextToken();
         } catch (IOException e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
-    
+
     private void log(@Nonnull String message) {
         String line = tokenizer.getLineDebug(token.lineNumber);
         StringBuilder builder = new StringBuilder();
@@ -542,8 +588,8 @@ public class Parser {
 
         logger.logError(String.format(
                 "At %s : %s   -   %s. Found: #%s -> '%s'\n"
-                + "%s\n"
-                + "%s\n",
+                        + "%s\n"
+                        + "%s\n",
                 String.valueOf(token.lineNumber),
                 String.valueOf(token.position),
                 message,
