@@ -120,7 +120,11 @@ public class Parser {
     }
 
     private boolean operator() {
-        return defVariables() | expressionOperator() | ifOperator() | emptyOperator();
+        return block() |
+                defVariables() |
+                expressionOperator() |
+                ifOperator() |
+                emptyOperator();
     }
 
     private boolean ifOperator() {
@@ -257,7 +261,7 @@ public class Parser {
             nextToken();
 
             if (!conjunction()) {
-                log("sub-expression expected after '||'");
+                log("sub-expression expected after '|'");
                 return false;
             }
             currentFunction.addInstruction(Instruction.LOGIC_OR);
@@ -380,7 +384,7 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.PLUS || token.type == Token.MINUS) {
+        while (token.type == Token.PLUS | token.type == Token.MINUS) {
             final Instruction additionInstruction  = token.type == Token.PLUS
                     ? Instruction.PLUS
                     : Instruction.MINUS;

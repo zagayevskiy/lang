@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 public class LangUndefined extends LangObject {
 
     public static final LangUndefined INSTANCE = new LangUndefined();
+    public static final String STRING_VALUE = "undefined";
 
     private LangUndefined(){
 
@@ -25,11 +26,11 @@ public class LangUndefined extends LangObject {
     @Nonnull
     @Override
     public LangString toLangString() {
-        return LangString.from("undefined");
+        return LangString.from(STRING_VALUE);
     }
 
     @Override
     public String toString() {
-        return "undefined";
+        return STRING_VALUE;
     }
 }
