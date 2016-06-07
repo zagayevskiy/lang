@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 public interface Instruction {
     void execute(@Nonnull IFunction function);
 
+    Instruction ARRAY_DEREFERENCE = new ArrayDereferenceInstruction();
     Instruction ASSIGN = new AssignInstruction();
     Instruction BIT_SHIFT_LEFT = new BitShiftLeftInstruction();
     Instruction JUMP = new JumpInstruction();

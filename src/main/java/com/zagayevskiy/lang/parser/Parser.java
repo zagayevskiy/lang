@@ -459,6 +459,8 @@ public class Parser {
                 }
 
                 currentFunction.addInstruction(Instruction.ASSIGN);
+            } else {
+                chain();
             }
 
             return true;
@@ -468,6 +470,38 @@ public class Parser {
                 defBooleanConst() |
                 expressionInParenthesis() |
                 defNewArray();
+    }
+
+    private boolean chain() {
+        if (token.type == Token.SQUARE_BRACKET_OPEN) {
+            nextToken();
+
+            if (!expression()) {
+                log("expression expected in [].");
+                return false;
+            }
+
+            if (token.type != Token.SQUARE_BRACKET_CLOSE) {
+                log("] expected.");
+                return false;
+            }
+
+            currentFunction.addInstruction(Instruction.ARRAY_DEREFERENCE);
+
+            nextToken();
+
+            if (token.type == Token.ASSIGN) {
+                nextToken();
+                if (!expression()) {
+                    log("expression expected in array[e] = HERE");
+                    return false;
+                }
+                currentFunction.addInstruction(Instruction.ASSIGN);
+            }
+
+            return true;
+        }
+        return false;
     }
 
     private boolean defNewArray() {

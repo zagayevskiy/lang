@@ -3,10 +3,9 @@ package com.zagayevskiy.lang;
 import com.zagayevskiy.lang.runtime.types.*;
 import javafx.util.Pair;
 
-import java.lang.reflect.Array;
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Programs {
@@ -34,6 +33,11 @@ public class Programs {
         p("main { []; }", new LangArray());
         p("main { var x, array; array = [x, x, x]; }", LangUndefined.INSTANCE, LangUndefined.INSTANCE, LangUndefined.INSTANCE);
         p("main { [1, true, 2, 3, false, 4, 5, 6];}", 1, true, 2, 3, false, 4, 5, 6);
+        p("main { var x = 10, y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x = 1; z; }", crazyArray(crazyArray(LangInteger.from(10), 3), 4));
+        p("main {var x = [111, 222, 333], y = 1; y = x[2];}", 333);
+        p("main { var x = 0, y; y = [x, [x]]; var z = [y, [y, [y, [y]]]]; x = 1; y[1]; }", crazyArray(LangInteger.from(0), 1));
+        p("main { var x = 0, y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x = 1; z[0]; }", crazyArray(LangInteger.from(0), 3));
+        p("main { var x = [0], y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x[0] = 100500; z; }", crazyArray(crazyArray(array(LangInteger.from(100500)), 3), 4));
     }
 
     private static void p(String s, Object... args) {
@@ -71,5 +75,30 @@ public class Programs {
 
     private static void p(String s, LangObject o) {
         PROGRAMS.add(new Pair<>(s, o));
+    }
+
+    /**
+     *
+     * array "crazy" when it [obj, [obj, obj, ..x times.. [obj]]..]
+     */
+    @Nonnull
+    private static LangArray crazyArray(@Nonnull LangObject obj, int count) {
+        LangArray current = new LangArray();
+        current.add(obj);
+
+        for (int i = 0; i < count - 1; ++i) {
+            final LangArray array = new LangArray();
+            array.add(0, obj);
+            array.add(1, current);
+            current = array;
+        }
+
+        return current;
+    }
+
+    private static LangArray array(@Nonnull LangObject obj) {
+        LangArray array = new LangArray();
+        array.add(obj);
+        return array;
     }
 }
