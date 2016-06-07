@@ -35,6 +35,18 @@ public class DummyFunction implements IFunction {
 
     @Nonnull
     @Override
+    public IFunction putInstruction(@Nonnull Instruction instruction, int address) {
+        instructions.set(address, instruction);
+        return this;
+    }
+
+    @Override
+    public int getInstructionsCount() {
+        return instructions.size();
+    }
+
+    @Nonnull
+    @Override
     public IFunction removeLastInstruction() {
         instructions.remove(instructions.size() - 1);
         return this;

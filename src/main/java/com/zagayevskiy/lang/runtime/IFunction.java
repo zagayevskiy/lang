@@ -17,7 +17,12 @@ public interface IFunction {
     IFunction addInstruction(@Nonnull Instruction instruction);
 
     @Nonnull
+    IFunction putInstruction(@Nonnull Instruction instruction, int address);
+
+    @Nonnull
     IFunction removeLastInstruction();
+
+    int getInstructionsCount();
 
     boolean hasVariable(@Nonnull String name);
 

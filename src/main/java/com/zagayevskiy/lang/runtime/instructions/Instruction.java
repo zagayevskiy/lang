@@ -10,6 +10,8 @@ public interface Instruction {
 
     Instruction ASSIGN = new AssignInstruction();
     Instruction BIT_SHIFT_LEFT = new BitShiftLeftInstruction();
+    Instruction JUMP = new JumpInstruction();
+    Instruction JUMP_FALSE = new JumpFalseInstruction();
     Instruction LOGIC_AND = new LogicAndInstruction();
     Instruction LOGIC_NOT = new LogicNotInstruction();
     Instruction LOGIC_OR = new LogicOrInstruction();

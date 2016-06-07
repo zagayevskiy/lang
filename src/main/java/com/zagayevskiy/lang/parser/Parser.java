@@ -1,5 +1,6 @@
 package com.zagayevskiy.lang.parser;
 
+import com.sun.org.apache.bcel.internal.generic.NOP;
 import com.zagayevskiy.lang.logging.Logger;
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.IProgram;
@@ -133,22 +134,36 @@ public class Parser {
             log("(expression) expected");
             return false;
         }
+        final int jumpToElseAddress = currentFunction.getInstructionsCount();
+        currentFunction
+                .addInstruction(Instruction.NOP)
+                .addInstruction(Instruction.JUMP_FALSE);
 
-        if(!operator()) {
+        if (!operator()) {
             log("operator expected after if(expression)");
             return false;
         }
 
-        if (token.type != Token.ELSE) {
-            return true;
+        final int jumpToEndOfElseAddress = currentFunction.getInstructionsCount();
+        currentFunction
+                .addInstruction(Instruction.NOP)
+                .addInstruction(Instruction.JUMP)
+                .putInstruction(LangInteger.from(currentFunction.getInstructionsCount()), jumpToElseAddress);
+
+        if (token.type == Token.ELSE) {
+
+            nextToken();
+
+            if(!operator()) {
+                log("operator expected after else");
+                return false;
+            }
+
+        } else {
+            currentFunction.addInstruction(LangUndefined.INSTANCE);
         }
 
-        nextToken();
-
-        if(!operator()) {
-            log("operator expected after else");
-            return false;
-        }
+        currentFunction.putInstruction(LangInteger.from(currentFunction.getInstructionsCount()), jumpToEndOfElseAddress);
 
         return true;
     }

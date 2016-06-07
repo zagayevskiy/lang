@@ -38,6 +38,18 @@ public class Function implements IFunction {
 
     @Nonnull
     @Override
+    public IFunction putInstruction(@Nonnull Instruction instruction, int address) {
+        instructions.set(address, instruction);
+        return this;
+    }
+
+    @Override
+    public int getInstructionsCount() {
+        return instructions.size();
+    }
+
+    @Nonnull
+    @Override
     public IFunction removeLastInstruction() {
         instructions.remove(instructions.size() - 1);
         return this;
@@ -107,5 +119,10 @@ public class Function implements IFunction {
     @Override
     public void jump(int position) {
         instructionPointer = position;
+    }
+
+    @Override
+    public String toString() {
+        return "func " + name;
     }
 }
