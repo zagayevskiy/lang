@@ -36,6 +36,7 @@ public class Token {
     public static final int SQUARE_BRACKET_OPEN = 0x01000005;
     public static final int SQUARE_BRACKET_CLOSE = 0x01000006;
     public static final int COMMA = 0x01000007;
+    public static final int ARROW_RIGHT = 0x01000008;
 
     public static final int IDENTIFIER = 0x0100;
     public static final int INTEGER = 0x0101;

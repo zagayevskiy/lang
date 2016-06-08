@@ -60,4 +60,5 @@ EXPRESSIONS_LIST ::= EXPRESSION { "," EXPRESSION }
 CHAIN ::=
     "(" EXPRESSIONS_LIST ")" [CHAIN] |   // function call
     "." IDENTIFIER "(" [EXPRESSIONS_LIST] ")" [CHAIN] |  //method call
-     "[" EXPRESSION "]" ("=" EXPRESSION | [CHAIN])   // array indexing
+    "[" EXPRESSION "]" ("=" EXPRESSION | [CHAIN])   // array indexing
+    "->" IDENTIFIER ("=" EXPRESSION | [CHAIN]) //property

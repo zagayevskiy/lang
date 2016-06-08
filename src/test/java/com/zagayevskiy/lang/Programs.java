@@ -57,6 +57,22 @@ public class Programs {
                         .withArgument(LangInteger.from(1))
                         .build());
         p("struct x{ a } struct y{b} main {var y = new x(1), x = new y(y); 1;}", 1);
+        p("struct x{ a } main { var y = new x(123); y->a = new x(999); y->a->a; }", 999);
+        p("struct x{ a } main { var y = new x(123); y->a = [234]; y->a[0]; }", 234);
+        p("struct t{ x, y, z} struct r{i} main { var x = new t(1, [19, new r(1), 143], 3); x->y[1]->i = 1000; x; }",
+                new LangStructClass("t")
+                        .addProperty("x")
+                        .addProperty("y")
+                        .addProperty("z")
+                        .newInstanceBuilder(3)
+                        .withArgument(LangInteger.from(3))
+                        .withArgument(array(19, new LangStructClass("r")
+                                .addProperty("i")
+                                .newInstanceBuilder(1)
+                                .withArgument(LangInteger.from(1000))
+                                .build(), 143))
+                        .withArgument(LangInteger.from(1))
+                        .build());
     }
 
     private static void p(String s, Object... args) {

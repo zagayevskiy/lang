@@ -8,6 +8,7 @@ import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
 import com.zagayevskiy.lang.runtime.types.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.LangInteger;
+import com.zagayevskiy.lang.runtime.types.LangString;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.LangUndefined;
 import com.zagayevskiy.lang.tokenization.Token;
@@ -542,10 +543,40 @@ public class Parser {
                     return false;
                 }
                 currentFunction.addInstruction(Instruction.ASSIGN);
+                return true;
+            } else {
+                chain();
             }
 
             return true;
         }
+
+        if (token.type == Token.ARROW_RIGHT) {
+            nextToken();
+            if (token.type != Token.IDENTIFIER) {
+                log("identifier (property name) expected after '->'.");
+                return false;
+            }
+            currentFunction
+                    .addInstruction(LangString.from(token.value))
+                    .addInstruction(Instruction.PROPERTY_DEREFERENCE);
+
+            nextToken();
+
+            if (token.type == Token.ASSIGN) {
+                nextToken();
+                if (!expression()) {
+                    log("expression expected in s->p = HERE");
+                    return false;
+                }
+                currentFunction.addInstruction(Instruction.ASSIGN);
+                return true;
+            }
+
+            chain();
+            return true;
+        }
+
         return false;
     }
 

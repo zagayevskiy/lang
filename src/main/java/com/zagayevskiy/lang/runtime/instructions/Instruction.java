@@ -23,4 +23,5 @@ public interface Instruction {
     Instruction NOP = new NopInstruction();
     Instruction PLUS = new PlusInstruction();
     Instruction POP = new PopInstruction();
+    Instruction PROPERTY_DEREFERENCE = new PropertyDereference();
 }

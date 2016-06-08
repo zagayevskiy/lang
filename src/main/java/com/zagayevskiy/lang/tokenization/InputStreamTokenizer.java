@@ -36,6 +36,7 @@ public class InputStreamTokenizer implements Tokenizer {
 
         mapSymbol(";", Token.SEMICOLON);
         mapSymbol(",", Token.COMMA);
+        mapSymbol("->", Token.ARROW_RIGHT);
 
         mapSymbol("{", Token.BRACE_OPEN);
         mapSymbol("}", Token.BRACE_CLOSE);
