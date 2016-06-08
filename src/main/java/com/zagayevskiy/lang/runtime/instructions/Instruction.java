@@ -19,6 +19,7 @@ public interface Instruction {
     Instruction MINUS = new MinusInstruction();
     Instruction MULTIPLY = new MultiplyInstruction();
     Instruction NEW_ARRAY = new NewArrayInstruction();
+    Instruction NEW_STRUCT_INSTANCE = new NewStructInstanceInstruction();
     Instruction NOP = new NopInstruction();
     Instruction PLUS = new PlusInstruction();
     Instruction POP = new PopInstruction();

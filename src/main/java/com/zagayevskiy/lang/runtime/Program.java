@@ -1,9 +1,11 @@
 package com.zagayevskiy.lang.runtime;
 
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.tokenization.Token;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,19 @@ public class Program implements IProgram {
 
         @Nonnull
         @Override
+        public IProgram.Builder addStruct(@Nonnull LangStructClass struct) {
+            program.structClasses.put(struct.getName(), struct);
+            return this;
+        }
+
+        @Nullable
+        @Override
+        public LangStructClass getStruct(@Nonnull String name) {
+            return program.structClasses.get(name);
+        }
+
+        @Nonnull
+        @Override
         public IProgram build() {
             return program;
         }
@@ -44,6 +59,7 @@ public class Program implements IProgram {
     }
 
     private Map<String, IFunction> functions = new HashMap<>();
+    private Map<String, LangStructClass> structClasses = new HashMap<>();
     private IFunction main;
 
     @Nonnull

@@ -48,6 +48,7 @@ public class Token {
     public static final int FALSE = 0x010006;
     public static final int IF = 0x010007;
     public static final int ELSE = 0x010008;
+    public static final int NEW = 0x010009;
 
     public final int type;
     public final String value;

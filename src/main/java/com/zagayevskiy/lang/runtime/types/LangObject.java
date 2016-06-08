@@ -3,6 +3,7 @@ package com.zagayevskiy.lang.runtime.types;
 import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 
 import javax.annotation.Nonnull;
 
