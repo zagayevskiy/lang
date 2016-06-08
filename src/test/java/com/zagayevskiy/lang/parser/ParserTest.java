@@ -104,7 +104,7 @@ public class ParserTest {
         } catch (Throwable t) {
             throw new AssertionError(message, t);
         }
-        assertNotNull(program);
+        assertNotNull(message, program);
 
     }
 

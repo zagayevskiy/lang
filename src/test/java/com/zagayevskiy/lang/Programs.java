@@ -1,6 +1,7 @@
 package com.zagayevskiy.lang;
 
 import com.zagayevskiy.lang.runtime.types.*;
+import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import javafx.util.Pair;
 
 import javax.annotation.Nonnull;
@@ -38,6 +39,24 @@ public class Programs {
         p("main { var x = 0, y; y = [x, [x]]; var z = [y, [y, [y, [y]]]]; x = 1; y[1]; }", crazyArray(LangInteger.from(0), 1));
         p("main { var x = 0, y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x = 1; z[0]; }", crazyArray(LangInteger.from(0), 3));
         p("main { var x = [0], y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x[0] = 100500; z; }", crazyArray(crazyArray(array(LangInteger.from(100500)), 3), 4));
+        p("struct t{ x, y, z} main { 1;}", 1);
+        p("struct x{x} main{var x = new x(x);}",
+                new LangStructClass("x")
+                        .addProperty("x")
+                        .newInstanceBuilder(1)
+                        .withArgument(LangUndefined.INSTANCE)
+                        .build());
+        p("struct t{ x, y, z} main { var x = new t(1, 2, 3); }",
+                new LangStructClass("t")
+                        .addProperty("x")
+                        .addProperty("y")
+                        .addProperty("z")
+                        .newInstanceBuilder(3)
+                        .withArgument(LangInteger.from(3))
+                        .withArgument(LangInteger.from(2))
+                        .withArgument(LangInteger.from(1))
+                        .build());
+        p("struct x{ a } struct y{b} main {var y = new x(1), x = new y(y); 1;}", 1);
     }
 
     private static void p(String s, Object... args) {
