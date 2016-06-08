@@ -76,6 +76,40 @@ public class LangArray extends LangAbstractArray<LangObject> {
         return result;
     }
 
+    @Override
+    public LangObject get(int index) {
+        if (index >= size()) {
+            return LangUndefined.INSTANCE;
+        }
+        return super.get(index);
+    }
+
+    @Override
+    public LangObject set(int index, LangObject element) {
+        expandToSize(index + 1);
+        return super.set(index, element);
+    }
+
+    @Override
+    public void add(int index, LangObject element) {
+        expandToSize(index);
+        super.add(index, element);
+    }
+
+    @Override
+    public LangObject remove(int index) {
+        if (index >= size()) {
+            return LangUndefined.INSTANCE;
+        }
+        return super.remove(index);
+    }
+
+    private void expandToSize(int size) {
+        while (size() < size) {
+            add(LangUndefined.INSTANCE);
+        }
+    }
+
     @Nonnull
     private static ArrayList<LangObject> createArrayList(int size) {
         final ArrayList<LangObject> result = new ArrayList<>(size);

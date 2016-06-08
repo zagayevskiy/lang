@@ -6,7 +6,6 @@ import javafx.util.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Programs {
@@ -39,6 +38,7 @@ public class Programs {
         p("main { var x = 0, y; y = [x, [x]]; var z = [y, [y, [y, [y]]]]; x = 1; y[1]; }", crazyArray(LangInteger.from(0), 1));
         p("main { var x = 0, y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x = 1; z[0]; }", crazyArray(LangInteger.from(0), 3));
         p("main { var x = [0], y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x[0] = 100500; z; }", crazyArray(crazyArray(array(LangInteger.from(100500)), 3), 4));
+        p("main { var x = [], y = x; x[3] = 5; y[1] = 7; x; }", LangUndefined.INSTANCE, 7, LangUndefined.INSTANCE, 5);
         p("struct t{ x, y, z} main { 1;}", 1);
         p("struct x{x} main{var x = new x(x);}",
                 new LangStructClass("x")
@@ -46,38 +46,21 @@ public class Programs {
                         .newInstanceBuilder(1)
                         .withArgument(LangUndefined.INSTANCE)
                         .build());
-        p("struct t{ x, y, z} main { var x = new t(1, 2, 3); }",
+        p("struct t{ x, y, z} main { var x = new t(1, [19, 37, 143], 3); }",
                 new LangStructClass("t")
                         .addProperty("x")
                         .addProperty("y")
                         .addProperty("z")
                         .newInstanceBuilder(3)
                         .withArgument(LangInteger.from(3))
-                        .withArgument(LangInteger.from(2))
+                        .withArgument(array(19, 37, 143))
                         .withArgument(LangInteger.from(1))
                         .build());
         p("struct x{ a } struct y{b} main {var y = new x(1), x = new y(y); 1;}", 1);
     }
 
     private static void p(String s, Object... args) {
-        LangArray array = new LangArray();
-        for (Object arg: args) {
-            LangObject obj;
-            final Class<?> clazz = arg.getClass();
-            if (clazz == Integer.class) {
-                obj = LangInteger.from((Integer)arg);
-            } else if (clazz == Boolean.class) {
-                obj = LangBoolean.from((Boolean) arg);
-            } else obj = LangString.from(clazz.toString());
-            array.add(obj);
-        }
-        p(s, array);
-    }
-
-    private static void p(String s, LangObject... args) {
-        LangArray array = new LangArray();
-        array.addAll(Arrays.asList(args));
-        p(s, array);
+        p(s, array(args));
     }
 
     private static void p(String s, boolean b) {
@@ -115,9 +98,22 @@ public class Programs {
         return current;
     }
 
-    private static LangArray array(@Nonnull LangObject obj) {
+    private static LangArray array(Object... args) {
         LangArray array = new LangArray();
-        array.add(obj);
+        for (Object arg: args) {
+            LangObject obj;
+            final Class<?> clazz = arg.getClass();
+            if (clazz == Integer.class) {
+                obj = LangInteger.from((Integer)arg);
+            } else if (clazz == Boolean.class) {
+                obj = LangBoolean.from((Boolean) arg);
+            } else if (arg instanceof LangObject) {
+                obj = (LangObject) arg;
+            } else {
+                obj = LangString.from(clazz.toString());
+            }
+            array.add(obj);
+        }
         return array;
     }
 }
