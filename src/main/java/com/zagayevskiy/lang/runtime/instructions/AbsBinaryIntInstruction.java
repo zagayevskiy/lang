@@ -1,7 +1,7 @@
 package com.zagayevskiy.lang.runtime.instructions;
 
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;

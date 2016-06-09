@@ -1,7 +1,12 @@
 package com.zagayevskiy.lang;
 
 import com.zagayevskiy.lang.runtime.types.*;
+import com.zagayevskiy.lang.runtime.types.array.LangArray;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import javafx.util.Pair;
 
 import javax.annotation.Nonnull;
@@ -31,14 +36,14 @@ public class Programs {
         p("main { if (false) 10 * 222; else {3012*70013;} }", 3012 * 70013);
         p("main { if (1 + 3 - 2 * 2) { var x = 123 } else { var y = 321 }; true; false; 4223; x + y; }", LangUndefined.STRING_VALUE + 321);
         p("main { []; }", new LangArray());
-        p("main { var x, array; array = [x, x, x]; }", LangUndefined.INSTANCE, LangUndefined.INSTANCE, LangUndefined.INSTANCE);
-        p("main { [1, true, 2, 3, false, 4, 5, 6];}", 1, true, 2, 3, false, 4, 5, 6);
+        p("main { var x, array; array = [x, x, x]; }", array(LangUndefined.INSTANCE, LangUndefined.INSTANCE, LangUndefined.INSTANCE));
+        p("main { [1, true, 2, 3, false, 4, 5, 6];}", array(1, true, 2, 3, false, 4, 5, 6));
         p("main { var x = 10, y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x = 1; z; }", crazyArray(crazyArray(LangInteger.from(10), 3), 4));
         p("main {var x = [111, 222, 333], y = 1; y = x[2];}", 333);
         p("main { var x = 0, y; y = [x, [x]]; var z = [y, [y, [y, [y]]]]; x = 1; y[1]; }", crazyArray(LangInteger.from(0), 1));
         p("main { var x = 0, y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x = 1; z[0]; }", crazyArray(LangInteger.from(0), 3));
         p("main { var x = [0], y; y = [x, [x, [x]]]; var z = [y, [y, [y, [y]]]]; x[0] = 100500; z; }", crazyArray(crazyArray(array(LangInteger.from(100500)), 3), 4));
-        p("main { var x = [], y = x; x[3] = 5; y[1] = 7; x; }", LangUndefined.INSTANCE, 7, LangUndefined.INSTANCE, 5);
+        p("main { var x = [], y = x; x[3] = 5; y[1] = 7; x; }", array(LangUndefined.INSTANCE, 7, LangUndefined.INSTANCE, 5));
         p("struct t{ x, y, z} main { 1;}", 1);
         p("struct x{x} main{var x = new x(x);}",
                 new LangStructClass("x")
@@ -73,10 +78,6 @@ public class Programs {
                                 .build(), 143))
                         .withArgument(LangInteger.from(1))
                         .build());
-    }
-
-    private static void p(String s, Object... args) {
-        p(s, array(args));
     }
 
     private static void p(String s, boolean b) {
@@ -123,6 +124,8 @@ public class Programs {
                 obj = LangInteger.from((Integer)arg);
             } else if (clazz == Boolean.class) {
                 obj = LangBoolean.from((Boolean) arg);
+            } else if (clazz == String.class) {
+                obj = LangString.from((String) arg);
             } else if (arg instanceof LangObject) {
                 obj = (LangObject) arg;
             } else {

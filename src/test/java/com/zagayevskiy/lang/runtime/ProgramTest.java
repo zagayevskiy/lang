@@ -3,17 +3,18 @@ package com.zagayevskiy.lang.runtime;
 import com.zagayevskiy.lang.Programs;
 import com.zagayevskiy.lang.parser.Parser;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.tokenization.InputStreamTokenizer;
-import com.zagayevskiy.lang.tokenization.Token;
-import com.zagayevskiy.lang.utils.SpyProgramFactory;
-import com.zagayevskiy.lang.utils.TestUtils;
 import com.zagayevskiy.lang.utils.ThrowLogger;
+import com.zagayevskiy.lang.utils.spy.SpyFunctionClass;
+import com.zagayevskiy.lang.utils.spy.SpyFunctionClassBuilder;
+import com.zagayevskiy.lang.utils.spy.SpyProgramFactory;
 import javafx.util.Pair;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 
-import static com.zagayevskiy.lang.utils.TestUtils.assertOperandsStachEmpty;
+import static com.zagayevskiy.lang.utils.TestUtils.assertOperandsStackEmpty;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -45,7 +46,13 @@ public class ProgramTest {
 
             assertThat("In: " + p.getKey(), result, equalTo(p.getValue()));
 
-            assertOperandsStachEmpty(spyFactory.funcs.get(Token.MAIN_NAME));
+            for (SpyFunctionClassBuilder spyBuilder: spyFactory.spyFuncsClazzBuilders.values()) {
+                for (SpyFunctionClass spyFunctionClass: spyBuilder.spyFunctionClasses) {
+                    for (IFunction f: spyFunctionClass.functions) {
+                        assertOperandsStackEmpty("In: " + p.getKey() + ". Func: " + f.getName(), f);
+                    }
+                }
+            }
         }
     }
 }

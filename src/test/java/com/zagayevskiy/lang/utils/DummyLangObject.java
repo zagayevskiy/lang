@@ -1,13 +1,13 @@
 package com.zagayevskiy.lang.utils;
 
-import com.zagayevskiy.lang.runtime.types.LangBoolean;
-import com.zagayevskiy.lang.runtime.types.LangInteger;
-import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.LangString;
+import com.zagayevskiy.lang.runtime.types.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
 
-public class DummyLangObject extends LangObject{
+public class DummyLangObject extends AbsLangObject {
 
     @Nonnull
     @Override

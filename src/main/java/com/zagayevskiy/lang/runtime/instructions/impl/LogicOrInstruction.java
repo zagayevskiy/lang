@@ -2,7 +2,7 @@ package com.zagayevskiy.lang.runtime.instructions.impl;
 
 import com.zagayevskiy.lang.runtime.instructions.AbsBinaryBoolInstruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 
 import javax.annotation.Nonnull;
 

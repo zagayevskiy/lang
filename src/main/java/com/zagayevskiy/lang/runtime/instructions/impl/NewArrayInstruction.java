@@ -1,9 +1,9 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.IFunction;
+import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.AbsMultipleArgsInstruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.LangArray;
+import com.zagayevskiy.lang.runtime.types.array.LangArray;
 
 import javax.annotation.Nonnull;
 

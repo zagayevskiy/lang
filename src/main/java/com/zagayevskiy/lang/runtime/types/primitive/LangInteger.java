@@ -1,10 +1,12 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.primitive;
 
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
-public class LangInteger extends LangObject implements Operand {
+public class LangInteger extends AbsLangObject implements Operand {
 
     public static final LangInteger NaN = new LangInteger(0, true);
 

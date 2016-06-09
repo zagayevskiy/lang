@@ -1,6 +1,6 @@
 package com.zagayevskiy.lang.runtime.instructions;
 
-import com.zagayevskiy.lang.runtime.IFunction;
+import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.impl.*;
 
 import javax.annotation.Nonnull;

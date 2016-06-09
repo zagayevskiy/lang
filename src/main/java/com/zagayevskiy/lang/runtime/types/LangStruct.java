@@ -1,12 +1,15 @@
 package com.zagayevskiy.lang.runtime.types;
 
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public final class LangStruct extends LangObject {
+public final class LangStruct extends AbsLangObject {
 
     private final LangStructClass langClass;
     private final Map<String, LangObject> properties;

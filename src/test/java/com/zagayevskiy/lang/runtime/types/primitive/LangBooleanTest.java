@@ -1,6 +1,6 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.primitive;
 
-import org.hamcrest.CoreMatchers;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.sameInstance;

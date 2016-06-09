@@ -1,8 +1,10 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.primitive;
+
+import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 
 import javax.annotation.Nonnull;
 
-public class LangString extends LangObject {
+public class LangString extends AbsLangObject {
 
     @Nonnull
     public final String stringValue;

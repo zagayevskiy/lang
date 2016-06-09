@@ -1,14 +1,13 @@
 package com.zagayevskiy.lang.utils;
 
-import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.function.IFunction;
 
 import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class TestUtils {
 
@@ -17,22 +16,17 @@ public class TestUtils {
     }
 
     public static InputStream fileStream(@Nonnull String file) {
-        try {
-            return new FileInputStream(new File(TestUtils.class.getClassLoader().getResource(file).getFile()));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        return TestUtils.class.getClassLoader().getResourceAsStream(file);
     }
 
-    public static void assertOperandsStachEmpty(@Nonnull IFunction function) {
-        Operand operand;
+    public static void assertOperandsStackEmpty(@Nonnull String message, @Nonnull IFunction function) {
+        Operand operand = null;
         try {
             operand = function.popOperand();
-        } catch (NoSuchElementException e) {
-            return;
+        } catch (NoSuchElementException ignored) {
         }
 
-        assertNull("Operands stack not empty.", operand);
+        assertNull("Operands stack not empty. " + message, operand);
 
     }
 }

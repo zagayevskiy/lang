@@ -1,36 +1,32 @@
 package com.zagayevskiy.lang.runtime.types;
 
-import com.zagayevskiy.lang.runtime.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.classes.LangClass;
+import com.zagayevskiy.lang.runtime.types.function.IFunction;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
 
-public abstract class LangObject implements Instruction, Operand {
+public interface LangObject extends Instruction, Operand {
 
     @Nonnull
-    public abstract LangBoolean toLangBoolean();
+    LangBoolean toLangBoolean();
 
     @Nonnull
-    public abstract LangInteger toLangInteger();
+    LangInteger toLangInteger();
 
     @Nonnull
-    public abstract LangString toLangString();
+    LangString toLangString();
 
     @Nonnull
-    public LangObject plus(@Nonnull LangObject other) {
-        return LangString.from(toLangString().stringValue + other.toLangString().stringValue);
-    }
+    LangObject plus(@Nonnull LangObject other);
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
-        return this;
-    }
+    LangObject getValue(@Nonnull IFunction function);
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
-    }
+    void execute(@Nonnull IFunction function);
 }

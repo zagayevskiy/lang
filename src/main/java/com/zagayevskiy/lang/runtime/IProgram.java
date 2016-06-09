@@ -1,7 +1,8 @@
 package com.zagayevskiy.lang.runtime;
 
-import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -10,13 +11,16 @@ public interface IProgram {
 
     interface Builder {
 
-        boolean hasFunction(@Nonnull String name);
+        boolean hasFunctionClass(@Nonnull String name);
 
         @Nonnull
-        Builder addFunction(@Nonnull IFunction function);
+        Builder addFunctionClass(@Nonnull IFunctionClass functionClass);
 
         @Nonnull
         Builder addStruct(@Nonnull LangStructClass struct);
+
+        @Nonnull
+        Builder setMainClass(@Nonnull IFunctionClass mainClass);
 
         @Nullable
         LangStructClass getStruct(@Nonnull String name);
@@ -27,7 +31,7 @@ public interface IProgram {
 
     interface Factory {
         @Nonnull
-        IFunction createFunction(@Nonnull String name);
+        IFunctionClass.Builder createFunctionBuilder(@Nonnull String name);
     }
 
     @Nonnull

@@ -1,8 +1,10 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.primitive;
+
+import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 
 import javax.annotation.Nonnull;
 
-public class LangBoolean extends LangObject {
+public class LangBoolean extends AbsLangObject {
 
     public static final LangBoolean TRUE = new LangBoolean(true);
     public static final LangBoolean FALSE = new LangBoolean(false);

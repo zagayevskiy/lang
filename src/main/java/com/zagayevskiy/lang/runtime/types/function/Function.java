@@ -1,26 +1,31 @@
-package com.zagayevskiy.lang.utils;
+package com.zagayevskiy.lang.runtime.types.function;
 
 import com.zagayevskiy.lang.runtime.IVariable;
+import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
-import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class DummyFunction implements IFunction {
+public class Function implements IFunction {
 
     private final String name;
-    public final List<Instruction> instructions = new ArrayList<>();
+    private final ArrayList<Instruction> instructions;
+    private int instructionPointer;
 
-    public DummyFunction(String name) {
+    private final ArrayList<Variable> variables;
+
+    private final Deque<Operand> operandsStack = new ArrayDeque<>();
+
+    public Function(@Nonnull String name, ArrayList<Instruction> instructions, ArrayList<Variable> variables) {
         this.name = name;
+        this.instructions = instructions;
+        this.variables = variables;
     }
 
     @Nonnull
@@ -29,30 +34,46 @@ public class DummyFunction implements IFunction {
         return name;
     }
 
+
     @Nonnull
     @Override
     public IVariable getVariable(int id) {
-        return new DummyVariable();
+        return variables.get(id);
     }
 
     @Override
     public void pushOperand(@Nonnull Operand operand) {
+        operandsStack.push(operand);
     }
 
     @Nonnull
     @Override
     public Operand popOperand() {
-        return LangUndefined.INSTANCE;
+        return operandsStack.pop();
     }
 
     @Nonnull
     @Override
     public LangObject execute() {
-        return LangUndefined.INSTANCE;
+        instructionPointer = 0;
+
+        while (instructionPointer < instructions.size()) {
+            Instruction instruction = instructions.get(instructionPointer);
+            ++instructionPointer;
+            instruction.execute(this);
+        }
+
+        return operandsStack.pop().getValue(this);
     }
 
     @Override
     public void jump(int position) {
+        instructionPointer = position;
+    }
+
+    @Override
+    public String toString() {
+        return "func " + name;
     }
 
     @Nonnull
@@ -70,13 +91,13 @@ public class DummyFunction implements IFunction {
     @Nonnull
     @Override
     public LangString toLangString() {
-        return LangString.from("dummy_func_" + name);
+        return LangString.from(toString());
     }
 
     @Nonnull
     @Override
     public LangObject plus(@Nonnull LangObject other) {
-        return LangUndefined.INSTANCE;
+        return LangString.from(toLangString().stringValue + other.toLangString().stringValue);
     }
 
     @Nonnull

@@ -1,8 +1,10 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.primitive;
+
+import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 
 import javax.annotation.Nonnull;
 
-public class LangUndefined extends LangObject {
+public class LangUndefined extends AbsLangObject {
 
     public static final LangUndefined INSTANCE = new LangUndefined();
     public static final String STRING_VALUE = "undefined";

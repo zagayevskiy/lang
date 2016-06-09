@@ -1,13 +1,16 @@
 package com.zagayevskiy.lang.runtime.types.classes;
 
 import com.zagayevskiy.lang.runtime.types.*;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LangStructClass extends LangObject implements LangClass {
+public class LangStructClass extends AbsLangObject implements LangClass {
 
     public final class InstanceBuilder {
         private final HashMap<String, LangObject> properties = new HashMap<>();

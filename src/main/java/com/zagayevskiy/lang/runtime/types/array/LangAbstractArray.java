@@ -1,11 +1,13 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.array;
+
+import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
-abstract class LangAbstractArray<E> extends LangObject implements List<E>, RandomAccess {
+abstract class LangAbstractArray<E> extends AbsLangObject implements List<E>, RandomAccess {
     @Nonnull
-    protected final ArrayList<E> arrayList;
+    final ArrayList<E> arrayList;
 
     LangAbstractArray(@Nonnull ArrayList<E> arrayList) {
         this.arrayList = arrayList;

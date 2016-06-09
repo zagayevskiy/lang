@@ -2,7 +2,8 @@ package com.zagayevskiy.lang.runtime;
 
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
-import com.zagayevskiy.lang.tokenization.Token;
+import com.zagayevskiy.lang.runtime.types.classes.function.FunctionClassBuilder;
+import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,17 +17,22 @@ public class Program implements IProgram {
         private Program program = new Program();
 
         @Override
-        public boolean hasFunction(@Nonnull String name) {
-            return program.functions.containsKey(name);
+        public boolean hasFunctionClass(@Nonnull String name) {
+            return program.functionClasses.containsKey(name);
         }
 
         @Nonnull
         @Override
-        public IProgram.Builder addFunction(@Nonnull IFunction function) {
-            program.functions.put(function.getName(), function);
-            if (Token.MAIN_NAME.equals(function.getName())) {
-                program.main = function;
-            }
+        public IProgram.Builder addFunctionClass(@Nonnull IFunctionClass functionClass) {
+            program.functionClasses.put(functionClass.getName(), functionClass);
+            return this;
+        }
+
+        @Nonnull
+        @Override
+        public IProgram.Builder setMainClass(@Nonnull IFunctionClass mainClass) {
+            program.mainClass = mainClass;
+            program.functionClasses.put(mainClass.getName(), mainClass);
             return this;
         }
 
@@ -53,18 +59,18 @@ public class Program implements IProgram {
     public static class Factory implements IProgram.Factory {
         @Nonnull
         @Override
-        public IFunction createFunction(@Nonnull String name) {
-            return new Function(name);
+        public IFunctionClass.Builder createFunctionBuilder(@Nonnull String name) {
+            return new FunctionClassBuilder(name);
         }
     }
 
-    private Map<String, IFunction> functions = new HashMap<>();
+    private Map<String, IFunctionClass> functionClasses = new HashMap<>();
     private Map<String, LangStructClass> structClasses = new HashMap<>();
-    private IFunction main;
+    private IFunctionClass mainClass;
 
     @Nonnull
     @Override
     public LangObject execute() {
-        return main.execute();
+        return mainClass.newInstance().execute();
     }
 }

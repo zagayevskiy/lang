@@ -1,16 +1,16 @@
 package com.zagayevskiy.lang.parser;
 
 import com.zagayevskiy.lang.logging.Logger;
-import com.zagayevskiy.lang.runtime.IFunction;
+import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
-import com.zagayevskiy.lang.runtime.types.LangBoolean;
-import com.zagayevskiy.lang.runtime.types.LangInteger;
-import com.zagayevskiy.lang.runtime.types.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
-import com.zagayevskiy.lang.runtime.types.LangUndefined;
+import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
 
@@ -32,7 +32,7 @@ public class Parser {
 
     private State state = State.IDLE;
     private Token token;
-    private IFunction currentFunction;
+    private IFunctionClass.Builder functionClassBuilder;
 
 
     public Parser(@Nonnull Tokenizer tokenizer,
@@ -72,12 +72,11 @@ public class Parser {
 
         final String mainName = token.value;
 
-        if (programBuider.hasFunction(mainName)) {
+        if (programBuider.hasFunctionClass(mainName)) {
             logger.logError(mainName + " already exists");
         }
 
-        currentFunction = programFactory.createFunction(mainName);
-        programBuider.addFunction(currentFunction);
+        functionClassBuilder = programFactory.createFunctionBuilder(mainName);
 
         nextToken();
 
@@ -85,6 +84,8 @@ public class Parser {
             log("block expected");
             return false;
         }
+
+        programBuider.setMainClass(functionClassBuilder.build());
 
         return true;
     }
@@ -148,10 +149,10 @@ public class Parser {
         }
 
         do {
-            currentFunction.addInstruction(Instruction.POP);
+            functionClassBuilder.addInstruction(Instruction.POP);
         } while (operator());
 
-        currentFunction.removeLastInstruction();
+        functionClassBuilder.removeLastInstruction();
 
         if (token.type != Token.BRACE_CLOSE) {
             log("} expected");
@@ -182,8 +183,8 @@ public class Parser {
             log("(expression) expected");
             return false;
         }
-        final int jumpToElseAddress = currentFunction.getInstructionsCount();
-        currentFunction
+        final int jumpToElseAddress = functionClassBuilder.getInstructionsCount();
+        functionClassBuilder
                 .addInstruction(Instruction.NOP)
                 .addInstruction(Instruction.JUMP_FALSE);
 
@@ -192,11 +193,11 @@ public class Parser {
             return false;
         }
 
-        final int jumpToEndOfElseAddress = currentFunction.getInstructionsCount();
-        currentFunction
+        final int jumpToEndOfElseAddress = functionClassBuilder.getInstructionsCount();
+        functionClassBuilder
                 .addInstruction(Instruction.NOP)
                 .addInstruction(Instruction.JUMP)
-                .putInstruction(LangInteger.from(currentFunction.getInstructionsCount()), jumpToElseAddress);
+                .putInstruction(LangInteger.from(functionClassBuilder.getInstructionsCount()), jumpToElseAddress);
 
         if (token.type == Token.ELSE) {
 
@@ -208,10 +209,10 @@ public class Parser {
             }
 
         } else {
-            currentFunction.addInstruction(LangUndefined.INSTANCE);
+            functionClassBuilder.addInstruction(LangUndefined.INSTANCE);
         }
 
-        currentFunction.putInstruction(LangInteger.from(currentFunction.getInstructionsCount()), jumpToEndOfElseAddress);
+        functionClassBuilder.putInstruction(LangInteger.from(functionClassBuilder.getInstructionsCount()), jumpToEndOfElseAddress);
 
         return true;
     }
@@ -229,7 +230,7 @@ public class Parser {
         }
 
         while (token.type == Token.COMMA) {
-            currentFunction.addInstruction(Instruction.POP);
+            functionClassBuilder.addInstruction(Instruction.POP);
             nextToken();
             if (!defSingleVariable()) {
                 log("variable definition expected");
@@ -246,19 +247,19 @@ public class Parser {
             return false;
         }
 
-        if (currentFunction.hasVariable(token.value)) {
+        if (functionClassBuilder.hasVariable(token.value)) {
             log("Variable " + token.value + " already defined.");
             return false;
         }
 
-        final IVariable variable = currentFunction.addVariable(token.value);
+        final IVariable variable = functionClassBuilder.addVariable(token.value);
         final String variableName = token.value;
 
         nextToken();
 
         if (token.type == Token.ASSIGN) {
 
-            currentFunction.addInstruction(VariableInstruction.from(variable.getId(), variableName));
+            functionClassBuilder.addInstruction(VariableInstruction.from(variable.getId(), variableName));
 
             nextToken();
 
@@ -267,9 +268,9 @@ public class Parser {
                 return false;
             }
 
-            currentFunction.addInstruction(Instruction.ASSIGN);
+            functionClassBuilder.addInstruction(Instruction.ASSIGN);
         } else {
-            currentFunction.addInstruction(LangUndefined.INSTANCE);
+            functionClassBuilder.addInstruction(LangUndefined.INSTANCE);
         }
 
         return true;
@@ -308,7 +309,7 @@ public class Parser {
                 log("sub-expression expected after '|'");
                 return false;
             }
-            currentFunction.addInstruction(Instruction.LOGIC_OR);
+            functionClassBuilder.addInstruction(Instruction.LOGIC_OR);
         }
 
         return true;
@@ -326,7 +327,7 @@ public class Parser {
                 log("sub-expression expected after '&&'");
                 return false;
             }
-            currentFunction.addInstruction(Instruction.LOGIC_AND);
+            functionClassBuilder.addInstruction(Instruction.LOGIC_AND);
         }
 
         return true;
@@ -417,7 +418,7 @@ public class Parser {
             if (!addition()) {
                 return false;
             }
-            currentFunction.addInstruction(Instruction.BIT_SHIFT_LEFT);
+            functionClassBuilder.addInstruction(Instruction.BIT_SHIFT_LEFT);
         }
 
         return true;
@@ -438,7 +439,7 @@ public class Parser {
                 return false;
             }
 
-            currentFunction.addInstruction(additionInstruction);
+            functionClassBuilder.addInstruction(additionInstruction);
         }
 
         return true;
@@ -454,7 +455,7 @@ public class Parser {
             if (!unary()) {
                 return false;
             }
-            currentFunction.addInstruction(Instruction.MULTIPLY);
+            functionClassBuilder.addInstruction(Instruction.MULTIPLY);
         }
 
         return true;
@@ -479,7 +480,7 @@ public class Parser {
                 return false;
             }
 
-            currentFunction.addInstruction(unaryInstruction);
+            functionClassBuilder.addInstruction(unaryInstruction);
             return true;
         }
 
@@ -490,8 +491,8 @@ public class Parser {
 
         if (token.type == Token.IDENTIFIER) {
 
-            if (currentFunction.hasVariable(token.value)) {
-                currentFunction.addInstruction(VariableInstruction.from(currentFunction.getVariable(token.value).getId(), token.value));
+            if (functionClassBuilder.hasVariable(token.value)) {
+                functionClassBuilder.addInstruction(VariableInstruction.from(functionClassBuilder.getVariable(token.value).getId(), token.value));
             }
 
             nextToken();
@@ -503,7 +504,7 @@ public class Parser {
                     return false;
                 }
 
-                currentFunction.addInstruction(Instruction.ASSIGN);
+                functionClassBuilder.addInstruction(Instruction.ASSIGN);
             } else {
                 chain();
             }
@@ -532,7 +533,7 @@ public class Parser {
                 return false;
             }
 
-            currentFunction.addInstruction(Instruction.ARRAY_DEREFERENCE);
+            functionClassBuilder.addInstruction(Instruction.ARRAY_DEREFERENCE);
 
             nextToken();
 
@@ -542,7 +543,7 @@ public class Parser {
                     log("expression expected in array[e] = HERE");
                     return false;
                 }
-                currentFunction.addInstruction(Instruction.ASSIGN);
+                functionClassBuilder.addInstruction(Instruction.ASSIGN);
                 return true;
             } else {
                 chain();
@@ -557,7 +558,7 @@ public class Parser {
                 log("identifier (property name) expected after '->'.");
                 return false;
             }
-            currentFunction
+            functionClassBuilder
                     .addInstruction(LangString.from(token.value))
                     .addInstruction(Instruction.PROPERTY_DEREFERENCE);
 
@@ -569,7 +570,7 @@ public class Parser {
                     log("expression expected in s->p = HERE");
                     return false;
                 }
-                currentFunction.addInstruction(Instruction.ASSIGN);
+                functionClassBuilder.addInstruction(Instruction.ASSIGN);
                 return true;
             }
 
@@ -597,7 +598,7 @@ public class Parser {
             log("] expected.");
             return false;
         }
-        currentFunction
+        functionClassBuilder
                 .addInstruction(LangInteger.from(count))
                 .addInstruction(Instruction.NEW_ARRAY);
 
@@ -640,7 +641,7 @@ public class Parser {
         }
         nextToken();
 
-        currentFunction
+        functionClassBuilder
                 .addInstruction(LangInteger.from(argsCount))
                 .addInstruction(clazz)
                 .addInstruction(Instruction.NEW_STRUCT_INSTANCE);
@@ -693,7 +694,7 @@ public class Parser {
         }
 
         final int intValue = Integer.parseInt(token.value);
-        currentFunction.addInstruction(LangInteger.from(intValue));
+        functionClassBuilder.addInstruction(LangInteger.from(intValue));
         nextToken();
 
         return true;
@@ -703,11 +704,11 @@ public class Parser {
 
         switch (token.type) {
             case Token.TRUE:
-                currentFunction.addInstruction(LangBoolean.TRUE);
+                functionClassBuilder.addInstruction(LangBoolean.TRUE);
                 break;
 
             case Token.FALSE:
-                currentFunction.addInstruction(LangBoolean.FALSE);
+                functionClassBuilder.addInstruction(LangBoolean.FALSE);
                 break;
 
             default:

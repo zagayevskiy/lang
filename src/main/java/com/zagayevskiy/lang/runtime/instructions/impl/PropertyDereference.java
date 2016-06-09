@@ -1,13 +1,13 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.IFunction;
+import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.AbsBinaryObjInstruction;
 import com.zagayevskiy.lang.runtime.operand.AssignableOperand;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.LangStruct;
-import com.zagayevskiy.lang.runtime.types.LangUndefined;
+import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
 
