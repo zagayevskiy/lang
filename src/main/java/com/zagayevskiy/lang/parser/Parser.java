@@ -67,6 +67,7 @@ public class Parser {
 
     private boolean defMain() {
         if (token.type != Token.MAIN) {
+            log("main expected");
             return false;
         }
 
@@ -108,7 +109,7 @@ public class Parser {
         nextToken();
 
         if (token.type != Token.BRACE_OPEN) {
-            log("'{' expected after classes");
+            log("'{' expected after struct");
             return false;
         }
 
@@ -124,7 +125,7 @@ public class Parser {
         } while (token.type == Token.COMMA);
 
         if (token.type != Token.BRACE_CLOSE) {
-            log("'}' expected at the end of classes definition.");
+            log("'}' expected at the end of struct definition.");
             return false;
         }
 
@@ -135,7 +136,54 @@ public class Parser {
     }
 
     private boolean defFunction() {
-        return token.type == 0;
+        if (token.type != Token.FUNCTION) {
+            return false;
+        }
+        nextToken();
+
+        if (token.type != Token.IDENTIFIER) {
+            log("identifier expected after 'function'");
+            return false;
+        }
+
+        if (programBuider.hasFunctionClass(token.value)) {
+            log("function " + token.value + " already defined");
+            return false;
+        }
+
+        functionClassBuilder = programFactory.createFunctionBuilder(token.value);
+
+        nextToken();
+        if (token.type != Token.PARENTHESIS_OPEN) {
+            log("'(' expected after 'function'");
+            return false;
+        }
+
+        do {
+            nextToken();
+            if (token.type != Token.IDENTIFIER) {
+                log("Identifier expected");
+                return false;
+            }
+//            TODO: add argument
+            nextToken();
+
+        } while (token.type == Token.COMMA);
+
+        if (token.type != Token.PARENTHESIS_CLOSE) {
+            log("')' expected at the end of function args definition.");
+            return false;
+        }
+
+        nextToken();
+        if (!block()) {
+            log("block expected after function definition");
+            return false;
+        }
+
+        programBuider.addFunctionClass(functionClassBuilder.build());
+
+        return true;
     }
 
     private boolean block() {
@@ -576,6 +624,23 @@ public class Parser {
 
             chain();
             return true;
+        }
+
+        if (token.type == Token.PARENTHESIS_OPEN) {
+            nextToken();
+            final int argsCount = expressionsList();
+            //TODO
+            for(int i = 0; i < argsCount - 1; ++i) {
+                functionClassBuilder.addInstruction(Instruction.POP);
+            }
+
+            if (token.type != Token.PARENTHESIS_CLOSE) {
+                log("')' expected");
+                return false;
+            }
+            nextToken();
+
+            chain();
         }
 
         return false;
