@@ -18,20 +18,34 @@ public class FunctionClass implements IFunctionClass {
     @Nonnull
     private final String name;
     @Nonnull
-    private final ArrayList<Instruction> instructions;
+    private final ArrayList<Variable> arguments;
     @Nonnull
     private final ArrayList<Variable> variables;
+    @Nonnull
+    private final ArrayList<Instruction> instructions;
 
-    FunctionClass(@Nonnull String name, @Nonnull ArrayList<Instruction> instructions, @Nonnull ArrayList<Variable> variables) {
+    FunctionClass(@Nonnull String name, @Nonnull ArrayList<Variable> arguments, @Nonnull ArrayList<Instruction> instructions, @Nonnull ArrayList<Variable> variables) {
         this.name = name;
-        this.instructions = instructions;
+        this.arguments = arguments;
         this.variables = variables;
+        this.instructions = instructions;
     }
 
     @Nonnull
     @Override
-    public IFunction newInstance() {
-        return new Function(name, instructions, variables);
+    public IFunctionClass.InstanceBuilder newInstanceBuilder(int argsCount) {
+        return new InstanceBuilder() {
+            @Nonnull
+            @Override
+            public InstanceBuilder withArgument(@Nonnull LangObject argument) {
+                return this;
+            }
+
+            @Override
+            public IFunction build() {
+                return new Function(name, instructions, variables);
+            }
+        };
     }
 
     @Override

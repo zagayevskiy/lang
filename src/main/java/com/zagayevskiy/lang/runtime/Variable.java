@@ -31,4 +31,5 @@ public class Variable implements IVariable {
     public void setValue(@Nonnull LangObject value) {
         this.value = value;
     }
+
 }

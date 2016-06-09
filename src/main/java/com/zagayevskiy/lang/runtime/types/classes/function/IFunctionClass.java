@@ -34,12 +34,21 @@ public interface IFunctionClass extends LangClass, LangObject {
         IVariable getVariable(int index);
 
         @Nonnull
+        IVariable addArgument(@Nonnull String name);
+
+        @Nonnull
         IFunctionClass build();
+    }
+
+    interface InstanceBuilder {
+        @Nonnull
+        InstanceBuilder withArgument(@Nonnull LangObject argument);
+        IFunction build();
     }
 
     @Nonnull
     String getName();
 
     @Nonnull
-    IFunction newInstance();
+    InstanceBuilder newInstanceBuilder(int argsCount);
 }

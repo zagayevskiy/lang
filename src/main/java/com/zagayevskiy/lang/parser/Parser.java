@@ -165,7 +165,8 @@ public class Parser {
                 log("Identifier expected");
                 return false;
             }
-//            TODO: add argument
+
+            functionClassBuilder.addArgument(token.value);
             nextToken();
 
         } while (token.type == Token.COMMA);
