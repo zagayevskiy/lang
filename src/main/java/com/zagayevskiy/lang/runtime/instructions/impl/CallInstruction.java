@@ -40,7 +40,8 @@ public class CallInstruction implements Instruction {
         List<LangObject> arguments = Arrays.asList(argumentsArray);
 
         if (actualArgsCount < argsCount) {
-            throw new NotImplementedException();
+            context.pushOperand(functionClass.applyPartially(arguments));
+            return;
         }
 
         if (actualArgsCount > argsCount) {

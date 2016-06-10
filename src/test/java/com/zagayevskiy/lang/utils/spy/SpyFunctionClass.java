@@ -34,6 +34,12 @@ public class SpyFunctionClass implements IFunctionClass {
     }
 
     @Override
+    @Nonnull
+    public IFunctionClass applyPartially(@Nonnull List<LangObject> arguments) {
+        return inner.applyPartially(arguments);
+    }
+
+    @Override
     public int getArgumentsCount() {
         return inner.getArgumentsCount();
     }

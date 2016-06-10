@@ -86,13 +86,12 @@ public class Programs {
                         .build());
         p("function f(x, y, z){ 1; } main{ 2; }", 2);
         p("function f(x, y, z){ 1; } main{ 123; f(2, 3, 4); 5; }", 5);
-        p("function f(x, y, z){ 10101; } main{ 123; f(2, 3, 4); }", 10101);
         p("function f(x, y, z){ var inner = 5*7*237; 10101; inner; } main{ 123; f(2, 3, 5, 6, 7); }", 5*7*237);
         p("function f(x, y, z){ 10101; } main{ 123; f(2, 3, 5, 6, 7); }", 10101);
         p("function f(x, y, z, asdf) { var t, tt, ttt = x + y * z + asdf; ttt; } main{ 123; f(2, 3, 5, 6, 7); }", 2 + 3 * 5 + 6);
-        p("function f(y){ y; } struct y{y} main{ var y = new y(f(new y(9))); y->y->y;}", 9);
-        p("function f(y){ y; } struct y{y} main{ var y = new y(f(new y(9))); f(y->y->y);}", 9);
+        p("function f(y){ y; } struct y{y} main{ var y = new y(f(new y(9))); f(y->y->y); }", 9);
         p("struct str {s, u, v} function f(strInstance){ var s = strInstance; s->s + s->u + s->v; } main{ f(new str(3, 4, 5)); }", 3+4+5);
+        p("function sum (x, y) { x + y; } main {var s = sum(2); [s(1), s(2), s(3), s(true), s(100)]; }", array(3, 4, 5, "2true", 102));
     }
 
     private static void f(String s, Object o) {

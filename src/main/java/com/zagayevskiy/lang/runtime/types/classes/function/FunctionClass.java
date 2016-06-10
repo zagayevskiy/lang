@@ -60,6 +60,19 @@ public class FunctionClass implements IFunctionClass {
         return new Function(name, instructions, bindArguments(arguments));
     }
 
+    @Nonnull
+    @Override
+    public IFunctionClass applyPartially(@Nonnull List<LangObject> arguments) {
+        if (argumentsCount <= arguments.size()) {
+            throw new IllegalArgumentException("arguments count must be less than getArgumentsCount() to apply function partially");
+        }
+        return new FunctionClass(name + "$partially",
+                bindArguments(arguments),
+                firstArgumentIndex + arguments.size(),
+                argumentsCount - arguments.size(),
+                instructions);
+    }
+
     @Override
     @Nonnull
     public String getName() {
@@ -108,7 +121,7 @@ public class FunctionClass implements IFunctionClass {
 
     @Override
     public String toString() {
-        return "func";
+        return getLangClassName();
     }
 
     @Nonnull

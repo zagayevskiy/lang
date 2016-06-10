@@ -48,4 +48,7 @@ public interface IFunctionClass extends LangClass, LangObject {
 
     @Nonnull
     IFunction newInstance(@Nonnull List<LangObject> arguments);
+
+    @Nonnull
+    IFunctionClass applyPartially(@Nonnull List<LangObject> arguments);
 }

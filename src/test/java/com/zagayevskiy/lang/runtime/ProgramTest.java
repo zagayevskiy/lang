@@ -14,7 +14,6 @@ import javafx.util.Pair;
 import org.junit.Test;
 
 import javax.annotation.Nonnull;
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import static com.zagayevskiy.lang.utils.TestUtils.assertOperandsStackEmpty;

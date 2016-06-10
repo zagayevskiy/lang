@@ -31,6 +31,12 @@ class DummyFunctionClass implements IFunctionClass {
         return new DummyFunction(name);
     }
 
+    @Nonnull
+    @Override
+    public IFunctionClass applyPartially(@Nonnull List<LangObject> arguments) {
+        return new DummyFunctionClass(name);
+    }
+
     @Override
     public int getArgumentsCount() {
         return 0;
