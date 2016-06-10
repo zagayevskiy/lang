@@ -13,6 +13,9 @@ public interface IFunctionClass extends LangClass, LangObject {
     interface Builder {
 
         @Nonnull
+        IFunctionClass getStub();
+
+        @Nonnull
         Builder addInstruction(@Nonnull Instruction instruction);
 
         @Nonnull
@@ -36,9 +39,6 @@ public interface IFunctionClass extends LangClass, LangObject {
 
         @Nonnull
         IVariable addArgument(@Nonnull String name);
-
-        @Nonnull
-        IFunctionClass build();
     }
 
     @Nonnull

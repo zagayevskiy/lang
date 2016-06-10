@@ -69,10 +69,10 @@ public class SpyFunctionClassBuilder implements IFunctionClass.Builder {
         return inner.getVariable(index);
     }
 
-    @Override
     @Nonnull
-    public SpyFunctionClass build() {
-        SpyFunctionClass spy = new SpyFunctionClass(inner.build());
+    @Override
+    public IFunctionClass getStub() {
+        SpyFunctionClass spy = new SpyFunctionClass(inner.getStub());
         spyFunctionClasses.add(spy);
         return spy;
     }

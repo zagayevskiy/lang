@@ -7,9 +7,13 @@ function fibonacciRecursive(n, first, second) {
 }
 
 function fibonacci(n) {
-    fibonacciRecursive(n, 1, 1);
+    if (n > 0) {
+        fibonacciRecursive(n - 1, 1, 1);
+    } else {
+        0;
+    }
 }
 
 main{
-    fibonacci(7);
+    fibonacci(46);
 }

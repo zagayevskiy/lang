@@ -41,9 +41,7 @@ public class FunctionClass implements IFunctionClass {
         if (firstArgumentIndex + argumentsCount > variables.size()) {
             throw new IllegalArgumentException("firstArgumentIndex + argumentsCount must be <= variables.size()");
         }
-        if (instructions.isEmpty()) {
-            throw new IllegalArgumentException("instructions must not be empty");
-        }
+
         this.name = name;
         this.variables = variables;
         this.firstArgumentIndex = firstArgumentIndex;

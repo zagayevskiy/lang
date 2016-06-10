@@ -73,7 +73,7 @@ class DummyFunctionClassBuilder implements IFunctionClass.Builder {
 
     @Nonnull
     @Override
-    public IFunctionClass build() {
+    public IFunctionClass getStub() {
         return new DummyFunctionClass(name);
     }
 }

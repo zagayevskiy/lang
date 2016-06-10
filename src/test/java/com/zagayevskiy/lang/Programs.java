@@ -18,8 +18,8 @@ public class Programs {
     public static final List<Pair<String, LangObject>> FILES = new ArrayList<>();
 
     static {
-        f("lang_test_sources/multiple_expressions_operators.js", 2+2*2);
-        f("lang_test_sources/fibonacci_recursive_10.js", 0);
+        f("sources/sum_recursive_argument_10.js", 55);
+        f("sources/fibonacci_recursive_argument_46.js", 1836311903);
     }
 
     static {

@@ -78,6 +78,7 @@ public class Parser {
         }
 
         functionClassBuilder = programFactory.createFunctionBuilder(mainName);
+        programBuider.setMainClass(functionClassBuilder.getStub());
 
         nextToken();
 
@@ -85,8 +86,6 @@ public class Parser {
             log("block expected");
             return false;
         }
-
-        programBuider.setMainClass(functionClassBuilder.build());
 
         return true;
     }
@@ -175,14 +174,13 @@ public class Parser {
             log("')' expected at the end of function args definition.");
             return false;
         }
+        programBuider.addFunctionClass(functionClassBuilder.getStub());
 
         nextToken();
         if (!block()) {
             log("block expected after function definition");
             return false;
         }
-
-        programBuider.addFunctionClass(functionClassBuilder.build());
 
         return true;
     }
@@ -452,6 +450,7 @@ public class Parser {
             if (!bitShifting()) {
                 return false;
             }
+            functionClassBuilder.addInstruction(Instruction.GREATER);
         }
 
         return true;

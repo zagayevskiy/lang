@@ -113,4 +113,9 @@ public class LangInteger extends AbsLangObject implements Operand {
     public LangInteger minus(@Nonnull LangInteger right) {
         return from(intValue - right.intValue, isNan || right.isNan);
     }
+
+    @Nonnull
+    public LangBoolean greater(@Nonnull LangInteger right) {
+        return LangBoolean.from((!isNan && !right.isNan) && (intValue > right.intValue));
+    }
 }

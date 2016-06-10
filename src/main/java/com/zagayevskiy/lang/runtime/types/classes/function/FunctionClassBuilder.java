@@ -13,6 +13,8 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
         BUILD_ARGUMENTS, BUILD_BODY
     }
 
+    private IFunctionClass functionClass;
+
     private final String name;
     private final List<Instruction> instructions = new ArrayList<>();
 
@@ -24,6 +26,19 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
 
     public FunctionClassBuilder(@Nonnull String name) {
         this.name = name;
+    }
+
+    @Nonnull
+    @Override
+    public IFunctionClass getStub() {
+        if (functionClass == null) {
+            functionClass = new FunctionClass(name,
+                    Collections.unmodifiableList(variables),
+                    argumentsCount,
+                    Collections.unmodifiableList(instructions));
+        }
+        state = State.BUILD_BODY;
+        return functionClass;
     }
 
     @Nonnull
@@ -99,15 +114,6 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
         }
 
         return variablesByName.get(name);
-    }
-
-    @Nonnull
-    @Override
-    public IFunctionClass build() {
-        return new FunctionClass(name,
-                Collections.unmodifiableList(variables),
-                argumentsCount,
-                Collections.unmodifiableList(instructions));
     }
 
     @Nonnull
