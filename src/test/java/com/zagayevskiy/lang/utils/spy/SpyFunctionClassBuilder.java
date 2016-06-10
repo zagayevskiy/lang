@@ -13,8 +13,14 @@ public class SpyFunctionClassBuilder implements IFunctionClass.Builder {
 
     public List<SpyFunctionClass> spyFunctionClasses = new ArrayList<>();
 
-    public SpyFunctionClassBuilder(IFunctionClass.Builder inner) {
+    SpyFunctionClassBuilder(IFunctionClass.Builder inner) {
         this.inner = inner;
+    }
+
+    @Nonnull
+    @Override
+    public IVariable addArgument(@Nonnull String name) {
+        return inner.addArgument(name);
     }
 
     @Override

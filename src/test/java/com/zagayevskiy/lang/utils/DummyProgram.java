@@ -29,6 +29,12 @@ public class DummyProgram implements IProgram {
 
         @Nonnull
         @Override
+        public IFunctionClass getFunctionClass(@Nonnull String name) {
+            return program.funcs.get(name);
+        }
+
+        @Nonnull
+        @Override
         public IProgram.Builder addFunctionClass(@Nonnull IFunctionClass function) {
             program.funcs.put(function.getName(), function);
             return this;

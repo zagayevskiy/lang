@@ -7,6 +7,7 @@ import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public interface IFunctionClass extends LangClass, LangObject {
     interface Builder {
@@ -40,15 +41,11 @@ public interface IFunctionClass extends LangClass, LangObject {
         IFunctionClass build();
     }
 
-    interface InstanceBuilder {
-        @Nonnull
-        InstanceBuilder withArgument(@Nonnull LangObject argument);
-        IFunction build();
-    }
-
     @Nonnull
     String getName();
 
+    int getArgumentsCount();
+
     @Nonnull
-    InstanceBuilder newInstanceBuilder(int argsCount);
+    IFunction newInstance(@Nonnull List<LangObject> arguments);
 }

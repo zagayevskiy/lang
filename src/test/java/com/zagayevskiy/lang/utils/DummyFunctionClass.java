@@ -9,12 +9,13 @@ import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
-public class DummyFunctionClass implements IFunctionClass {
+class DummyFunctionClass implements IFunctionClass {
 
     private final String name;
 
-    public DummyFunctionClass(@Nonnull String name) {
+    DummyFunctionClass(@Nonnull String name) {
         this.name = name;
     }
 
@@ -26,8 +27,13 @@ public class DummyFunctionClass implements IFunctionClass {
 
     @Nonnull
     @Override
-    public IFunction newInstance() {
+    public IFunction newInstance(@Nonnull List<LangObject> arguments) {
         return new DummyFunction(name);
+    }
+
+    @Override
+    public int getArgumentsCount() {
+        return 0;
     }
 
     @Nonnull

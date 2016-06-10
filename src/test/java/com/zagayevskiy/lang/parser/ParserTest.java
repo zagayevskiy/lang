@@ -34,8 +34,14 @@ public class ParserTest {
     }
 
     @Test
-    public void multipleExpressionsOperatorsParsing() {
-        assertParsingCorrect("", TestUtils.fileStream("parser/multiple_expressions_operators.txt"));
+    public void filesParsingCorrect() {
+        for (Pair<String, ?> fileName: Programs.FILES) {
+            assertFileParsingCorrect(fileName.getKey());
+        }
+    }
+
+    private void assertFileParsingCorrect(@Nonnull String fileName) {
+        assertParsingCorrect("In file " + fileName, TestUtils.fileStream(fileName));
     }
 
     private void assertParsingCorrect(@Nonnull String program) {

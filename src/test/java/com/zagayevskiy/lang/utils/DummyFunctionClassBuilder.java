@@ -7,17 +7,21 @@ import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-public class DummyFunctionClassBuilder implements IFunctionClass.Builder {
+class DummyFunctionClassBuilder implements IFunctionClass.Builder {
 
-    ArrayList<String> vars = new ArrayList<>();
+    private ArrayList<String> vars = new ArrayList<>();
     @Nonnull
     private final String name;
 
-    public DummyFunctionClassBuilder(@Nonnull String name) {
+    DummyFunctionClassBuilder(@Nonnull String name) {
         this.name = name;
+    }
+
+    @Nonnull
+    @Override
+    public IVariable addArgument(@Nonnull String name) {
+        return addVariable(name);
     }
 
     @Nonnull

@@ -10,10 +10,19 @@ public class Variable implements IVariable {
     private final int id;
 
     @Nonnull
-    private LangObject value = LangUndefined.INSTANCE;
+    private LangObject value;
 
     public Variable(int id) {
+        this(id, LangUndefined.INSTANCE);
+    }
+
+    public Variable(@Nonnull Variable other) {
+        this(other.id, other.value);
+    }
+
+    public Variable(int id, @Nonnull LangObject value) {
         this.id = id;
+        this.value = value;
     }
 
     @Override

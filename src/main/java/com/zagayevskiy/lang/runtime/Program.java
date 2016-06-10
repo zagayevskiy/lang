@@ -7,6 +7,7 @@ import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,16 +17,26 @@ public class Program implements IProgram {
 
         private Program program = new Program();
 
-        @Override
-        public boolean hasFunctionClass(@Nonnull String name) {
-            return program.functionClasses.containsKey(name);
-        }
-
         @Nonnull
         @Override
         public IProgram.Builder addFunctionClass(@Nonnull IFunctionClass functionClass) {
             program.functionClasses.put(functionClass.getName(), functionClass);
             return this;
+        }
+
+        @Nonnull
+        @Override
+        public IFunctionClass getFunctionClass(@Nonnull String name) {
+            if (!hasFunctionClass(name)) {
+                throw new IllegalStateException("Function " + name + " not defined. Must check hasFunctionClass() before");
+            }
+
+            return program.functionClasses.get(name);
+        }
+
+        @Override
+        public boolean hasFunctionClass(@Nonnull String name) {
+            return program.functionClasses.containsKey(name);
         }
 
         @Nonnull
@@ -71,6 +82,6 @@ public class Program implements IProgram {
     @Nonnull
     @Override
     public LangObject execute() {
-        return mainClass.newInstance().execute();
+        return mainClass.newInstance(Collections.<LangObject>emptyList()).execute();
     }
 }

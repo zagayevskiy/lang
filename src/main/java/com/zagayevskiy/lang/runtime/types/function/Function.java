@@ -15,14 +15,14 @@ import java.util.*;
 public class Function implements IFunction {
 
     private final String name;
-    private final ArrayList<Instruction> instructions;
+    private final List<Instruction> instructions;
     private int instructionPointer;
 
-    private final ArrayList<Variable> variables;
+    private final List<Variable> variables;
 
     private final Deque<Operand> operandsStack = new ArrayDeque<>();
 
-    public Function(@Nonnull String name, ArrayList<Instruction> instructions, ArrayList<Variable> variables) {
+    public Function(@Nonnull String name, List<Instruction> instructions, List<Variable> variables) {
         this.name = name;
         this.instructions = instructions;
         this.variables = variables;

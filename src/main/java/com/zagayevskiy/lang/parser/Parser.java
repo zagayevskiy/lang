@@ -542,6 +542,11 @@ public class Parser {
 
             if (functionClassBuilder.hasVariable(token.value)) {
                 functionClassBuilder.addInstruction(VariableInstruction.from(functionClassBuilder.getVariable(token.value).getId(), token.value));
+            } else if (programBuider.hasFunctionClass(token.value)) {
+                functionClassBuilder.addInstruction(programBuider.getFunctionClass(token.value));
+            } else {
+                log("unknown identifier " + token.value);
+                return false;
             }
 
             nextToken();
@@ -630,17 +635,17 @@ public class Parser {
         if (token.type == Token.PARENTHESIS_OPEN) {
             nextToken();
             final int argsCount = expressionsList();
-            //TODO
-            for(int i = 0; i < argsCount - 1; ++i) {
-                functionClassBuilder.addInstruction(Instruction.POP);
-            }
 
             if (token.type != Token.PARENTHESIS_CLOSE) {
                 log("')' expected");
                 return false;
             }
-            nextToken();
 
+            functionClassBuilder
+                    .addInstruction(LangInteger.from(argsCount))
+                    .addInstruction(Instruction.CALL);
+
+            nextToken();
             chain();
         }
 

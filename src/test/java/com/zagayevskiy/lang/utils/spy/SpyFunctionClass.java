@@ -15,7 +15,7 @@ public class SpyFunctionClass implements IFunctionClass {
     private final IFunctionClass inner;
     public List<IFunction> functions = new ArrayList<>();
 
-    public SpyFunctionClass(IFunctionClass inner) {
+    SpyFunctionClass(IFunctionClass inner) {
         this.inner = inner;
     }
 
@@ -27,10 +27,15 @@ public class SpyFunctionClass implements IFunctionClass {
 
     @Override
     @Nonnull
-    public IFunction newInstance() {
-        IFunction f = inner.newInstance();
+    public IFunction newInstance(@Nonnull List<LangObject> arguments) {
+        IFunction f = inner.newInstance(arguments);
         functions.add(f);
         return f;
+    }
+
+    @Override
+    public int getArgumentsCount() {
+        return inner.getArgumentsCount();
     }
 
     @Override

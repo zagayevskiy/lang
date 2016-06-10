@@ -5,18 +5,22 @@ import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FunctionClassBuilder implements IFunctionClass.Builder {
 
-    private final String name;
-    private final ArrayList<Instruction> instructions = new ArrayList<>();
+    private enum State {
+        BUILD_ARGUMENTS, BUILD_BODY
+    }
 
-    private final ArrayList<Variable> arguments = new ArrayList<>();
-    private final ArrayList<Variable> variables = new ArrayList<>();
+    private final String name;
+    private final List<Instruction> instructions = new ArrayList<>();
+
+    private final List<Variable> variables = new ArrayList<>();
     private final Map<String, Variable> variablesByName = new HashMap<>();
+
+    private State state = State.BUILD_ARGUMENTS;
+    private int argumentsCount = 0;
 
     public FunctionClassBuilder(@Nonnull String name) {
         this.name = name;
@@ -25,6 +29,7 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
     @Nonnull
     @Override
     public IFunctionClass.Builder addInstruction(@Nonnull Instruction instruction) {
+        state = State.BUILD_BODY;
         instructions.add(instruction);
         return this;
     }
@@ -32,6 +37,7 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
     @Nonnull
     @Override
     public IFunctionClass.Builder putInstruction(@Nonnull Instruction instruction, int address) {
+        state = State.BUILD_BODY;
         instructions.set(address, instruction);
         return this;
     }
@@ -44,6 +50,7 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
     @Nonnull
     @Override
     public IFunctionClass.Builder removeLastInstruction() {
+        state = State.BUILD_BODY;
         instructions.remove(instructions.size() - 1);
         return this;
     }
@@ -59,24 +66,23 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
         if (hasVariable(name)) {
             throw new IllegalStateException("Variable " + name + " already defined. Must check hasVariable before.");
         }
+        state = State.BUILD_BODY;
 
-        final int id = variables.size();
-        final Variable var = new Variable(id);
-        variables.add(var);
-        variablesByName.put(name, var);
-
-        return var;
+        return doAddVariable(name);
     }
 
     @Nonnull
     @Override
     public IVariable addArgument(@Nonnull String name) {
+        if (state != State.BUILD_ARGUMENTS) {
+            throw new IllegalStateException("Can not add argument after body building begin");
+        }
         if (hasVariable(name)) {
             throw new IllegalStateException("Argument " + name + "already defined must check hasVariable before.");
         }
-        final Variable var = addVariable(name);
-        arguments.add(var);
-        return var;
+
+        ++argumentsCount;
+        return doAddVariable(name);
     }
 
     @Nonnull
@@ -98,6 +104,18 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
     @Nonnull
     @Override
     public IFunctionClass build() {
-        return new FunctionClass(name, arguments, instructions, variables);
+        return new FunctionClass(name,
+                Collections.unmodifiableList(variables),
+                argumentsCount,
+                Collections.unmodifiableList(instructions));
+    }
+
+    @Nonnull
+    private Variable doAddVariable(@Nonnull String name) {
+        final int id = variables.size();
+        final Variable variable = new Variable(id);
+        variables.add(variable);
+        variablesByName.put(name, variable);
+        return variable;
     }
 }
