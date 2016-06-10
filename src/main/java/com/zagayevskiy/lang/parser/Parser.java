@@ -285,6 +285,11 @@ public class Parser {
             }
         }
 
+        if (token.type != Token.SEMICOLON) {
+            log("; expected after variables definition");
+            return false;
+        }
+
         return true;
     }
 
@@ -569,7 +574,56 @@ public class Parser {
                 defBooleanConst() |
                 expressionInParenthesis() |
                 defNewArray() |
-                newStructInstance();
+                newStructInstance() |
+                defLambda() |
+                block();
+    }
+
+    private boolean defLambda() {
+        if (token.type != Token.BACKSLASH) {
+            return false;
+        }
+
+        nextToken();
+
+        IFunctionClass.Builder savedBuilder = functionClassBuilder;
+        functionClassBuilder = programFactory.createAnonymousFunctionBuilder();
+        try {
+
+            if (token.type != Token.PARENTHESIS_OPEN) {
+                log("'(' expected after lambda ");
+                return false;
+            }
+
+            do {
+                nextToken();
+                if (token.type != Token.IDENTIFIER) {
+                    log("Identifier expected");
+                    return false;
+                }
+
+                functionClassBuilder.addArgument(token.value);
+                nextToken();
+
+            } while (token.type == Token.COMMA);
+
+            if (token.type != Token.PARENTHESIS_CLOSE) {
+                log("')' expected at the end of lambda args definition.");
+                return false;
+            }
+
+            nextToken();
+            if (!expression()) {
+                log("expression expected at the end of lambda definition");
+                return false;
+            }
+            savedBuilder.addInstruction(functionClassBuilder.getStub());
+        }finally {
+            functionClassBuilder = savedBuilder;
+        }
+
+        chain();
+        return true;
     }
 
     private boolean chain() {

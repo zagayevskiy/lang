@@ -68,10 +68,17 @@ public class Program implements IProgram {
     }
 
     public static class Factory implements IProgram.Factory {
+        private int anonymousFunctionCount = 0;
         @Nonnull
         @Override
         public IFunctionClass.Builder createFunctionBuilder(@Nonnull String name) {
             return new FunctionClassBuilder(name);
+        }
+
+        @Nonnull
+        @Override
+        public IFunctionClass.Builder createAnonymousFunctionBuilder() {
+            return new FunctionClassBuilder("lambda#" + String.valueOf(anonymousFunctionCount++));
         }
     }
 

@@ -53,11 +53,13 @@ VALUE ::= CONST |
     "[" [EXPRESSIONS_LIST] "]" [CHAIN] | //new array creation
 	"new" IDENTIFIER "(" EXPRESSIONS_LIST ")" | //new structure creation
 	"(" EXPRESSION ")" [CHAIN] |
+	BLOCK |
 	IDENTIFIER ("=" EXPRESSION | [CHAIN])
 	
 EXPRESSIONS_LIST ::= EXPRESSION { "," EXPRESSION }
 
 CHAIN ::=
+    '\' "(" IDENTIFIERS_LIST ")" EXPRESSION [CHAIN] | //lambda creation
     "(" EXPRESSIONS_LIST ")" [CHAIN] |   // function call
     "." IDENTIFIER "(" [EXPRESSIONS_LIST] ")" [CHAIN] |  //method call
     "[" EXPRESSION "]" ("=" EXPRESSION | [CHAIN])   // array indexing

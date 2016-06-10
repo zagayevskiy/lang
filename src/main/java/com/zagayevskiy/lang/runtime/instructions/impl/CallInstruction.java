@@ -6,7 +6,6 @@ import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;

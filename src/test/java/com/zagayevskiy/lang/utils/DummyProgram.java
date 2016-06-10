@@ -69,10 +69,17 @@ public class DummyProgram implements IProgram {
 
     public static class Factory implements IProgram.Factory {
 
+        private int count = 0;
         @Nonnull
         @Override
         public IFunctionClass.Builder createFunctionBuilder(@Nonnull final String name) {
             return new DummyFunctionClassBuilder(name);
+        }
+
+        @Nonnull
+        @Override
+        public IFunctionClass.Builder createAnonymousFunctionBuilder() {
+            return new DummyFunctionClassBuilder("dummy" + count++);
         }
     }
 

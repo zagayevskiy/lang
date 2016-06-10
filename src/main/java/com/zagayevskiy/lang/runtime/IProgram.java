@@ -37,6 +37,9 @@ public interface IProgram {
     interface Factory {
         @Nonnull
         IFunctionClass.Builder createFunctionBuilder(@Nonnull String name);
+
+        @Nonnull
+        IFunctionClass.Builder createAnonymousFunctionBuilder();
     }
 
     @Nonnull

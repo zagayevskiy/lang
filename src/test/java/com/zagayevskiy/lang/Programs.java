@@ -20,6 +20,7 @@ public class Programs {
     static {
         f("sources/sum_recursive_argument_10.js", 55);
         f("sources/fibonacci_recursive_argument_46.js", 1836311903);
+        f("sources/fibonacci_recursive_with_lambda_argument_46.js", 1836311903);
     }
 
     static {
@@ -40,7 +41,7 @@ public class Programs {
         p("main { if (false) 4; }", LangUndefined.INSTANCE);
         p("main { if (true) 100 + 200; else 300*700; }", 100 + 200);
         p("main { if (false) 10 * 222; else {3012*70013;} }", 3012 * 70013);
-        p("main { if (1 + 3 - 2 * 2) { var x = 123 } else { var y = 321 }; true; false; 4223; x + y; }", LangUndefined.STRING_VALUE + 321);
+        p("main { if (1 + 3 - 2 * 2) { var x = 123; } else { var y = 321; }; true; false; 4223; x + y; }", LangUndefined.STRING_VALUE + 321);
         p("main { []; }", new LangArray());
         p("main { var x, array; array = [x, x, x]; }", array(LangUndefined.INSTANCE, LangUndefined.INSTANCE, LangUndefined.INSTANCE));
         p("main { [1, true, 2, 3, false, 4, 5, 6];}", array(1, true, 2, 3, false, 4, 5, 6));
@@ -92,6 +93,10 @@ public class Programs {
         p("function f(y){ y; } struct y{y} main{ var y = new y(f(new y(9))); f(y->y->y); }", 9);
         p("struct str {s, u, v} function f(strInstance){ var s = strInstance; s->s + s->u + s->v; } main{ f(new str(3, 4, 5)); }", 3+4+5);
         p("function sum (x, y) { x + y; } main {var s = sum(2); [s(1), s(2), s(3), s(true), s(100)]; }", array(3, 4, 5, "2true", 102));
+        p("main { var lambda = \\(x,y,z) x + y + z; lambda(1, 2, 3); }", 1 + 2 + 3);
+        p("main { \\(x, y)(x + y)(10, 20); }", 10 + 20);
+        p("main { \\(x, y){ var z = x + y; z*50; }(10, 20); }", (10 + 20)*50);
+        p("main { var x = { 11 + 12 + 13; }; } ", 11 + 12 + 13);
     }
 
     private static void f(String s, Object o) {
