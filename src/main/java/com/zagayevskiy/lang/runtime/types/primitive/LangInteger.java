@@ -5,6 +5,7 @@ import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class LangInteger extends AbsLangObject implements Operand {
 
@@ -121,6 +122,11 @@ public class LangInteger extends AbsLangObject implements Operand {
         return by.intValue == 0
                 ? NaN
                 : from(intValue / by.intValue, isNan || by.isNan);
+    }
+
+    @Nonnull
+    public LangInteger bitAnd(@Nonnull LangInteger with) {
+        return from(intValue & with.intValue, isNan || with.isNan);
     }
 
     @Nonnull

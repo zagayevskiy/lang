@@ -6,6 +6,8 @@ import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import javax.annotation.Nonnull;
 
 public class ModInstruction extends AbsBinaryIntInstruction {
+
+    @Nonnull
     @Override
     protected LangInteger execute(@Nonnull LangInteger left, @Nonnull LangInteger right) {
         return left.mod(right);

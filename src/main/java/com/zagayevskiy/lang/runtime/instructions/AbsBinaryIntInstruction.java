@@ -14,5 +14,6 @@ public abstract class AbsBinaryIntInstruction extends AbsBinaryObjInstruction {
         return execute(left.toLangInteger(), right.toLangInteger());
     }
 
+    @Nonnull
     protected abstract LangInteger execute(@Nonnull LangInteger left, @Nonnull LangInteger right);
 }

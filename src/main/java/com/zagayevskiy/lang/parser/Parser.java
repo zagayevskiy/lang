@@ -423,8 +423,11 @@ public class Parser {
         while (token.type == Token.BIT_AND) {
             nextToken();
             if (!equality()) {
+                log("expression expected after &");
                 return false;
             }
+
+            functionClassBuilder.addInstruction(Instruction.BIT_AND);
         }
 
         return true;

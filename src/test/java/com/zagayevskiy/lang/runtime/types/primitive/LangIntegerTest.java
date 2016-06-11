@@ -78,4 +78,13 @@ public class LangIntegerTest {
         LangInteger i1 = LangInteger.from(600), i2 = LangInteger.from(800);
         assertEquals(i1.intValue * i2.intValue, i1.multiply(i2).intValue);
     }
+
+    @Test
+    public void bitAnd() {
+        LangInteger i1 = LangInteger.from(610), i2 = LangInteger.from(810);
+        assertEquals(i1.intValue & i2.intValue, i1.bitAnd(i2).intValue);
+
+        assertEquals(LangInteger.NaN, i1.bitAnd(LangInteger.NaN));
+        assertEquals(LangInteger.NaN, LangInteger.NaN.bitAnd(i1));
+    }
 }

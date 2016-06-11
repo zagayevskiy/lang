@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 public class BitShiftRightInstruction extends AbsBinaryIntInstruction {
 
+    @Nonnull
     @Override
     protected LangInteger execute(@Nonnull LangInteger left, @Nonnull LangInteger right) {
         return left.shiftRight(right);

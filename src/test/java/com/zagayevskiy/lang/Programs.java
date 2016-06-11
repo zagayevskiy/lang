@@ -38,7 +38,8 @@ public class Programs {
         p("main { var x = 10, y = 15; x*y/5%7*100/20*(x + y*123); }", 10*15/5%7*100/20*(10 + 15*123));
         p("main { ~1357; }", ~1357);
         p("main { var x = 123, y = ~(x + 2); x=~(x+1); ~y; }", ~(~(123 + 2)));
-        p("main {var a = 1, b = 2, c = 7, x = a, z = b, y = c;} ", 7);
+        p("main { (4096*4096 - 1) & (100000 + 255); } ", (4096*4096 - 1) & (100000 + 255));
+        p("main { var a = 1, b = 2, c = 7, x = a, z = b, y = c;} ", 7);
         p("main { var x, y, z=123, t, qwerty = 971,\n asdf=345; var g, h, k; \n var temp = qwerty; }", 971);
         p("main { 1; var x = 2; var y = (x + 1), z = y + 2;  x * 10; var result = x<<y<<z<<4; }", 2 << 3 << 5 << 4);
         p("main { var x = 10; var y = x + 5; }", 15);
