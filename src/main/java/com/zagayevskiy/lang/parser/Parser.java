@@ -1,15 +1,14 @@
 package com.zagayevskiy.lang.parser;
 
 import com.zagayevskiy.lang.logging.Logger;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
-import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
-import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
@@ -569,8 +568,7 @@ public class Parser {
             return true;
         }
 
-        return defIntConst() |
-                defBooleanConst() |
+        return defConst() |
                 expressionInParenthesis() |
                 defNewArray() |
                 newStructInstance() |
@@ -811,32 +809,12 @@ public class Parser {
         return true;
     }
 
-    private boolean defIntConst() {
-        if (token.type != Token.INTEGER) {
+    private boolean defConst() {
+        final Instruction constInstruction = Mapper.constant(token);
+        if (constInstruction == null) {
             return false;
         }
-
-        final int intValue = Integer.parseInt(token.value);
-        functionClassBuilder.addInstruction(LangInteger.from(intValue));
-        nextToken();
-
-        return true;
-    }
-
-    private boolean defBooleanConst() {
-
-        switch (token.type) {
-            case Token.TRUE:
-                functionClassBuilder.addInstruction(LangBoolean.TRUE);
-                break;
-
-            case Token.FALSE:
-                functionClassBuilder.addInstruction(LangBoolean.FALSE);
-                break;
-
-            default:
-                return false;
-        }
+        functionClassBuilder.addInstruction(constInstruction);
 
         nextToken();
         return true;

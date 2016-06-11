@@ -120,6 +120,12 @@ public class InputStreamTokenizer implements Tokenizer {
 
         assert !currentChar.isEmpty();
 
+
+        final Token stringConstToken = tryReadStringConst();
+        if (stringConstToken != null) {
+            return stringConstToken;
+        }
+
         StringBuilder buffer = new StringBuilder(currentChar);
 
         if (Character.isDigit(currentChar.charAt(0))) {
@@ -134,7 +140,7 @@ public class InputStreamTokenizer implements Tokenizer {
 
         if (Character.isAlphabetic(currentChar.charAt(0))) {
             nextChar();
-            while (Character.isAlphabetic(currentChar.charAt(0))) {
+            while (Character.isLetterOrDigit(currentChar.charAt(0))) {
                 buffer.append(currentChar);
                 nextChar();
             }
@@ -183,6 +189,28 @@ public class InputStreamTokenizer implements Tokenizer {
         }
     }
 
+    @Nullable
+    private Token tryReadStringConst() throws IOException {
+        assert currentChar != null;
+        if (currentChar.charAt(0) != '\"' && currentChar.charAt(0) != '\'') {
+            return null;
+        }
+        final String waitFor = currentChar;
+        final int beginPosition = currentIndex;
+        final int beginLineNumber = lineNumber;
+        final StringBuilder buffer = new StringBuilder();
+        nextChar();
+        while (currentChar != null) {
+            if (waitFor.equals(currentChar)) {
+                nextChar();
+                return new Token(Token.STRING, buffer.toString(), beginPosition, beginLineNumber);
+            }
+            buffer.append(currentChar);
+            nextChar();
+        }
+        return null;
+    }
+
     //TODO: remove
     private List<String> linesDebug = new ArrayList<>();
     @Nullable
@@ -218,6 +246,12 @@ public class InputStreamTokenizer implements Tokenizer {
 
             if (currentLine == null) {
                 currentChar = null;
+                return;
+            }
+
+            if (currentLine.isEmpty()) {
+                currentChar = "\n";
+                ++currentIndex;
                 return;
             }
 

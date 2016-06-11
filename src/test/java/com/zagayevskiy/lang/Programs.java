@@ -7,6 +7,7 @@ import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
+import com.zagayevskiy.lang.utils.Bottles99;
 import javafx.util.Pair;
 
 import javax.annotation.Nonnull;
@@ -21,13 +22,18 @@ public class Programs {
         f("sources/sum_recursive_argument_10.js", 55);
         f("sources/fibonacci_recursive_argument_46.js", 1836311903);
         f("sources/fibonacci_recursive_with_lambda_argument_46.js", 1836311903);
+        f("sources/99_bottles_recursive.txt", Bottles99.TEXT);
     }
 
     static {
 //        p("main{;}", LangUndefined.INSTANCE);
+        p("main {'\n\n\n';}", "\n\n\n");
+        p("main {'Hello' + ', ' + 'world!'; }", "Hello, world!" );
         p("main {{{{{{{{{{13579;}}}}}}}}}}", 13579);
         p("main { 2 + 3 * (1 - 17 + (1 << 1) * 2) - 22; }", 2 + 3 * (1 - 17 + (1 << 1) * 2) - 22);
         p("main { -1; }", -1);
+        p("main { \"'qwerty'\"; } ", "'qwerty'");
+        p("main { '\"qwerty\"'; } ", "\"qwerty\"");
         p("main { 200 + -100 - -100 + -100 ; }", 200 + -100 - -100 + -100);
         p("main { 1024 >> 1 >> 3 << 10; }", 1024 >> 1 >> 3 << 10);
         p("main { var x = 2; x == 2 && x != 3; }", true);

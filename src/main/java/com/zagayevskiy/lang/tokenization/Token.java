@@ -7,6 +7,7 @@ public class Token {
     public static final int FINISH = 0x0;
     public static final int IDENTIFIER = 0x1;
     public static final int INTEGER = 0x2;
+    public static final int STRING = 0x3;
 
     public static final int ASSIGN = 0x10;
     public static final int EQUALS = 0x11;
