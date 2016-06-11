@@ -11,6 +11,7 @@ public interface Instruction {
     Instruction ARRAY_DEREFERENCE = new ArrayDereferenceInstruction();
     Instruction ASSIGN = new AssignInstruction();
     Instruction BIT_SHIFT_LEFT = new BitShiftLeftInstruction();
+    Instruction BIT_SHIFT_RIGHT = new BitShiftRightInstruction();
     Instruction CALL = new CallInstruction();
     Instruction GREATER = new GreaterInstruction();
     Instruction JUMP = new JumpInstruction();

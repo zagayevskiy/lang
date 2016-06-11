@@ -466,12 +466,15 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.BIT_SHIFT_LEFT) { //TODO: >>
+        while (token.type == Token.BIT_SHIFT_LEFT | token.type == Token.BIT_SHIFT_RIGHT) {
+            Instruction shiftInstruction = token.type == Token.BIT_SHIFT_LEFT
+                    ? Instruction.BIT_SHIFT_LEFT
+                    : Instruction.BIT_SHIFT_RIGHT;
             nextToken();
             if (!addition()) {
                 return false;
             }
-            functionClassBuilder.addInstruction(Instruction.BIT_SHIFT_LEFT);
+            functionClassBuilder.addInstruction(shiftInstruction);
         }
 
         return true;
