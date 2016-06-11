@@ -11,6 +11,7 @@ public class Token {
 
     public static final int ASSIGN = 4;
     public static final int EQUALS = 5;
+    public static final int NOT_EQUALS = 6;
 
     public static final int BIT_OR = 8;
     public static final int BIT_AND = 9;

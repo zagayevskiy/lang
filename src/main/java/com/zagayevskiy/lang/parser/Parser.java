@@ -435,11 +435,15 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.EQUALS) { //TODO: !=
+        while (token.type == Token.EQUALS | token.type == Token.NOT_EQUALS) {
+            final Instruction equalsInstruction = token.type == Token.EQUALS
+                    ? Instruction.EQUALS
+                    : Instruction.NOT_EQUALS;
             nextToken();
             if (!comparison()) {
                 return false;
             }
+            functionClassBuilder.addInstruction(equalsInstruction);
         }
 
         return true;
@@ -467,7 +471,7 @@ public class Parser {
         }
 
         while (token.type == Token.BIT_SHIFT_LEFT | token.type == Token.BIT_SHIFT_RIGHT) {
-            Instruction shiftInstruction = token.type == Token.BIT_SHIFT_LEFT
+            final Instruction shiftInstruction = token.type == Token.BIT_SHIFT_LEFT
                     ? Instruction.BIT_SHIFT_LEFT
                     : Instruction.BIT_SHIFT_RIGHT;
             nextToken();

@@ -17,6 +17,7 @@ public class InputStreamTokenizer implements Tokenizer {
         mapSymbol("*", Token.ASTERISK);
         mapSymbol("=", Token.ASSIGN);
         mapSymbol("==", Token.EQUALS);
+        mapSymbol("!=", Token.NOT_EQUALS);
 
         mapSymbol("|", Token.BIT_OR);
         mapSymbol("&", Token.BIT_AND);

@@ -28,6 +28,13 @@ public class Programs {
         p("main {{{{{{{{{{13579;}}}}}}}}}}", 13579);
         p("main { 2 + 3 * (1 - 17 + (1 << 1) * 2) - 22; }", 2 + 3 * (1 - 17 + (1 << 1) * 2) - 22);
         p("main { 1024 >> 1 >> 3 << 10; }", 1024 >> 1 >> 3 << 10);
+        p("main { var x = 2; x == 2 && x != 3; }", true);
+        p("main { var x = 2; x != 2 && x == 3; }", false);
+        p("main { var x = 2; x != 2 || x != 3; }", true);
+        p("main { var x = 2; x == 2 || x == 3; }", true);
+        p("main { var x = 2; x || x == 3; }", true);
+        p("main { var x = 0; x || x == 3; }", false);
+        p("main { var x = false; x || !x; }", true);
         p("main {var a = 1, b = 2, c = 7, x = a, z = b, y = c;} ", 7);
         p("main { var x, y, z=123, t, qwerty = 971,\n asdf=345; var g, h, k; \n var temp = qwerty; }", 971);
         p("main { 1; var x = 2; var y = (x + 1), z = y + 2;  x * 10; var result = x<<y<<z<<4; }", 2 << 3 << 5 << 4);
