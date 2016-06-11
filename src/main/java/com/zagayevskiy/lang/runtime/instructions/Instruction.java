@@ -19,7 +19,6 @@ public interface Instruction {
     Instruction CALL = new CallInstruction();
     Instruction DIVISION = new DivisionInstruction();
     Instruction EQUALS = new EqualsInstruction();
-    Instruction GREATER = new GreaterInstruction();
     Instruction JUMP = new JumpInstruction();
     Instruction JUMP_FALSE = new JumpFalseInstruction();
     Instruction LOGIC_AND = new LogicAndInstruction();

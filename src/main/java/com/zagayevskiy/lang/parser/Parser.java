@@ -459,12 +459,13 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.GREATER) { //TODO: >=, <, <=
+        for (Instruction i; (i = Mapper.comparison(token))!= null; ) {
             nextToken();
             if (!bitShifting()) {
+                log("expression expected after " + i.toString());
                 return false;
             }
-            functionClassBuilder.addInstruction(Instruction.GREATER);
+            functionClassBuilder.addInstruction(i);
         }
 
         return true;

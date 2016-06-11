@@ -5,9 +5,8 @@ import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
-public class LangInteger extends AbsLangObject implements Operand {
+public class LangInteger extends AbsLangObject implements Operand, Comparable<LangInteger> {
 
     public static final LangInteger NaN = new LangInteger(0, true);
 
@@ -95,6 +94,11 @@ public class LangInteger extends AbsLangObject implements Operand {
         return result;
     }
 
+    @Override
+    public int compareTo(@Nonnull LangInteger other) {
+        return intValue - other.intValue;
+    }
+
     @Nonnull
     public LangInteger shiftLeft(@Nonnull LangInteger by) {
         return from(intValue << by.intValue, isNan || by.isNan);
@@ -147,10 +151,5 @@ public class LangInteger extends AbsLangObject implements Operand {
     @Nonnull
     public LangInteger minus(@Nonnull LangInteger right) {
         return from(intValue - right.intValue, isNan || right.isNan);
-    }
-
-    @Nonnull
-    public LangBoolean greater(@Nonnull LangInteger right) {
-        return LangBoolean.from((!isNan && !right.isNan) && (intValue > right.intValue));
     }
 }

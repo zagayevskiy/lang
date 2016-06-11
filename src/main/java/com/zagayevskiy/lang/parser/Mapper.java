@@ -1,6 +1,7 @@
 package com.zagayevskiy.lang.parser;
 
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
+import com.zagayevskiy.lang.runtime.instructions.impl.CompareInstruction;
 import com.zagayevskiy.lang.tokenization.Token;
 
 import javax.annotation.Nonnull;
@@ -22,6 +23,17 @@ class Mapper {
         switch (token.type) {
             case Token.BIT_SHIFT_LEFT: return Instruction.BIT_SHIFT_LEFT;
             case Token.BIT_SHIFT_RIGHT: return Instruction.BIT_SHIFT_RIGHT;
+        }
+        return null;
+    }
+
+    @Nullable
+    static Instruction comparison(@Nonnull Token token) {
+        switch (token.type) {
+            case Token.GREATER: return CompareInstruction.GREATER;
+            case Token.GREATER_OR_EQUALS: return CompareInstruction.GREATER_OR_EQUALS;
+            case Token.LESS: return CompareInstruction.LESS;
+            case Token.LESS_OR_EQUALS: return CompareInstruction.LESS_OR_EQUALS;
         }
         return null;
     }

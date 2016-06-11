@@ -1,10 +1,11 @@
 package com.zagayevskiy.lang.runtime.types.primitive;
 
 import com.zagayevskiy.lang.runtime.types.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
-public class LangString extends AbsLangObject {
+public class LangString extends AbsLangObject implements Comparable<LangObject> {
 
     @Nonnull
     public final String stringValue;
@@ -43,6 +44,11 @@ public class LangString extends AbsLangObject {
     }
 
     @Override
+    public int compareTo(@Nonnull LangObject other) {
+        return stringValue.compareTo(other.toLangString().stringValue);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -50,7 +56,6 @@ public class LangString extends AbsLangObject {
         LangString that = (LangString) o;
 
         return stringValue.equals(that.stringValue);
-
     }
 
     @Override

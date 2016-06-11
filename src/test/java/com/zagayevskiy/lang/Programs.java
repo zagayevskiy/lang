@@ -41,6 +41,7 @@ public class Programs {
         p("main { (4096*4096 - 1) & (100000 + 255); } ", (4096*4096 - 1) & (100000 + 255));
         p("main { 1020304 ^ (102030 << 1) | (255<<4); }", 1020304 ^ (102030 << 1) | (255<<4));
         p("main { var a = 1, b = 2, c = 7, x = a, z = b, y = c;} ", 7);
+        p("main { var x = 7; !(x/7 > 2) && 5 < x && x + 3 <= 10 && x*2 >= 10 && 7 >= x && 14 <= x<<1; }", true);
         p("main { var x, y, z=123, t, qwerty = 971,\n asdf=345; var g, h, k; \n var temp = qwerty; }", 971);
         p("main { 1; var x = 2; var y = (x + 1), z = y + 2;  x * 10; var result = x<<y<<z<<4; }", 2 << 3 << 5 << 4);
         p("main { var x = 10; var y = x + 5; }", 15);
