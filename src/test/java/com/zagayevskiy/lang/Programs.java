@@ -35,6 +35,7 @@ public class Programs {
         p("main { var x = 2; x || x == 3; }", true);
         p("main { var x = 0; x || x == 3; }", false);
         p("main { var x = false; x || !x; }", true);
+        p("main { var x = 10, y = 15; x*y/5%7*100/20*(x + y*123); }", 10*15/5%7*100/20*(10 + 15*123));
         p("main { ~1357; }", ~1357);
         p("main { var x = 123, y = ~(x + 2); x=~(x+1); ~y; }", ~(~(123 + 2)));
         p("main {var a = 1, b = 2, c = 7, x = a, z = b, y = c;} ", 7);

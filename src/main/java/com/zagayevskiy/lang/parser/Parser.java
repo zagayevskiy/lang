@@ -510,12 +510,13 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.ASTERISK) { //TODO: /, %
+        for (Instruction i; (i = Mapper.multiplication(token)) != null; ) {
             nextToken();
             if (!unary()) {
+                log("expression expected after " + i.toString());
                 return false;
             }
-            functionClassBuilder.addInstruction(Instruction.MULTIPLY);
+            functionClassBuilder.addInstruction(i);
         }
 
         return true;

@@ -15,6 +15,9 @@ public class InputStreamTokenizer implements Tokenizer {
         mapSymbol("+", Token.PLUS);
         mapSymbol("-", Token.MINUS);
         mapSymbol("*", Token.ASTERISK);
+        mapSymbol("%", Token.PERCENT);
+        mapSymbol("/", Token.SLASH);
+
         mapSymbol("=", Token.ASSIGN);
         mapSymbol("==", Token.EQUALS);
         mapSymbol("!=", Token.NOT_EQUALS);
@@ -64,8 +67,8 @@ public class InputStreamTokenizer implements Tokenizer {
     }
 
     private static void mapSymbol(@Nonnull String value, int tokenType) {
-        assert !SYMBOL_TOKENS.containsKey(value);
-        assert !SYMBOL_TOKENS.containsValue(tokenType);
+        if (SYMBOL_TOKENS.containsKey(value)) throw new IllegalStateException("already exists " + value);
+        if (SYMBOL_TOKENS.containsValue(tokenType)) throw new IllegalStateException(String.format("already exists 0x%h", tokenType));
         SYMBOL_TOKENS.put(value, tokenType);
     }
 

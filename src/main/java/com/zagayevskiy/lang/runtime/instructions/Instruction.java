@@ -14,6 +14,7 @@ public interface Instruction {
     Instruction BIT_SHIFT_LEFT = new BitShiftLeftInstruction();
     Instruction BIT_SHIFT_RIGHT = new BitShiftRightInstruction();
     Instruction CALL = new CallInstruction();
+    Instruction DIVISION = new DivisionInstruction();
     Instruction EQUALS = new EqualsInstruction();
     Instruction GREATER = new GreaterInstruction();
     Instruction JUMP = new JumpInstruction();
@@ -22,6 +23,7 @@ public interface Instruction {
     Instruction LOGIC_NOT = new LogicNotInstruction();
     Instruction LOGIC_OR = new LogicOrInstruction();
     Instruction MINUS = new MinusInstruction();
+    Instruction MOD = new ModInstruction();
     Instruction MULTIPLY = new MultiplyInstruction();
     Instruction NEW_ARRAY = new NewArrayInstruction();
     Instruction NEW_STRUCT_INSTANCE = new NewStructInstanceInstruction();

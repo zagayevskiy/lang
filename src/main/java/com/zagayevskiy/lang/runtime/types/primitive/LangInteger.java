@@ -110,6 +110,20 @@ public class LangInteger extends AbsLangObject implements Operand {
     }
 
     @Nonnull
+    public LangInteger mod(@Nonnull LangInteger by) {
+        return by.intValue == 0
+                ? NaN
+                : from(intValue % by.intValue, isNan || by.isNan);
+    }
+
+    @Nonnull
+    public LangInteger divide(@Nonnull LangInteger by) {
+        return by.intValue == 0
+                ? NaN
+                : from(intValue / by.intValue, isNan || by.isNan);
+    }
+
+    @Nonnull
     public LangInteger bitNot() {
         return from(~intValue, isNan);
     }
