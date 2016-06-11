@@ -152,4 +152,9 @@ public class LangInteger extends AbsLangObject implements Operand, Comparable<La
     public LangInteger minus(@Nonnull LangInteger right) {
         return from(intValue - right.intValue, isNan || right.isNan);
     }
+
+    @Nonnull
+    public LangInteger negate() {
+        return from(-intValue, isNan);
+    }
 }

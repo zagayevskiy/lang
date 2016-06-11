@@ -34,4 +34,5 @@ public interface Instruction {
     Instruction PLUS = new PlusInstruction();
     Instruction POP = new PopInstruction();
     Instruction PROPERTY_DEREFERENCE = new PropertyDereference();
+    Instruction UNARY_MINUS = new UnaryMinusInstruction();
 }

@@ -524,16 +524,7 @@ public class Parser {
 
     private boolean unary() {
 
-        Instruction unaryInstruction = null;
-        switch (token.type) {
-            case Token.LOGIC_NOT:
-                unaryInstruction = Instruction.LOGIC_NOT;
-                break;
-            case Token.BIT_NOT:
-                unaryInstruction = Instruction.BIT_NOT;
-                break;
-        }
-
+        final Instruction unaryInstruction = Mapper.unary(token);
         if (unaryInstruction != null) {
             nextToken();
             if (!defValue()) {

@@ -56,4 +56,14 @@ class Mapper {
         }
         return null;
     }
+
+    @Nullable
+    static Instruction unary(@Nonnull Token token) {
+        switch (token.type) {
+            case Token.LOGIC_NOT: return Instruction.LOGIC_NOT;
+            case Token.BIT_NOT: return Instruction.BIT_NOT;
+            case Token.MINUS: return Instruction.UNARY_MINUS;
+        }
+        return null;
+    }
 }
