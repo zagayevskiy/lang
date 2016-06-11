@@ -393,8 +393,10 @@ public class Parser {
         while (token.type == Token.BIT_OR) {
             nextToken();
             if (!bitXor()) {
+                log("expression expected after |");
                 return false;
             }
+            functionClassBuilder.addInstruction(Instruction.BIT_OR);
         }
 
         return true;
@@ -408,8 +410,10 @@ public class Parser {
         while (token.type == Token.BIT_XOR) {
             nextToken();
             if (!bitAnd()) {
+                log("expression expected after ^");
                 return false;
             }
+            functionClassBuilder.addInstruction(Instruction.BIT_XOR);
         }
 
         return true;
@@ -438,15 +442,13 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.EQUALS | token.type == Token.NOT_EQUALS) {
-            final Instruction equalsInstruction = token.type == Token.EQUALS
-                    ? Instruction.EQUALS
-                    : Instruction.NOT_EQUALS;
+        for (Instruction i; (i = Mapper.equality(token)) != null; ) {
             nextToken();
             if (!comparison()) {
+                log("expression expected after " + i.toString());
                 return false;
             }
-            functionClassBuilder.addInstruction(equalsInstruction);
+            functionClassBuilder.addInstruction(i);
         }
 
         return true;
@@ -473,15 +475,12 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.BIT_SHIFT_LEFT | token.type == Token.BIT_SHIFT_RIGHT) {
-            final Instruction shiftInstruction = token.type == Token.BIT_SHIFT_LEFT
-                    ? Instruction.BIT_SHIFT_LEFT
-                    : Instruction.BIT_SHIFT_RIGHT;
+        for (Instruction i; (i = Mapper.bitShift(token)) != null; ) {
             nextToken();
             if (!addition()) {
                 return false;
             }
-            functionClassBuilder.addInstruction(shiftInstruction);
+            functionClassBuilder.addInstruction(i);
         }
 
         return true;
@@ -492,17 +491,14 @@ public class Parser {
             return false;
         }
 
-        while (token.type == Token.PLUS | token.type == Token.MINUS) {
-            final Instruction additionInstruction = token.type == Token.PLUS
-                    ? Instruction.PLUS
-                    : Instruction.MINUS;
-
+        for (Instruction i; (i = Mapper.addition(token)) != null; ) {
             nextToken();
             if (!multiplication()) {
+                log("expression expected after " + i.toString());
                 return false;
             }
 
-            functionClassBuilder.addInstruction(additionInstruction);
+            functionClassBuilder.addInstruction(i);
         }
 
         return true;

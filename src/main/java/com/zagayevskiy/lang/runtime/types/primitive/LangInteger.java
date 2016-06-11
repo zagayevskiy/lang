@@ -135,6 +135,16 @@ public class LangInteger extends AbsLangObject implements Operand {
     }
 
     @Nonnull
+    public LangInteger bitOr(@Nonnull LangInteger with) {
+        return from(intValue | with.intValue, isNan || with.isNan);
+    }
+
+    @Nonnull
+    public LangInteger bitXor(@Nonnull LangInteger with) {
+        return from(intValue ^ with.intValue, isNan || with.isNan);
+    }
+
+    @Nonnull
     public LangInteger minus(@Nonnull LangInteger right) {
         return from(intValue - right.intValue, isNan || right.isNan);
     }

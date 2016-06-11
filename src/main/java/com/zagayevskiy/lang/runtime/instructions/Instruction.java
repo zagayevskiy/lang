@@ -12,6 +12,8 @@ public interface Instruction {
     Instruction ASSIGN = new AssignInstruction();
     Instruction BIT_AND = new BitAndInstruction();
     Instruction BIT_NOT = new BitNotInstruction();
+    Instruction BIT_OR = new BitOrInstruction();
+    Instruction BIT_XOR = new BitXorInstruction();
     Instruction BIT_SHIFT_LEFT = new BitShiftLeftInstruction();
     Instruction BIT_SHIFT_RIGHT = new BitShiftRightInstruction();
     Instruction CALL = new CallInstruction();
