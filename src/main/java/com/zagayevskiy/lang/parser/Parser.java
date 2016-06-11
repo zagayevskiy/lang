@@ -101,7 +101,7 @@ public class Parser {
             return false;
         }
         if (programBuider.getStruct(token.value) != null) {
-            log(token.value + " struct already defined" );
+            log(token.value + " struct already defined");
         }
         final LangStructClass struct = new LangStructClass(token.value);
 
@@ -529,14 +529,14 @@ public class Parser {
                 unaryInstruction = Instruction.LOGIC_NOT;
                 break;
             case Token.BIT_NOT:
-                //TODO unaryInstruction = Instruction.BIT_NOT
+                unaryInstruction = Instruction.BIT_NOT;
                 break;
         }
 
         if (unaryInstruction != null) {
             nextToken();
             if (!defValue()) {
-                log("arrayList expected afted " + unaryInstruction.toString());
+                log("value expected after " + unaryInstruction.toString());
                 return false;
             }
 
@@ -625,7 +625,7 @@ public class Parser {
                 return false;
             }
             savedBuilder.addInstruction(functionClassBuilder.getStub());
-        }finally {
+        } finally {
             functionClassBuilder = savedBuilder;
         }
 

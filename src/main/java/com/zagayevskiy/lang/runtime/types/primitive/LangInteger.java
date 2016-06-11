@@ -110,6 +110,11 @@ public class LangInteger extends AbsLangObject implements Operand {
     }
 
     @Nonnull
+    public LangInteger bitNot() {
+        return from(~intValue, isNan);
+    }
+
+    @Nonnull
     public LangInteger minus(@Nonnull LangInteger right) {
         return from(intValue - right.intValue, isNan || right.isNan);
     }

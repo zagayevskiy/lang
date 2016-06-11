@@ -10,6 +10,7 @@ public interface Instruction {
 
     Instruction ARRAY_DEREFERENCE = new ArrayDereferenceInstruction();
     Instruction ASSIGN = new AssignInstruction();
+    Instruction BIT_NOT = new BitNotInstruction();
     Instruction BIT_SHIFT_LEFT = new BitShiftLeftInstruction();
     Instruction BIT_SHIFT_RIGHT = new BitShiftRightInstruction();
     Instruction CALL = new CallInstruction();
