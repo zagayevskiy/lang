@@ -1,0 +1,12 @@
+function words(flag) {
+    if (flag) {
+        return "Hello " + words(false);
+    } else {
+        return "world";
+    }
+}
+
+
+main{
+    words(true);
+}

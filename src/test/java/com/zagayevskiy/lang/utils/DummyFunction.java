@@ -55,6 +55,10 @@ public class DummyFunction implements IFunction {
     public void jump(int position) {
     }
 
+    @Override
+    public void doReturn() {
+    }
+
     @Nonnull
     @Override
     public LangBoolean toLangBoolean() {

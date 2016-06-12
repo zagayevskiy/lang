@@ -72,6 +72,11 @@ public class Function implements IFunction {
     }
 
     @Override
+    public void doReturn() {
+        jump(instructions.size());
+    }
+
+    @Override
     public String toString() {
         return "func " + name;
     }

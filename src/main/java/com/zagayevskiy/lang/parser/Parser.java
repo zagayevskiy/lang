@@ -215,7 +215,28 @@ public class Parser {
                 defVariables() |
                 expressionOperator() |
                 ifOperator() |
+                returnOperator() |
                 emptyOperator();
+    }
+
+    private boolean returnOperator() {
+        if (token.type != Token.RETURN) {
+            return false;
+        }
+
+        nextToken();
+        if (!expression()) {
+            log("expression expected after 'return'");
+            return false;
+        }
+
+        if (token.type != Token.SEMICOLON) {
+            log("';' expected");
+            return false;
+        }
+
+        functionClassBuilder.addInstruction(Instruction.RETURN);
+        return true;
     }
 
     private boolean ifOperator() {

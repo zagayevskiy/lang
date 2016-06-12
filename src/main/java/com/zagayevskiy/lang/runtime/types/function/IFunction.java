@@ -23,4 +23,6 @@ public interface IFunction extends LangObject {
     LangObject execute();
 
     void jump(int position);
+
+    void doReturn();
 }

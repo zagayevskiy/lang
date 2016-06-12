@@ -58,6 +58,7 @@ public class InputStreamTokenizer implements Tokenizer {
         mapKeyword("struct", Token.STRUCT);
         mapKeyword("var", Token.VAR);
         mapKeyword("new", Token.NEW);
+        mapKeyword("return", Token.RETURN);
 
         mapKeyword("true", Token.TRUE);
         mapKeyword("false", Token.FALSE);
@@ -73,8 +74,8 @@ public class InputStreamTokenizer implements Tokenizer {
     }
 
     private static void mapKeyword(@Nonnull String keyword, int tokenType) {
-        assert !KEYWORD_TOKENS.containsKey(keyword);
-        assert !KEYWORD_TOKENS.containsValue(tokenType);
+        if (KEYWORD_TOKENS.containsKey(keyword)) throw new IllegalStateException("already exists " + keyword);
+        if (KEYWORD_TOKENS.containsValue(tokenType)) throw new IllegalStateException(String.format("already exists 0x%h", tokenType));
         KEYWORD_TOKENS.put(keyword, tokenType);
     }
 

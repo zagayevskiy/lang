@@ -84,4 +84,9 @@ public class SpyFunctionClass implements IFunctionClass {
     public void execute(@Nonnull IFunction function) {
         inner.execute(function);
     }
+
+    @Override
+    public String toString() {
+        return "spy$" + inner.toString();
+    }
 }

@@ -49,4 +49,9 @@ public class CallInstruction implements Instruction {
 
         context.pushOperand(functionClass.newInstance(arguments).execute());
     }
+
+    @Override
+    public String toString() {
+        return "CALL";
+    }
 }

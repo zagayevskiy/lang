@@ -19,6 +19,7 @@ public class Programs {
     public static final List<Pair<String, LangObject>> FILES = new ArrayList<>();
 
     static {
+        f("sources/return_test", "Hello world");
         f("sources/sum_recursive_argument_10.js", 55);
         f("sources/fibonacci_recursive_argument_46.js", 1836311903);
         f("sources/fibonacci_recursive_with_lambda_argument_46.js", 1836311903);
@@ -119,6 +120,7 @@ public class Programs {
         p("main { \\(x, y)(x + y)(10, 20); }", 10 + 20);
         p("main { \\(x, y){ var z = x + y; z*50; }(10, 20); }", (10 + 20)*50);
         p("main { var x = { 11 + 12 + 13; }; } ", 11 + 12 + 13);
+        p("function f(b) { if (b) return 2; return 3; } main{ return f(true) + f(false); }", 5);
     }
 
     private static void f(String s, Object o) {
