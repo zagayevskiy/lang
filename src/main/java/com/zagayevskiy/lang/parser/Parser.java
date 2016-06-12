@@ -416,7 +416,7 @@ public class Parser {
         while (token.type == Token.BIT_OR) {
             nextToken();
             if (!bitXor()) {
-                log("expression expected after ||");
+                log("expression expected after |");
                 return false;
             }
             functionClassBuilder.addInstruction(Instruction.BIT_OR);

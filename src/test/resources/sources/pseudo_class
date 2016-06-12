@@ -1,0 +1,21 @@
+struct class {
+    a, setA,
+    b, setB
+}
+
+function createInstance (a) {
+    var instance = new class(a, "dummy", "dummy", "dummy");
+
+    instance->setA = \(self, a) { self->a = a; self; } (instance);
+    instance->setB = \(self, value) { self->b = value; self; } (instance);
+
+    instance;
+}
+
+main {
+    var instance = createInstance(100);
+    return instance
+        ->setA(100000)
+        ->setB(123456)
+        ->a + instance->b;
+}
