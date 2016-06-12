@@ -5,6 +5,7 @@ import com.zagayevskiy.lang.runtime.instructions.impl.CompareInstruction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import com.zagayevskiy.lang.tokenization.Token;
 
 import javax.annotation.Nonnull;
@@ -61,6 +62,8 @@ class Mapper {
                 return LangInteger.from(intValue);
             case Token.STRING:
                 return LangString.from(token.value);
+            case Token.UNDEFINED:
+                return LangUndefined.INSTANCE;
         }
         return null;
     }

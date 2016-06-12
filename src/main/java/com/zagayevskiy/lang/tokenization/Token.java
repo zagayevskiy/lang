@@ -56,6 +56,7 @@ public class Token {
     public static final int ELSE = 0x10000008;
     public static final int NEW = 0x10000009;
     public static final int RETURN = 0x1000000A;
+    public static final int UNDEFINED = 0x1000000B;
 
     public final int type;
     public final String value;

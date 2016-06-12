@@ -62,6 +62,7 @@ public class InputStreamTokenizer implements Tokenizer {
 
         mapKeyword("true", Token.TRUE);
         mapKeyword("false", Token.FALSE);
+        mapKeyword("undefined", Token.UNDEFINED);
 
         mapKeyword("if", Token.IF);
         mapKeyword("else", Token.ELSE);
