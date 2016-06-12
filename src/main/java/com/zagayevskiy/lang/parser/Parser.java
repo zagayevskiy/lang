@@ -7,6 +7,7 @@ import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
@@ -216,7 +217,82 @@ public class Parser {
                 expressionOperator() ||
                 ifOperator() ||
                 returnOperator() ||
+                loopFor() ||
                 emptyOperator();
+    }
+
+    private boolean loopFor() {
+        if (token.type != Token.FOR) {
+            return false;
+        }
+        nextToken();
+
+        if (token.type != Token.PARENTHESIS_OPEN) {
+            log("'(' expected after 'for'");
+            return false;
+        }
+        nextToken();
+
+        //for(HERE; ...; ...) ...
+        if (!expression()) {
+            functionClassBuilder.addInstruction(LangUndefined.INSTANCE);
+        }
+        if (token.type != Token.SEMICOLON) {
+            log("';' expected");
+            return false;
+        }
+        nextToken();
+        final LangInteger conditionAddress = LangInteger.from(functionClassBuilder.getInstructionsCount());
+        //for(...; HERE; ...) ...
+        if (!expression()) {
+            functionClassBuilder.addInstruction(LangBoolean.TRUE);
+        }
+        final int pasteOutsideAddressHere = functionClassBuilder.getInstructionsCount();
+        final int pasteBodyBeginAddressHere = pasteOutsideAddressHere + 3;
+        functionClassBuilder
+                .addInstruction(Instruction.NOP)
+                .addInstruction(Instruction.JUMP_FALSE)
+                .addInstruction(Instruction.POP)  //Just to pop initialization result or previous step result
+                .addInstruction(Instruction.NOP)
+                .addInstruction(Instruction.JUMP);
+
+        if (token.type != Token.SEMICOLON) {
+            log("';' expected");
+            return false;
+        }
+        nextToken();
+
+        final LangInteger stepAddress = LangInteger.from(functionClassBuilder.getInstructionsCount());
+        //for (...; ...; HERE) ...
+        if (expression()) {
+            functionClassBuilder.addInstruction(Instruction.POP);
+        }
+        functionClassBuilder
+                .addInstruction(conditionAddress)
+                .addInstruction(LangInteger.JUMP);
+
+        if (token.type != Token.PARENTHESIS_CLOSE) {
+            log("')' expected after 'for'");
+            return false;
+        }
+        nextToken();
+
+        functionClassBuilder.putInstruction(
+                LangInteger.from(functionClassBuilder.getInstructionsCount()),
+                pasteBodyBeginAddressHere);
+
+        //for (...;...;...) HERE
+        if (!operator()) {
+            log("operator expected after 'for(...)'");
+            return false;
+        }
+
+        functionClassBuilder
+                .addInstruction(stepAddress)
+                .addInstruction(Instruction.JUMP)
+                .putInstruction(LangInteger.from(functionClassBuilder.getInstructionsCount()), pasteOutsideAddressHere);
+
+        return true;
     }
 
     private boolean returnOperator() {

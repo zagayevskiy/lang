@@ -66,6 +66,8 @@ public class InputStreamTokenizer implements Tokenizer {
 
         mapKeyword("if", Token.IF);
         mapKeyword("else", Token.ELSE);
+
+        mapKeyword("for", Token.FOR);
     }
 
     private static void mapSymbol(@Nonnull String value, int tokenType) {

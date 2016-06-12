@@ -22,9 +22,12 @@ public class Programs {
         f("sources/pseudo_class", 100000 + 123456);
         f("sources/return_test", "Hello world");
         f("sources/sum_recursive_argument_10.js", 55);
+        f("sources/sum_for_loop_argument_10.js", 55);
         f("sources/fibonacci_recursive_argument_46.js", 1836311903);
+        f("sources/fibonacci_for_loop_argument_46.js", 1836311903);
         f("sources/fibonacci_recursive_with_lambda_argument_46.js", 1836311903);
         f("sources/99_bottles_recursive.txt", Bottles99.TEXT);
+        f("sources/99_bottles_for_loop.txt", Bottles99.TEXT);
     }
 
     static {
@@ -124,6 +127,16 @@ public class Programs {
         p("main { \\(x, y){ var z = x + y; z*50; }(10, 20); }", (10 + 20)*50);
         p("main { var x = { 11 + 12 + 13; }; } ", 11 + 12 + 13);
         p("function f(b) { if (b) return 2; return 3; } main{ return f(true) + f(false); }", 5);
+        p("main { var x = 0, i; for (i = 0; i < 100; i = i + 1) x = x + 2; return x; }", 200);
+        p("main { var x = 0, i = 0; for ( ; i < 50; i = i + 1) x = x + 2; return x; }", 100);
+        p("main { var x = 0, i = 100; for ( ; i > 0 ; ) { i = i - 1; x = x + 3; } return x; }", 300);
+        p("main { var x = 0, i = 100; for ( ; i < 100 ; ) { i = i + 1; x = x + 3; } return x; }", 0);
+        p("main { var x = 0; for (;;) { x = x + 1; if (x > 100) return x; } 10000; }", 101);
+        p("main { var x = 0; for (;; x = x + 1) { if (x > 100) return x; } 10000; }", 101);
+        p("main { var x; for (x = 0;; x = x + 1) { if (x > 100) return x; } 10000; }", 101);
+        p("main { for (100; false; 200); } ", 100);
+        p("main { 123; for (; false; 200) { return 456; } } ", LangUndefined.INSTANCE);
+        p("main { var x = 'qwerty'; for (x; false; );  }", "qwerty");
     }
 
     private static void f(String s, Object o) {
