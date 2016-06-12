@@ -27,7 +27,7 @@ public class Programs {
     }
 
     static {
-//        p("main{;}", LangUndefined.INSTANCE);
+        p("main{;}", LangUndefined.INSTANCE);
         p("main {'\n\n\n';}", "\n\n\n");
         p("main {'Hello' + ', ' + 'world!'; }", "Hello, world!" );
         p("main {{{{{{{{{{13579;}}}}}}}}}}", 13579);
@@ -64,6 +64,7 @@ public class Programs {
         p("main { if (false) 4; }", LangUndefined.INSTANCE);
         p("main { if (true) 100 + 200; else 300*700; }", 100 + 200);
         p("main { if (false) 10 * 222; else {3012*70013;} }", 3012 * 70013);
+        p("main { if (true) return 100; return 200; }", 100);
         p("main { if (1 + 3 - 2 * 2) { var x = 123; } else { var y = 321; }; true; false; 4223; x + y; }", LangUndefined.STRING_VALUE + 321);
         p("main { []; }", new LangArray());
         p("main { var x, array; array = [x, x, x]; }", array(LangUndefined.INSTANCE, LangUndefined.INSTANCE, LangUndefined.INSTANCE));

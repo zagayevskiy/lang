@@ -59,7 +59,7 @@ public class Parser {
 
     private boolean program() {
         //noinspection StatementWithEmptyBody
-        while (defFunction() | defStruct()) ;
+        while (defFunction() || defStruct()) ;
 
         return defMain();
     }
@@ -211,11 +211,11 @@ public class Parser {
     }
 
     private boolean operator() {
-        return block() |
-                defVariables() |
-                expressionOperator() |
-                ifOperator() |
-                returnOperator() |
+        return block() ||
+                defVariables() ||
+                expressionOperator() ||
+                ifOperator() ||
+                returnOperator() ||
                 emptyOperator();
     }
 
@@ -309,6 +309,7 @@ public class Parser {
             log("; expected after variables definition");
             return false;
         }
+        nextToken();
 
         return true;
     }
@@ -352,6 +353,7 @@ public class Parser {
         if (token.type != Token.SEMICOLON) {
             return false;
         }
+        functionClassBuilder.addInstruction(LangUndefined.INSTANCE);
         nextToken();
         return true;
     }
@@ -365,6 +367,7 @@ public class Parser {
             log("; expected");
             return false;
         }
+        nextToken();
 
         return true;
     }
@@ -378,7 +381,7 @@ public class Parser {
             nextToken();
 
             if (!conjunction()) {
-                log("sub-expression expected after '|'");
+                log("sub-expression expected after '||'");
                 return false;
             }
             functionClassBuilder.addInstruction(Instruction.LOGIC_OR);
@@ -413,7 +416,7 @@ public class Parser {
         while (token.type == Token.BIT_OR) {
             nextToken();
             if (!bitXor()) {
-                log("expression expected after |");
+                log("expression expected after ||");
                 return false;
             }
             functionClassBuilder.addInstruction(Instruction.BIT_OR);
@@ -589,11 +592,11 @@ public class Parser {
             return true;
         }
 
-        return defConst() |
-                expressionInParenthesis() |
-                defNewArray() |
-                newStructInstance() |
-                defLambda() |
+        return defConst() ||
+                expressionInParenthesis() ||
+                defNewArray() ||
+                newStructInstance() ||
+                defLambda() ||
                 block();
     }
 

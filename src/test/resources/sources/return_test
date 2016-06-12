@@ -1,9 +1,9 @@
 function words(flag) {
     if (flag) {
         return "Hello " + words(false);
-    } else {
-        return "world";
     }
+
+    return "world";
 }
 
 
