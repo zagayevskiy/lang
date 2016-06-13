@@ -19,6 +19,7 @@ public class Programs {
     public static final List<Pair<String, LangObject>> FILES = new ArrayList<>();
 
     static {
+        f("sources/HashMap.txt", true);
         f("sources/pseudo_class", 100000 + 123456);
         f("sources/return_test", "Hello world");
         f("sources/sum_recursive_argument_10.js", 55);

@@ -7,6 +7,7 @@ public interface Methods {
             new HashCodeProto(),
             new ToIntegerProto(),
             new ToStringProto(),
-            new SubStringProto()
+            new SubStringProto(),
+            new ArraySizeProto()
     };
 }

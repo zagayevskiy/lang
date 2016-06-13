@@ -1,0 +1,110 @@
+struct Entry {
+    hash, key, value
+}
+
+struct Node {
+    entry, next
+}
+
+struct HashMap {
+    buckets,
+    put,
+    get,
+    remove
+}
+
+function createHashMap(size) {
+    "size must be power of 2.";
+
+    var hashMap = new HashMap([], 0, 0, 0);
+    var i;
+
+    hashMap->buckets[size - 1] = undefined;
+
+    hashMap->get = \(map, key) {
+        var hash = key->hashCode(),
+            bucketNumber = (hash & map->buckets->size() - 1),
+            node = map->buckets[bucketNumber];
+        for(; node != undefined ; node = node->next) {
+            if (node->entry->hash == hash) {
+                return node->entry->value;
+            }
+        }
+        return undefined;
+    }(hashMap);
+
+    hashMap->put = \(map, key, value) {
+        var hash = key->hashCode(),
+            bucketNumber = (hash & map->buckets->size() - 1),
+            node = map->buckets[bucketNumber], prevNode = node;
+        for(; node != undefined; node = node->next) {
+            var entry = node->entry;
+            if (entry->hash == hash && entry->key == key) {
+                var prevValue = entry->value;
+                entry->value = value;
+                return prevValue;
+            }
+            prevNode = node;
+        }
+        node = new Node(new Entry(hash, key, value), undefined);
+        if (prevNode == undefined) {
+            map->buckets[bucketNumber] = node;
+            return undefined;
+        }
+        prevNode->next = node;
+        return undefined;
+    }(hashMap);
+
+    hashMap->remove = \(map, key) {
+        var hash = key->hashCode(),
+            bucketNumber = (hash & map->buckets->size() - 1),
+            node = map->buckets[bucketNumber], prevNode;
+        for (; node != undefined; ) {
+            var entry = node->entry;
+            if (entry->hash == hash && entry->key == key) {
+                if (prevNode == undefined) {
+                    map->buckets[bucketNumber] = node->next;
+                } else {
+                    prevNode->next = node->next;
+                }
+                return entry->value;
+            }
+            prevNode = node;
+            node = node->next;
+        }
+
+        return undefined;
+    }(hashMap);
+
+    hashMap;
+}
+
+main {
+    var map = createHashMap(64), i = 0, count = 500;
+
+    map->put('somekey', true);
+
+    for (i = 0; i < count; i = i + 1) {
+        map->put('key#' + i->toString(), i);
+        map->put(i, 123);
+        map->put("someconstkey", i);
+    }
+
+
+    if (map->get('someconstkey') != count - 1) return false;
+    if (map->remove('someconstkey') != count - 1) return false;
+    if (map->get('someconstkey') != undefined) return false;
+
+    for (i = count - 1; i > -1; i = i - 1) {
+        var actual = map->get("key#" + i->toString());
+        if (actual != i) return false;
+
+        actual = map->get(i);
+        if (actual != 123) return false;
+        if (map->remove(i) != 123) return false;
+        if (map->get(i) != undefined) return false;
+    }
+
+    return map->get('somekey');
+}
+
