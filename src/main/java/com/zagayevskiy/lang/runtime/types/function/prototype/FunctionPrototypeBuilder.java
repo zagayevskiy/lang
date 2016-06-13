@@ -32,13 +32,21 @@ public class FunctionPrototypeBuilder implements IFunctionPrototype.Builder {
     @Override
     public IFunctionPrototype getStub() {
         if (functionPrototype == null) {
-            functionPrototype = new FunctionPrototype(name,
+            functionPrototype = createStub(name,
                     Collections.unmodifiableList(variables),
                     argumentsCount,
                     Collections.unmodifiableList(instructions));
         }
         state = State.BUILD_BODY;
         return functionPrototype;
+    }
+
+    @Nonnull
+    protected IFunctionPrototype createStub(@Nonnull String name,
+                                            @Nonnull List<Variable> variables,
+                                            int argumentsCount,
+                                            @Nonnull List<Instruction> instructions) {
+        return new FunctionPrototype(name, variables, argumentsCount, instructions);
     }
 
     @Nonnull

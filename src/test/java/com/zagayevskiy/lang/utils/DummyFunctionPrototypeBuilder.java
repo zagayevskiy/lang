@@ -8,13 +8,13 @@ import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
-class DummyFunctionClassBuilder implements IFunctionPrototype.Builder {
+class DummyFunctionPrototypeBuilder implements IFunctionPrototype.Builder {
 
     private ArrayList<String> vars = new ArrayList<>();
     @Nonnull
-    private final String name;
+    final String name;
 
-    DummyFunctionClassBuilder(@Nonnull String name) {
+    DummyFunctionPrototypeBuilder(@Nonnull String name) {
         this.name = name;
     }
 

@@ -4,6 +4,8 @@ import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.classes.FunctionPrototypeClass;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.function.Function;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
@@ -31,7 +33,7 @@ public class FunctionPrototype implements IFunctionPrototype {
         this(name, variables, 0, argumentsCount, instructions);
     }
 
-    private FunctionPrototype(@Nonnull String name, @Nonnull List<Variable> variables, int firstArgumentIndex, int argumentsCount, @Nonnull List<Instruction> instructions) {
+    FunctionPrototype(@Nonnull String name, @Nonnull List<Variable> variables, int firstArgumentIndex, int argumentsCount, @Nonnull List<Instruction> instructions) {
         if (firstArgumentIndex < 0) {
             throw new IllegalArgumentException("firstArgumentIndex must be >= 0");
         }
@@ -66,11 +68,21 @@ public class FunctionPrototype implements IFunctionPrototype {
         if (argumentsCount <= arguments.size()) {
             throw new IllegalArgumentException("arguments count must be less than getArgumentsCount() to apply function partially");
         }
-        return new FunctionPrototype(name + "$partially",
+        return createPartiallyApplied(getName() + "$part",
                 bindArguments(arguments),
                 firstArgumentIndex + arguments.size(),
                 argumentsCount - arguments.size(),
                 instructions);
+    }
+
+    @Nonnull
+    protected IFunctionPrototype createPartiallyApplied(@Nonnull String name,
+                                                        @Nonnull List<Variable> arguments,
+                                                        int firstArgumentIndex,
+                                                        int argumentsCount,
+                                                        @Nonnull List<Instruction> instructions) {
+
+        return new FunctionPrototype(name, arguments, firstArgumentIndex, argumentsCount, instructions);
     }
 
     @Override
@@ -121,13 +133,13 @@ public class FunctionPrototype implements IFunctionPrototype {
 
     @Override
     public String toString() {
-        return getLangClassName();
+        return "function_proto$" + getName();
     }
 
     @Nonnull
     @Override
-    public String getLangClassName() {
-        return "function$" + name + "$" + argumentsCount;
+    public LangClass getLangClass() {
+        return FunctionPrototypeClass.INSTANCE;
     }
 
     @Nonnull
@@ -142,7 +154,7 @@ public class FunctionPrototype implements IFunctionPrototype {
 
         //apply already bound
         int i = 0;
-        for (Variable bound: variables) {
+        for (Variable bound : variables) {
             if (i >= firstArgumentIndex) {
                 break;
             }
@@ -150,7 +162,7 @@ public class FunctionPrototype implements IFunctionPrototype {
         }
 
         //bind new arguments
-        for (LangObject argument: arguments) {
+        for (LangObject argument : arguments) {
             if (argument == null) {
                 throw new IllegalArgumentException("Arguments must not be null.");
             }

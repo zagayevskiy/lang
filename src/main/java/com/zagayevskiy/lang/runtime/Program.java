@@ -4,6 +4,8 @@ import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.FunctionPrototypeBuilder;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
+import com.zagayevskiy.lang.runtime.types.function.prototype.MethodPrototypeBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -69,6 +71,13 @@ public class Program implements IProgram {
 
     public static class Factory implements IProgram.Factory {
         private int anonymousFunctionCount = 0;
+
+        @Nonnull
+        @Override
+        public IFunctionPrototype.Builder createAnonymousFunctionBuilder() {
+            return new FunctionPrototypeBuilder("lambda#" + String.valueOf(anonymousFunctionCount++));
+        }
+
         @Nonnull
         @Override
         public IFunctionPrototype.Builder createFunctionBuilder(@Nonnull String name) {
@@ -77,8 +86,8 @@ public class Program implements IProgram {
 
         @Nonnull
         @Override
-        public IFunctionPrototype.Builder createAnonymousFunctionBuilder() {
-            return new FunctionPrototypeBuilder("lambda#" + String.valueOf(anonymousFunctionCount++));
+        public IMethodPrototype.Builder createMethodBuilder(@Nonnull String name) {
+            return new MethodPrototypeBuilder(name);
         }
     }
 

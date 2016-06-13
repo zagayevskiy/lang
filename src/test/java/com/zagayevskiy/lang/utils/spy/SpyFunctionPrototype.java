@@ -2,6 +2,7 @@ package com.zagayevskiy.lang.utils.spy;
 
 import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
@@ -45,10 +46,10 @@ public class SpyFunctionPrototype implements IFunctionPrototype {
         return inner.getArgumentsCount();
     }
 
-    @Override
     @Nonnull
-    public String getLangClassName() {
-        return inner.getLangClassName();
+    @Override
+    public LangClass getLangClass() {
+        return inner.getLangClass();
     }
 
     @Override

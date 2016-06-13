@@ -2,6 +2,7 @@ package com.zagayevskiy.lang.utils.spy;
 
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -32,5 +33,12 @@ public class SpyProgramFactory implements IProgram.Factory {
         SpyFunctionClassBuilder spy = new SpyFunctionClassBuilder(factory.createAnonymousFunctionBuilder());
         spyFuncsClazzBuilders.put("spy#" + count++, spy);
         return spy;
+    }
+
+    @Nonnull
+    @Override
+    public IMethodPrototype.Builder createMethodBuilder(@Nonnull String name) {
+        //TODO spy
+        return factory.createMethodBuilder(name);
     }
 }

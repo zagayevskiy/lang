@@ -3,6 +3,7 @@ package com.zagayevskiy.lang.tokenization;
 public class Token {
     
     public static final String MAIN_NAME = "main";
+    public static final String SELF_NAME = "self";
 
     public static final int FINISH = 0x0;
     public static final int IDENTIFIER = 0x1;

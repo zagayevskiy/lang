@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LangStructClass extends AbsLangObject implements LangClass {
+//TODO refactor it!
+public class LangStructClass extends AbsLangObject {
 
     public final class InstanceBuilder {
         private final HashMap<String, LangObject> properties = new HashMap<>();
@@ -64,10 +65,6 @@ public class LangStructClass extends AbsLangObject implements LangClass {
         return this;
     }
 
-    public boolean hasProperty(@Nonnull String name) {
-        return propertiesNames.contains(name);
-    }
-
     public int getPropertiesCount() {
         return propertiesNames.size();
     }
@@ -108,12 +105,6 @@ public class LangStructClass extends AbsLangObject implements LangClass {
     @Override
     public int hashCode() {
         return name.hashCode();
-    }
-
-    @Nonnull
-    @Override
-    public String getLangClassName() {
-        return "struct@" + name;
     }
 
     @Nonnull

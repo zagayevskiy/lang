@@ -2,6 +2,7 @@ package com.zagayevskiy.lang.runtime.types;
 
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
@@ -34,4 +35,7 @@ public interface LangObject extends Instruction, Operand {
 
     @Nonnull
     LangObject plus(@Nonnull LangObject other);
+
+    @Nonnull
+    LangClass getLangClass();
 }

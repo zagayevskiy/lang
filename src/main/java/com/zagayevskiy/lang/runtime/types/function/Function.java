@@ -6,9 +6,6 @@ import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
-import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayDeque;
@@ -82,40 +79,5 @@ public class Function implements IContext, IFunction {
     @Override
     public String toString() {
         return "func " + name;
-    }
-
-    @Nonnull
-    @Override
-    public LangBoolean toLangBoolean() {
-        return LangBoolean.FALSE;
-    }
-
-    @Nonnull
-    @Override
-    public LangInteger toLangInteger() {
-        return LangInteger.NaN;
-    }
-
-    @Nonnull
-    @Override
-    public LangString toLangString() {
-        return LangString.from(toString());
-    }
-
-    @Nonnull
-    @Override
-    public LangObject plus(@Nonnull LangObject other) {
-        return LangString.from(toLangString().stringValue + other.toLangString().stringValue);
-    }
-
-    @Nonnull
-    @Override
-    public LangObject getValue(@Nonnull IContext function) {
-        return this;
-    }
-
-    @Override
-    public void execute(@Nonnull IContext context) {
-        context.pushOperand(this);
     }
 }

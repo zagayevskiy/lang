@@ -10,6 +10,7 @@ public interface Instruction {
 
     Instruction ARRAY_DEREFERENCE = new ArrayDereferenceInstruction();
     Instruction ASSIGN = new AssignInstruction();
+    Instruction BIND_PROPERTY = new BindProperty();
     Instruction BIT_AND = new BitAndInstruction();
     Instruction BIT_NOT = new BitNotInstruction();
     Instruction BIT_OR = new BitOrInstruction();
@@ -33,7 +34,6 @@ public interface Instruction {
     Instruction NOT_EQUALS = new NotEqualsInstruction();
     Instruction PLUS = new PlusInstruction();
     Instruction POP = new PopInstruction();
-    Instruction PROPERTY_DEREFERENCE = new PropertyDereference();
     Instruction RETURN = new ReturnInstruction();
     Instruction UNARY_MINUS = new UnaryMinusInstruction();
 }

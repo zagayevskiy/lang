@@ -4,7 +4,7 @@ import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
-public interface IFunction extends LangObject {
+public interface IFunction {
 
     @Nonnull
     String getName();

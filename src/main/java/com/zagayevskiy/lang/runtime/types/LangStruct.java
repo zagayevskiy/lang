@@ -11,11 +11,11 @@ import java.util.Map;
 
 public final class LangStruct extends AbsLangObject {
 
-    private final LangStructClass langClass;
+    private final LangStructClass langStructClass;
     private final Map<String, LangObject> properties;
 
-    public LangStruct(@Nonnull LangStructClass langClass, @Nonnull Map<String, LangObject> properties) {
-        this.langClass = langClass;
+    public LangStruct(@Nonnull LangStructClass langStructClass, @Nonnull Map<String, LangObject> properties) {
+        this.langStructClass = langStructClass;
         this.properties = properties;
     }
 
@@ -44,7 +44,7 @@ public final class LangStruct extends AbsLangObject {
     @Override
     public LangString toLangString() {
 
-        StringBuilder builder = new StringBuilder(langClass.getLangClassName()).append("{ ");
+        StringBuilder builder = new StringBuilder(langStructClass.getName()).append("{ ");
         for (Map.Entry<String, LangObject> entry: properties.entrySet()) {
             builder.append(entry.getKey())
                     .append(" = ")
@@ -69,12 +69,12 @@ public final class LangStruct extends AbsLangObject {
 
         LangStruct that = (LangStruct) o;
 
-        return langClass.equals(that.langClass) && properties.equals(that.properties);
+        return langStructClass.equals(that.langStructClass) && properties.equals(that.properties);
     }
 
     @Override
     public int hashCode() {
-        int result = langClass.hashCode();
+        int result = langStructClass.hashCode();
         result = 31 * result + properties.hashCode();
         return result;
     }

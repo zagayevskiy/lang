@@ -764,7 +764,7 @@ public class Parser {
             }
             functionPrototypeBuilder
                     .addInstruction(LangString.from(token.value))
-                    .addInstruction(Instruction.PROPERTY_DEREFERENCE);
+                    .addInstruction(Instruction.BIND_PROPERTY);
 
             nextToken();
 

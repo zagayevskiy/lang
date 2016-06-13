@@ -2,14 +2,17 @@ package com.zagayevskiy.lang.utils;
 
 import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 class DummyFunctionPrototype implements IFunctionPrototype {
@@ -36,6 +39,24 @@ class DummyFunctionPrototype implements IFunctionPrototype {
     @Override
     public IFunctionPrototype applyPartially(@Nonnull List<LangObject> arguments) {
         return new DummyFunctionPrototype(name);
+    }
+
+    @Nonnull
+    @Override
+    public LangClass getLangClass() {
+        return new LangClass() {
+            @Nullable
+            @Override
+            public IMethodPrototype getMethodPrototype(@Nonnull String name) {
+                return null;
+            }
+
+            @Nonnull
+            @Override
+            public String getLangClassName() {
+                return "DummyFunctionProtoClass";
+            }
+        };
     }
 
     @Override
@@ -76,11 +97,5 @@ class DummyFunctionPrototype implements IFunctionPrototype {
     @Override
     public void execute(@Nonnull IContext context) {
         context.pushOperand(this);
-    }
-
-    @Nonnull
-    @Override
-    public String getLangClassName() {
-        return "dummy_func$" + name;
     }
 }

@@ -4,6 +4,7 @@ import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
@@ -73,13 +74,19 @@ public class DummyProgram implements IProgram {
         @Nonnull
         @Override
         public IFunctionPrototype.Builder createFunctionBuilder(@Nonnull final String name) {
-            return new DummyFunctionClassBuilder(name);
+            return new DummyFunctionPrototypeBuilder(name);
         }
 
         @Nonnull
         @Override
         public IFunctionPrototype.Builder createAnonymousFunctionBuilder() {
-            return new DummyFunctionClassBuilder("dummy" + count++);
+            return new DummyFunctionPrototypeBuilder("dummy" + count++);
+        }
+
+        @Nonnull
+        @Override
+        public IMethodPrototype.Builder createMethodBuilder(@Nonnull String name) {
+            return new DummyMethodPrototypeBuilder(name);
         }
     }
 

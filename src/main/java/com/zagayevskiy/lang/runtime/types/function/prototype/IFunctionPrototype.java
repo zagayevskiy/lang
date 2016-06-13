@@ -9,7 +9,7 @@ import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public interface IFunctionPrototype extends LangClass, LangObject {
+public interface IFunctionPrototype extends LangObject {
     interface Builder {
 
         @Nonnull

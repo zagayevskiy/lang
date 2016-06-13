@@ -1,5 +1,7 @@
 package com.zagayevskiy.lang.runtime.types;
 
+import com.zagayevskiy.lang.runtime.types.classes.DefaultClass;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
@@ -20,5 +22,11 @@ public abstract class AbsLangObject implements LangObject {
     @Override
     public void execute(@Nonnull IContext context) {
         context.pushOperand(this);
+    }
+
+    @Nonnull
+    @Override
+    public LangClass getLangClass() {
+        return DefaultClass.INSTANCE;
     }
 }

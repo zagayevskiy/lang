@@ -3,6 +3,7 @@ package com.zagayevskiy.lang.runtime;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,6 +38,9 @@ public interface IProgram {
 
         @Nonnull
         IFunctionPrototype.Builder createFunctionBuilder(@Nonnull String name);
+
+        @Nonnull
+        IMethodPrototype.Builder createMethodBuilder(@Nonnull String name);
     }
 
     @Nonnull
