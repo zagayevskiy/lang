@@ -3,6 +3,7 @@ package com.zagayevskiy.lang.utils;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
@@ -14,7 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DummyFunction implements IFunction {
+public class DummyFunction implements IFunction, IContext {
 
     private final String name;
     public final List<Instruction> instructions = new ArrayList<>();
@@ -47,7 +48,7 @@ public class DummyFunction implements IFunction {
 
     @Nonnull
     @Override
-    public LangObject execute() {
+    public LangObject call() {
         return LangUndefined.INSTANCE;
     }
 
@@ -85,12 +86,12 @@ public class DummyFunction implements IFunction {
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
+    public LangObject getValue(@Nonnull IContext function) {
         return this;
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
+    public void execute(@Nonnull IContext context) {
+        context.pushOperand(this);
     }
 }

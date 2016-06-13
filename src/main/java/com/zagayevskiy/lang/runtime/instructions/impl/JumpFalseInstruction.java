@@ -1,18 +1,18 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
 public class JumpFalseInstruction extends JumpInstruction {
     @Override
-    public void execute(@Nonnull IFunction function) {
-        final LangObject address = function.popOperand().getValue(function);
-        final LangObject condition = function.popOperand().getValue(function);
+    public void execute(@Nonnull IContext context) {
+        final LangObject address = context.popOperand().getValue(context);
+        final LangObject condition = context.popOperand().getValue(context);
 
         if (!condition.toLangBoolean().boolValue) {
-            jump(function, address);
+            jump(context, address);
         }
     }
 

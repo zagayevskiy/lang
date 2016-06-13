@@ -2,12 +2,13 @@ package com.zagayevskiy.lang.runtime;
 
 import com.zagayevskiy.lang.Programs;
 import com.zagayevskiy.lang.parser.Parser;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.tokenization.InputStreamTokenizer;
 import com.zagayevskiy.lang.utils.TestUtils;
 import com.zagayevskiy.lang.utils.ThrowLogger;
-import com.zagayevskiy.lang.utils.spy.SpyFunctionClass;
+import com.zagayevskiy.lang.utils.spy.SpyFunctionPrototype;
 import com.zagayevskiy.lang.utils.spy.SpyFunctionClassBuilder;
 import com.zagayevskiy.lang.utils.spy.SpyProgramFactory;
 import javafx.util.Pair;
@@ -60,9 +61,9 @@ public class ProgramTest {
         assertThat("In: " + programId, result, equalTo(expectedResult));
 
         for (SpyFunctionClassBuilder spyBuilder: spyFactory.spyFuncsClazzBuilders.values()) {
-            for (SpyFunctionClass spyFunctionClass: spyBuilder.spyFunctionClasses) {
+            for (SpyFunctionPrototype spyFunctionClass: spyBuilder.spyFunctionClasses) {
                 for (IFunction f: spyFunctionClass.functions) {
-                    assertOperandsStackEmpty("In: " + programId + ". Func: " + f.getName(), f);
+                    assertOperandsStackEmpty("In: " + programId + ". Func: " + f.getName(), (IContext)f);
                 }
             }
         }

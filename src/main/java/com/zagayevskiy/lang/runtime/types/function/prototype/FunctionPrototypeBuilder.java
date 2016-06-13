@@ -1,4 +1,4 @@
-package com.zagayevskiy.lang.runtime.types.classes.function;
+package com.zagayevskiy.lang.runtime.types.function.prototype;
 
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.Variable;
@@ -7,13 +7,13 @@ import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class FunctionClassBuilder implements IFunctionClass.Builder {
+public class FunctionPrototypeBuilder implements IFunctionPrototype.Builder {
 
     private enum State {
         BUILD_ARGUMENTS, BUILD_BODY
     }
 
-    private IFunctionClass functionClass;
+    private IFunctionPrototype functionPrototype;
 
     private final String name;
     private final List<Instruction> instructions = new ArrayList<>();
@@ -24,26 +24,26 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
     private State state = State.BUILD_ARGUMENTS;
     private int argumentsCount = 0;
 
-    public FunctionClassBuilder(@Nonnull String name) {
+    public FunctionPrototypeBuilder(@Nonnull String name) {
         this.name = name;
     }
 
     @Nonnull
     @Override
-    public IFunctionClass getStub() {
-        if (functionClass == null) {
-            functionClass = new FunctionClass(name,
+    public IFunctionPrototype getStub() {
+        if (functionPrototype == null) {
+            functionPrototype = new FunctionPrototype(name,
                     Collections.unmodifiableList(variables),
                     argumentsCount,
                     Collections.unmodifiableList(instructions));
         }
         state = State.BUILD_BODY;
-        return functionClass;
+        return functionPrototype;
     }
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder addInstruction(@Nonnull Instruction instruction) {
+    public IFunctionPrototype.Builder addInstruction(@Nonnull Instruction instruction) {
         state = State.BUILD_BODY;
         instructions.add(instruction);
         return this;
@@ -51,7 +51,7 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder putInstruction(@Nonnull Instruction instruction, int address) {
+    public IFunctionPrototype.Builder putInstruction(@Nonnull Instruction instruction, int address) {
         state = State.BUILD_BODY;
         instructions.set(address, instruction);
         return this;
@@ -64,7 +64,7 @@ public class FunctionClassBuilder implements IFunctionClass.Builder {
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder removeLastInstruction() {
+    public IFunctionPrototype.Builder removeLastInstruction() {
         state = State.BUILD_BODY;
         instructions.remove(instructions.size() - 1);
         return this;

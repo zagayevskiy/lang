@@ -1,7 +1,8 @@
 package com.zagayevskiy.lang.utils;
 
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
@@ -11,11 +12,11 @@ import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-class DummyFunctionClass implements IFunctionClass {
+class DummyFunctionPrototype implements IFunctionPrototype {
 
     private final String name;
 
-    DummyFunctionClass(@Nonnull String name) {
+    DummyFunctionPrototype(@Nonnull String name) {
         this.name = name;
     }
 
@@ -33,8 +34,8 @@ class DummyFunctionClass implements IFunctionClass {
 
     @Nonnull
     @Override
-    public IFunctionClass applyPartially(@Nonnull List<LangObject> arguments) {
-        return new DummyFunctionClass(name);
+    public IFunctionPrototype applyPartially(@Nonnull List<LangObject> arguments) {
+        return new DummyFunctionPrototype(name);
     }
 
     @Override
@@ -68,13 +69,13 @@ class DummyFunctionClass implements IFunctionClass {
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
+    public LangObject getValue(@Nonnull IContext function) {
         return this;
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
+    public void execute(@Nonnull IContext context) {
+        context.pushOperand(this);
     }
 
     @Nonnull

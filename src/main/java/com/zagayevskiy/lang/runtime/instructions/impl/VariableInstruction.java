@@ -1,8 +1,8 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.AssignableOperand;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
@@ -32,18 +32,18 @@ public class VariableInstruction implements AssignableOperand, Instruction {
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
+    public void execute(@Nonnull IContext context) {
+        context.pushOperand(this);
     }
 
     @Override
-    public void setValue(@Nonnull IFunction context, @Nonnull LangObject value) {
+    public void setValue(@Nonnull IContext context, @Nonnull LangObject value) {
         context.getVariable(id).setValue(value);
     }
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction context) {
+    public LangObject getValue(@Nonnull IContext context) {
         return context.getVariable(id).getValue();
     }
 

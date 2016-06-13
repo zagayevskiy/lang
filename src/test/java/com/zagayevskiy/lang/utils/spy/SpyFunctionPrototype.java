@@ -1,7 +1,8 @@
 package com.zagayevskiy.lang.utils.spy;
 
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
@@ -11,11 +12,11 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpyFunctionClass implements IFunctionClass {
-    private final IFunctionClass inner;
+public class SpyFunctionPrototype implements IFunctionPrototype {
+    private final IFunctionPrototype inner;
     public List<IFunction> functions = new ArrayList<>();
 
-    SpyFunctionClass(IFunctionClass inner) {
+    SpyFunctionPrototype(IFunctionPrototype inner) {
         this.inner = inner;
     }
 
@@ -35,7 +36,7 @@ public class SpyFunctionClass implements IFunctionClass {
 
     @Override
     @Nonnull
-    public IFunctionClass applyPartially(@Nonnull List<LangObject> arguments) {
+    public IFunctionPrototype applyPartially(@Nonnull List<LangObject> arguments) {
         return inner.applyPartially(arguments);
     }
 
@@ -76,13 +77,13 @@ public class SpyFunctionClass implements IFunctionClass {
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
+    public LangObject getValue(@Nonnull IContext function) {
         return inner.getValue(function);
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        inner.execute(function);
+    public void execute(@Nonnull IContext context) {
+        inner.execute(context);
     }
 
     @Override

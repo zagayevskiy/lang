@@ -1,10 +1,11 @@
 package com.zagayevskiy.lang.utils;
 
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
+import com.zagayevskiy.lang.runtime.types.IContext;
 
 import javax.annotation.Nonnull;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertNull;
@@ -19,10 +20,10 @@ public class TestUtils {
         return TestUtils.class.getClassLoader().getResourceAsStream(file);
     }
 
-    public static void assertOperandsStackEmpty(@Nonnull String message, @Nonnull IFunction function) {
+    public static void assertOperandsStackEmpty(@Nonnull String message, @Nonnull IContext context) {
         Operand operand = null;
         try {
-            operand = function.popOperand();
+            operand = context.popOperand();
         } catch (NoSuchElementException ignored) {
         }
 

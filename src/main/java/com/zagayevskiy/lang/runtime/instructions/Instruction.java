@@ -1,12 +1,12 @@
 package com.zagayevskiy.lang.runtime.instructions;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.impl.*;
+import com.zagayevskiy.lang.runtime.types.IContext;
 
 import javax.annotation.Nonnull;
 
 public interface Instruction {
-    void execute(@Nonnull IFunction function);
+    void execute(@Nonnull IContext context);
 
     Instruction ARRAY_DEREFERENCE = new ArrayDereferenceInstruction();
     Instruction ASSIGN = new AssignInstruction();

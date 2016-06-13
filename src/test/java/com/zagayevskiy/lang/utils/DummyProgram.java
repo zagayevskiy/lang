@@ -3,7 +3,7 @@ package com.zagayevskiy.lang.utils;
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
@@ -15,7 +15,7 @@ import java.util.TreeMap;
 
 public class DummyProgram implements IProgram {
 
-    public SortedMap<String, IFunctionClass> funcs = new TreeMap<>();
+    public SortedMap<String, IFunctionPrototype> funcs = new TreeMap<>();
     public Map<String, LangStructClass> structs = new HashMap<>();
 
     public static class Builder implements IProgram.Builder {
@@ -29,20 +29,20 @@ public class DummyProgram implements IProgram {
 
         @Nonnull
         @Override
-        public IFunctionClass getFunctionClass(@Nonnull String name) {
+        public IFunctionPrototype getFunctionClass(@Nonnull String name) {
             return program.funcs.get(name);
         }
 
         @Nonnull
         @Override
-        public IProgram.Builder addFunctionClass(@Nonnull IFunctionClass function) {
+        public IProgram.Builder addFunctionClass(@Nonnull IFunctionPrototype function) {
             program.funcs.put(function.getName(), function);
             return this;
         }
 
         @Nonnull
         @Override
-        public IProgram.Builder setMainClass(@Nonnull IFunctionClass mainClass) {
+        public IProgram.Builder setMainClass(@Nonnull IFunctionPrototype mainClass) {
             program.funcs.put(mainClass.getName(), mainClass);
             return this;
         }
@@ -72,13 +72,13 @@ public class DummyProgram implements IProgram {
         private int count = 0;
         @Nonnull
         @Override
-        public IFunctionClass.Builder createFunctionBuilder(@Nonnull final String name) {
+        public IFunctionPrototype.Builder createFunctionBuilder(@Nonnull final String name) {
             return new DummyFunctionClassBuilder(name);
         }
 
         @Nonnull
         @Override
-        public IFunctionClass.Builder createAnonymousFunctionBuilder() {
+        public IFunctionPrototype.Builder createAnonymousFunctionBuilder() {
             return new DummyFunctionClassBuilder("dummy" + count++);
         }
     }

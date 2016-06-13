@@ -1,7 +1,8 @@
-package com.zagayevskiy.lang.runtime.types.classes.function;
+package com.zagayevskiy.lang.runtime.types.function.prototype;
 
 import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.Function;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
@@ -11,12 +12,11 @@ import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class FunctionClass implements IFunctionClass {
+public class FunctionPrototype implements IFunctionPrototype {
 
     @Nonnull
     private final String name;
@@ -27,11 +27,11 @@ public class FunctionClass implements IFunctionClass {
     @Nonnull
     private final List<Instruction> instructions;
 
-    FunctionClass(@Nonnull String name, @Nonnull List<Variable> variables, int argumentsCount, @Nonnull List<Instruction> instructions) {
+    FunctionPrototype(@Nonnull String name, @Nonnull List<Variable> variables, int argumentsCount, @Nonnull List<Instruction> instructions) {
         this(name, variables, 0, argumentsCount, instructions);
     }
 
-    private FunctionClass(@Nonnull String name, @Nonnull List<Variable> variables, int firstArgumentIndex, int argumentsCount, @Nonnull List<Instruction> instructions) {
+    private FunctionPrototype(@Nonnull String name, @Nonnull List<Variable> variables, int firstArgumentIndex, int argumentsCount, @Nonnull List<Instruction> instructions) {
         if (firstArgumentIndex < 0) {
             throw new IllegalArgumentException("firstArgumentIndex must be >= 0");
         }
@@ -62,11 +62,11 @@ public class FunctionClass implements IFunctionClass {
 
     @Nonnull
     @Override
-    public IFunctionClass applyPartially(@Nonnull List<LangObject> arguments) {
+    public IFunctionPrototype applyPartially(@Nonnull List<LangObject> arguments) {
         if (argumentsCount <= arguments.size()) {
             throw new IllegalArgumentException("arguments count must be less than getArgumentsCount() to apply function partially");
         }
-        return new FunctionClass(name + "$partially",
+        return new FunctionPrototype(name + "$partially",
                 bindArguments(arguments),
                 firstArgumentIndex + arguments.size(),
                 argumentsCount - arguments.size(),
@@ -92,13 +92,13 @@ public class FunctionClass implements IFunctionClass {
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
+    public LangObject getValue(@Nonnull IContext function) {
         return this;
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
+    public void execute(@Nonnull IContext context) {
+        context.pushOperand(this);
     }
 
     @Nonnull

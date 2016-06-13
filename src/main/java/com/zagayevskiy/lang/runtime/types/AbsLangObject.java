@@ -1,6 +1,5 @@
 package com.zagayevskiy.lang.runtime.types;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
@@ -14,12 +13,12 @@ public abstract class AbsLangObject implements LangObject {
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
+    public LangObject getValue(@Nonnull IContext function) {
         return this;
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
+    public void execute(@Nonnull IContext context) {
+        context.pushOperand(this);
     }
 }

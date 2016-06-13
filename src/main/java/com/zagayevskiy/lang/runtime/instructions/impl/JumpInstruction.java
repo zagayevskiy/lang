@@ -1,24 +1,24 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 
 import javax.annotation.Nonnull;
 
 public class JumpInstruction implements Instruction {
     @Override
-    public void execute(@Nonnull IFunction function) {
-        jump(function, function.popOperand().getValue(function));
+    public void execute(@Nonnull IContext context) {
+        jump(context, context.popOperand().getValue(context));
     }
 
-    final void jump(@Nonnull IFunction function, @Nonnull LangObject address) {
+    final void jump(@Nonnull IContext context, @Nonnull LangObject address) {
         if (address.getClass() != LangInteger.class) {
             throw new RuntimeException("argument of jump must be int");
         }
 
-        function.jump(address.toLangInteger().intValue);
+        context.jump(address.toLangInteger().intValue);
     }
 
     @Override

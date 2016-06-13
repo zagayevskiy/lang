@@ -1,7 +1,7 @@
 package com.zagayevskiy.lang.utils.spy;
 
 import com.zagayevskiy.lang.runtime.IProgram;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class SpyProgramFactory implements IProgram.Factory {
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder createAnonymousFunctionBuilder() {
+    public IFunctionPrototype.Builder createAnonymousFunctionBuilder() {
         SpyFunctionClassBuilder spy = new SpyFunctionClassBuilder(factory.createAnonymousFunctionBuilder());
         spyFuncsClazzBuilders.put("spy#" + count++, spy);
         return spy;

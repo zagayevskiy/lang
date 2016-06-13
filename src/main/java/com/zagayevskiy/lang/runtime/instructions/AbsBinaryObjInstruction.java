@@ -1,7 +1,7 @@
 package com.zagayevskiy.lang.runtime.instructions;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
@@ -10,8 +10,8 @@ public abstract class AbsBinaryObjInstruction extends AbsBinaryInstruction {
 
     @Nonnull
     @Override
-    protected final Operand execute(@Nonnull IFunction function, @Nonnull Operand op1, @Nonnull Operand op2) {
-        return execute(op1.getValue(function), op2.getValue(function));
+    protected final Operand execute(@Nonnull IContext context, @Nonnull Operand op1, @Nonnull Operand op2) {
+        return execute(op1.getValue(context), op2.getValue(context));
     }
 
     @Nonnull

@@ -1,12 +1,12 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.instructions.AbsBinaryObjInstruction;
 import com.zagayevskiy.lang.runtime.operand.AssignableOperand;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.IContext;
+import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.array.LangArray;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
-import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
 
@@ -38,13 +38,13 @@ public class ArrayDereferenceInstruction extends AbsBinaryObjInstruction {
         }
 
         @Override
-        public void setValue(@Nonnull IFunction context, @Nonnull LangObject value) {
+        public void setValue(@Nonnull IContext context, @Nonnull LangObject value) {
             this.array.set(index, value);
         }
 
         @Nonnull
         @Override
-        public LangObject getValue(@Nonnull IFunction context) {
+        public LangObject getValue(@Nonnull IContext context) {
             return array.get(index);
         }
 

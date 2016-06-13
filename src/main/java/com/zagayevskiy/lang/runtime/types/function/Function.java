@@ -4,15 +4,18 @@ import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.operand.Operand;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
 
-public class Function implements IFunction {
+public class Function implements IContext, IFunction {
 
     private final String name;
     private final List<Instruction> instructions;
@@ -54,7 +57,7 @@ public class Function implements IFunction {
 
     @Nonnull
     @Override
-    public LangObject execute() {
+    public LangObject call() {
         instructionPointer = 0;
 
         while (instructionPointer < instructions.size()) {
@@ -107,12 +110,12 @@ public class Function implements IFunction {
 
     @Nonnull
     @Override
-    public LangObject getValue(@Nonnull IFunction function) {
+    public LangObject getValue(@Nonnull IContext function) {
         return this;
     }
 
     @Override
-    public void execute(@Nonnull IFunction function) {
-        function.pushOperand(this);
+    public void execute(@Nonnull IContext context) {
+        context.pushOperand(this);
     }
 }

@@ -2,18 +2,18 @@ package com.zagayevskiy.lang.utils.spy;
 
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpyFunctionClassBuilder implements IFunctionClass.Builder {
-    private IFunctionClass.Builder inner;
+public class SpyFunctionClassBuilder implements IFunctionPrototype.Builder {
+    private IFunctionPrototype.Builder inner;
 
-    public List<SpyFunctionClass> spyFunctionClasses = new ArrayList<>();
+    public List<SpyFunctionPrototype> spyFunctionClasses = new ArrayList<>();
 
-    SpyFunctionClassBuilder(IFunctionClass.Builder inner) {
+    SpyFunctionClassBuilder(IFunctionPrototype.Builder inner) {
         this.inner = inner;
     }
 
@@ -25,19 +25,19 @@ public class SpyFunctionClassBuilder implements IFunctionClass.Builder {
 
     @Override
     @Nonnull
-    public IFunctionClass.Builder addInstruction(@Nonnull Instruction instruction) {
+    public IFunctionPrototype.Builder addInstruction(@Nonnull Instruction instruction) {
         return inner.addInstruction(instruction);
     }
 
     @Override
     @Nonnull
-    public IFunctionClass.Builder putInstruction(@Nonnull Instruction instruction, int address) {
+    public IFunctionPrototype.Builder putInstruction(@Nonnull Instruction instruction, int address) {
         return inner.putInstruction(instruction, address);
     }
 
     @Override
     @Nonnull
-    public IFunctionClass.Builder removeLastInstruction() {
+    public IFunctionPrototype.Builder removeLastInstruction() {
         return inner.removeLastInstruction();
     }
 
@@ -71,8 +71,8 @@ public class SpyFunctionClassBuilder implements IFunctionClass.Builder {
 
     @Nonnull
     @Override
-    public IFunctionClass getStub() {
-        SpyFunctionClass spy = new SpyFunctionClass(inner.getStub());
+    public IFunctionPrototype getStub() {
+        SpyFunctionPrototype spy = new SpyFunctionPrototype(inner.getStub());
         spyFunctionClasses.add(spy);
         return spy;
     }

@@ -1,4 +1,4 @@
-package com.zagayevskiy.lang.runtime.types.classes.function;
+package com.zagayevskiy.lang.runtime.types.function.prototype;
 
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
@@ -9,11 +9,11 @@ import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public interface IFunctionClass extends LangClass, LangObject {
+public interface IFunctionPrototype extends LangClass, LangObject {
     interface Builder {
 
         @Nonnull
-        IFunctionClass getStub();
+        IFunctionPrototype getStub();
 
         @Nonnull
         Builder addInstruction(@Nonnull Instruction instruction);
@@ -50,5 +50,5 @@ public interface IFunctionClass extends LangClass, LangObject {
     IFunction newInstance(@Nonnull List<LangObject> arguments);
 
     @Nonnull
-    IFunctionClass applyPartially(@Nonnull List<LangObject> arguments);
+    IFunctionPrototype applyPartially(@Nonnull List<LangObject> arguments);
 }

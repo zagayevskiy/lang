@@ -3,12 +3,12 @@ package com.zagayevskiy.lang.utils;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
-class DummyFunctionClassBuilder implements IFunctionClass.Builder {
+class DummyFunctionClassBuilder implements IFunctionPrototype.Builder {
 
     private ArrayList<String> vars = new ArrayList<>();
     @Nonnull
@@ -26,19 +26,19 @@ class DummyFunctionClassBuilder implements IFunctionClass.Builder {
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder addInstruction(@Nonnull Instruction instruction) {
+    public IFunctionPrototype.Builder addInstruction(@Nonnull Instruction instruction) {
         return this;
     }
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder putInstruction(@Nonnull Instruction instruction, int address) {
+    public IFunctionPrototype.Builder putInstruction(@Nonnull Instruction instruction, int address) {
         return this;
     }
 
     @Nonnull
     @Override
-    public IFunctionClass.Builder removeLastInstruction() {
+    public IFunctionPrototype.Builder removeLastInstruction() {
         return this;
     }
 
@@ -73,7 +73,7 @@ class DummyFunctionClassBuilder implements IFunctionClass.Builder {
 
     @Nonnull
     @Override
-    public IFunctionClass getStub() {
-        return new DummyFunctionClass(name);
+    public IFunctionPrototype getStub() {
+        return new DummyFunctionPrototype(name);
     }
 }

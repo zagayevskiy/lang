@@ -2,8 +2,8 @@ package com.zagayevskiy.lang.runtime;
 
 import com.zagayevskiy.lang.runtime.types.LangObject;
 import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
-import com.zagayevskiy.lang.runtime.types.classes.function.FunctionClassBuilder;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
+import com.zagayevskiy.lang.runtime.types.function.prototype.FunctionPrototypeBuilder;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,14 +19,14 @@ public class Program implements IProgram {
 
         @Nonnull
         @Override
-        public IProgram.Builder addFunctionClass(@Nonnull IFunctionClass functionClass) {
+        public IProgram.Builder addFunctionClass(@Nonnull IFunctionPrototype functionClass) {
             program.functionClasses.put(functionClass.getName(), functionClass);
             return this;
         }
 
         @Nonnull
         @Override
-        public IFunctionClass getFunctionClass(@Nonnull String name) {
+        public IFunctionPrototype getFunctionClass(@Nonnull String name) {
             if (!hasFunctionClass(name)) {
                 throw new IllegalStateException("Function " + name + " not defined. Must check hasFunctionClass() before");
             }
@@ -41,7 +41,7 @@ public class Program implements IProgram {
 
         @Nonnull
         @Override
-        public IProgram.Builder setMainClass(@Nonnull IFunctionClass mainClass) {
+        public IProgram.Builder setMainClass(@Nonnull IFunctionPrototype mainClass) {
             program.mainClass = mainClass;
             program.functionClasses.put(mainClass.getName(), mainClass);
             return this;
@@ -71,24 +71,24 @@ public class Program implements IProgram {
         private int anonymousFunctionCount = 0;
         @Nonnull
         @Override
-        public IFunctionClass.Builder createFunctionBuilder(@Nonnull String name) {
-            return new FunctionClassBuilder(name);
+        public IFunctionPrototype.Builder createFunctionBuilder(@Nonnull String name) {
+            return new FunctionPrototypeBuilder(name);
         }
 
         @Nonnull
         @Override
-        public IFunctionClass.Builder createAnonymousFunctionBuilder() {
-            return new FunctionClassBuilder("lambda#" + String.valueOf(anonymousFunctionCount++));
+        public IFunctionPrototype.Builder createAnonymousFunctionBuilder() {
+            return new FunctionPrototypeBuilder("lambda#" + String.valueOf(anonymousFunctionCount++));
         }
     }
 
-    private Map<String, IFunctionClass> functionClasses = new HashMap<>();
+    private Map<String, IFunctionPrototype> functionClasses = new HashMap<>();
     private Map<String, LangStructClass> structClasses = new HashMap<>();
-    private IFunctionClass mainClass;
+    private IFunctionPrototype mainClass;
 
     @Nonnull
     @Override
     public LangObject execute() {
-        return mainClass.newInstance(Collections.<LangObject>emptyList()).execute();
+        return mainClass.newInstance(Collections.<LangObject>emptyList()).call();
     }
 }

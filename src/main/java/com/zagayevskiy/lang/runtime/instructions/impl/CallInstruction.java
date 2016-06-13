@@ -1,9 +1,9 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
+import com.zagayevskiy.lang.runtime.types.IContext;
 import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.function.IFunctionClass;
-import com.zagayevskiy.lang.runtime.types.function.IFunction;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 
@@ -12,8 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CallInstruction implements Instruction {
+
     @Override
-    public void execute(@Nonnull IFunction context) {
+    public void execute(@Nonnull IContext context) {
 
         final LangObject actualArgsCountObj = context.popOperand().getValue(context);
         if (actualArgsCountObj.getClass() != LangInteger.class || actualArgsCountObj.toLangInteger().isNan) {
@@ -28,12 +29,12 @@ public class CallInstruction implements Instruction {
         }
 
         final LangObject functionClassObj = context.popOperand().getValue(context);
-        if (!(functionClassObj instanceof IFunctionClass)) {
+        if (!(functionClassObj instanceof IFunctionPrototype)) {
             context.pushOperand(LangUndefined.INSTANCE);
             return;
         }
 
-        final IFunctionClass functionClass = (IFunctionClass) functionClassObj;
+        final IFunctionPrototype functionClass = (IFunctionPrototype) functionClassObj;
         final int argsCount = functionClass.getArgumentsCount();
 
         List<LangObject> arguments = Arrays.asList(argumentsArray);
@@ -47,7 +48,7 @@ public class CallInstruction implements Instruction {
             arguments = arguments.subList(0, argsCount);
         }
 
-        context.pushOperand(functionClass.newInstance(arguments).execute());
+        context.pushOperand(functionClass.newInstance(arguments).call());
     }
 
     @Override
