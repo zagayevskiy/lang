@@ -5,9 +5,15 @@ The lang project is written just for fun, author is not going to take over the w
 
 # Examples
 
-[Simple programs](../blob/master/src/test/java/com/zagayevskiy/lang/Programs.java)
+[Simple programs](../master/src/test/java/com/zagayevskiy/lang/Programs.java)
 
-[More complex programs](../blob/master/src/test/resources/sources/)
+[More complex programs](../master/src/test/resources/sources/):
+
+* Hash table;
+* 99 bottles of beer;
+* Fibonacci numbers computation;
+* ...and some more tests.
+
 
 # Description
 
