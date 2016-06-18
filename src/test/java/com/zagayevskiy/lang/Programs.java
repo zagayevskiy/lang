@@ -19,6 +19,7 @@ public class Programs {
     public static final List<Pair<String, LangObject>> FILES = new ArrayList<>();
 
     static {
+        f("sources/prime_factors.txt", array(2, 2, 2, 3, 3, 3, 3, 3, 5, 17, 37));
         f("sources/HashMap.txt", true);
         f("sources/pseudo_class", 100000 + 123456);
         f("sources/return_test", "Hello world");

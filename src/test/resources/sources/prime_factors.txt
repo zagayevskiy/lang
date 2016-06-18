@@ -1,0 +1,14 @@
+function primeFactors (value) {
+    var i = 2, f = [], index = 0;
+    for (i = 2; i <= value; i = i + 1) {
+        for (;value % i == 0; value = value / i) {
+            f[index] = i;
+            index = index + 1;
+        }
+    }
+    return f;
+}
+
+main {
+    primeFactors(2*2*2*3*3*3*3*3*5*17*37);
+}
