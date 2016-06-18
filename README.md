@@ -121,7 +121,7 @@ Function is first-class object.
 Definition(named):
 ``` javascript
 function compute(x, y, z) { //name and arguments
-    /// body
+    x + y + z; //return can be ommitted at the end of function
 }
 ```
 
@@ -133,4 +133,21 @@ var lambda = \(x, y) x + y; // \(arguments) expression
 Partial applying (arguments binding):
 ```javascript
 var computeX5 = compute(5);
+```
+
+Bound method:
+```
+var x = 123;
+var toStrX = x->toString; // Important! No "()"! 
+
+```
+
+Call:
+```javascript
+compute(1, 2, 3);  //6
+computeX5(true, 'qwerty'); //compute(5, true, "qwerty") => (5 + 1) + "qwerty" => "6qwerty";
+lambda(10, 20); // 30
+x = 456;
+toStrX() //"123" Important! Bound to object, contained in variable x, not to x! 
+x->toString() //"456"
 ```
