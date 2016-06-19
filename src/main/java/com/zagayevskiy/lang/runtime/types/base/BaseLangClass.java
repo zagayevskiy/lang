@@ -28,7 +28,6 @@ public class BaseLangClass implements LangClass {
         methodPrototypes.put(methodPrototype.getName(), methodPrototype);
     }
 
-    @Nonnull
     protected final void registerAllMethods(@Nonnull IMethodPrototype... prototypes) {
         for (IMethodPrototype prototype : prototypes) {
             registerMethod(prototype);

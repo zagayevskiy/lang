@@ -1,5 +1,7 @@
 package com.zagayevskiy.lang.runtime.types.function;
 
+import com.zagayevskiy.lang.logging.ConsoleRuntimeLogger;
+import com.zagayevskiy.lang.logging.RuntimeLogger;
 import com.zagayevskiy.lang.runtime.IContext;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.Variable;
@@ -54,7 +56,7 @@ public class Function implements IContext, IFunction {
 
     @Nonnull
     @Override
-    public LangObject call() {
+    public LangObject call(@Nonnull IContext unused) {
         instructionPointer = 0;
 
         while (instructionPointer < instructions.size()) {
@@ -79,5 +81,12 @@ public class Function implements IContext, IFunction {
     @Override
     public String toString() {
         return "func " + name;
+    }
+
+    @Nonnull
+    @Override
+    public RuntimeLogger getRuntimeLogger() {
+        //TODO: resolve dependency
+        return ConsoleRuntimeLogger.INSTANCE;
     }
 }

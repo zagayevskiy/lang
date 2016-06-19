@@ -1,5 +1,7 @@
 package com.zagayevskiy.lang.runtime;
 
+import com.zagayevskiy.lang.logging.RuntimeLogger;
+import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.prototype.FunctionPrototypeBuilder;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
@@ -98,6 +100,45 @@ public class Program implements IProgram {
     @Nonnull
     @Override
     public LangObject execute() {
-        return mainClass.newInstance(Collections.<LangObject>emptyList()).call();
+        return mainClass.newInstance(Collections.<LangObject>emptyList()).call(new Context());
+    }
+
+    /**
+     *
+     * User functions implements IContext them self
+     */
+    private static final class Context implements IContext {
+        @Override
+        public void doReturn() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Nonnull
+        @Override
+        public IVariable getVariable(int id) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void jump(int position) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Nonnull
+        @Override
+        public Operand popOperand() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void pushOperand(@Nonnull Operand operand) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Nonnull
+        @Override
+        public RuntimeLogger getRuntimeLogger() {
+            throw new UnsupportedOperationException();
+        }
     }
 }

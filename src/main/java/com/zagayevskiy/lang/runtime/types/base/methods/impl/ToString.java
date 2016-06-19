@@ -1,5 +1,6 @@
 package com.zagayevskiy.lang.runtime.types.base.methods.impl;
 
+import com.zagayevskiy.lang.runtime.IContext;
 import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.base.methods.AbsBuiltInMethod;
 import com.zagayevskiy.lang.runtime.types.base.methods.AbsBuiltInMethodPrototype;
@@ -14,6 +15,7 @@ class ToString extends AbsBuiltInMethodPrototype {
         super("toString", 0);
     }
 
+    @Nonnull
     @Override
     protected IFunction newInstanceImpl(@Nonnull List<LangObject> arguments) {
         return new ToStringMethod(getName(), arguments);
@@ -27,7 +29,7 @@ class ToString extends AbsBuiltInMethodPrototype {
 
         @Nonnull
         @Override
-        protected LangObject call(@Nonnull LangObject self, @Nonnull List<LangObject> arguments) {
+        protected LangObject call(@Nonnull IContext context, @Nonnull LangObject self, @Nonnull List<LangObject> arguments) {
             return self.toLangString();
         }
     }

@@ -29,7 +29,7 @@ public class AbsBuiltInMethodPrototype implements IMethodPrototype {
     @Nonnull
     private final List<LangObject> arguments;
 
-    public AbsBuiltInMethodPrototype(@Nonnull String name, int actualArgumentsCount) {
+    protected AbsBuiltInMethodPrototype(@Nonnull String name, int actualArgumentsCount) {
         this.name = name;
         this.argumentsCount = actualArgumentsCount + 1; //With first argument as self
         arguments = Collections.emptyList();
@@ -72,6 +72,7 @@ public class AbsBuiltInMethodPrototype implements IMethodPrototype {
         return wrapped.newInstanceImpl(finalArguments);
     }
 
+    @Nonnull
     protected IFunction newInstanceImpl(@Nonnull List<LangObject> arguments) {
         throw new RuntimeException("child must override it");
     }

@@ -1,5 +1,6 @@
 package com.zagayevskiy.lang.utils;
 
+import com.zagayevskiy.lang.logging.RuntimeLogger;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 import com.zagayevskiy.lang.runtime.IContext;
@@ -41,7 +42,7 @@ class DummyFunction implements IFunction, IContext {
 
     @Nonnull
     @Override
-    public LangObject call() {
+    public LangObject call(@Nonnull IContext context) {
         return LangUndefined.INSTANCE;
     }
 
@@ -51,5 +52,19 @@ class DummyFunction implements IFunction, IContext {
 
     @Override
     public void doReturn() {
+    }
+
+    @Nonnull
+    @Override
+    public RuntimeLogger getRuntimeLogger() {
+        return new RuntimeLogger() {
+            @Override
+            public void println(@Nonnull String message) {
+            }
+
+            @Override
+            public void warning(@Nonnull String message) {
+            }
+        };
     }
 }

@@ -48,7 +48,7 @@ public class CallInstruction implements Instruction {
             arguments = arguments.subList(0, argsCount);
         }
 
-        context.pushOperand(functionClass.newInstance(arguments).call());
+        context.pushOperand(functionClass.newInstance(arguments).call(context));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.zagayevskiy.lang.runtime.types.base.methods;
 
+import com.zagayevskiy.lang.runtime.IContext;
 import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 
@@ -36,10 +37,10 @@ public abstract class AbsBuiltInMethod implements IFunction {
 
     @Nonnull
     @Override
-    public final LangObject call() {
-        return call(self, arguments);
+    public final LangObject call(@Nonnull IContext context) {
+        return call(context, self, arguments);
     }
 
     @Nonnull
-    protected abstract LangObject call(@Nonnull LangObject self, @Nonnull List<LangObject> arguments);
+    protected abstract LangObject call(@Nonnull IContext context, @Nonnull LangObject self, @Nonnull List<LangObject> arguments);
 }
