@@ -2,6 +2,8 @@ package com.zagayevskiy.lang.runtime.types.primitive;
 
 import com.zagayevskiy.lang.runtime.types.AbsLangObject;
 import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
+import com.zagayevskiy.lang.runtime.types.classes.StringClass;
 
 import javax.annotation.Nonnull;
 
@@ -61,5 +63,11 @@ public class LangString extends AbsLangObject implements Comparable<LangObject> 
     @Override
     public int hashCode() {
         return stringValue.hashCode();
+    }
+
+    @Nonnull
+    @Override
+    public LangClass getLangClass() {
+        return StringClass.INSTANCE;
     }
 }

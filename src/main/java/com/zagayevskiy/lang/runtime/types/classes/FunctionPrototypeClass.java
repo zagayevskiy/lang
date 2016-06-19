@@ -2,7 +2,7 @@ package com.zagayevskiy.lang.runtime.types.classes;
 
 import javax.annotation.Nonnull;
 
-public class FunctionPrototypeClass extends DefaultClass {
+public class FunctionPrototypeClass extends BaseLangClass {
 
     public static final FunctionPrototypeClass INSTANCE = new FunctionPrototypeClass();
 

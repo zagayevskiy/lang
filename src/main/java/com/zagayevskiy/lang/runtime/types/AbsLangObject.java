@@ -1,6 +1,6 @@
 package com.zagayevskiy.lang.runtime.types;
 
-import com.zagayevskiy.lang.runtime.types.classes.DefaultClass;
+import com.zagayevskiy.lang.runtime.types.classes.BaseLangClass;
 import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 
@@ -27,6 +27,6 @@ public abstract class AbsLangObject implements LangObject {
     @Nonnull
     @Override
     public LangClass getLangClass() {
-        return DefaultClass.INSTANCE;
+        return BaseLangClass.INSTANCE;
     }
 }

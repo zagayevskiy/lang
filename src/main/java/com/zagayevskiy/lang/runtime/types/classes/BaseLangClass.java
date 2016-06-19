@@ -8,16 +8,14 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultClass implements LangClass {
+public class BaseLangClass implements LangClass {
 
-        public static final DefaultClass INSTANCE = new DefaultClass();
+        public static final BaseLangClass INSTANCE = new BaseLangClass();
 
         private Map<String, IMethodPrototype> methodPrototypes = new HashMap<>();
 
-        protected DefaultClass() {
-            for (IMethodPrototype prototype: Methods.DEFAULT_METHODS) {
-                registerMethodPrototype(prototype);
-            }
+        protected BaseLangClass() {
+            registerAllMethods(Methods.DEFAULT_METHODS);
         }
 
         @Override
@@ -26,15 +24,20 @@ public class DefaultClass implements LangClass {
             return methodPrototypes.get(name);
         }
 
-        @Nonnull
-        protected final DefaultClass registerMethodPrototype(@Nonnull IMethodPrototype methodPrototype) {
+        protected final void registerMethod(@Nonnull IMethodPrototype methodPrototype) {
             methodPrototypes.put(methodPrototype.getName(), methodPrototype);
-            return this;
+        }
+
+        @Nonnull
+        protected final void registerAllMethods(@Nonnull IMethodPrototype... prototypes) {
+            for (IMethodPrototype prototype: prototypes) {
+                registerMethod(prototype);
+            }
         }
 
         @Nonnull
         @Override
         public String getLangClassName() {
-            return DefaultClass.class.getSimpleName();
+            return BaseLangClass.class.getSimpleName();
         }
     }

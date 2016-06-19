@@ -2,7 +2,7 @@ package com.zagayevskiy.lang.runtime.types.classes;
 
 import javax.annotation.Nonnull;
 
-public class MethodPrototypeClass extends DefaultClass {
+public class MethodPrototypeClass extends BaseLangClass {
 
     public static final MethodPrototypeClass INSTANCE = new MethodPrototypeClass();
 

@@ -139,11 +139,13 @@ public class Programs {
         p("main { for (100; false; 200); } ", 100);
         p("main { 123; for (; false; 200) { return 456; } } ", LangUndefined.INSTANCE);
         p("main { var x = 'qwerty'; for (x; false; );  }", "qwerty");
-        p("main{ var x = 123; var y = x->toString() + 456; return y; }", "123456");
-        p("main{ var x = 123; var y = x->toString() + 456; return y->toInteger() + 789; }", 123456 + 789);
-        p("main{ var x = 123; var y = x->toString() + 456; x = y + 789; x->subString(3, 6); }", "456");
-        p("main{ var x = 123; var y = x->toString() + 456; x = y + 789; var sub = x->subString(3); sub(7)->toInteger(); }", 4567);
-        p("main{ var x = 123, y = '123'; y = y->toInteger(); x->hashCode() == y->hashCode(); }", true);
+        p("main { var x = 123; var y = x->toString() + 456; return y; }", "123456");
+        p("main { var x = 123; var y = x->toString() + 456; return y->toInteger() + 789; }", 123456 + 789);
+        p("main { var x = 123; var y = x->toString() + 456; x = y + 789; x->subString(3, 6); }", "456");
+        p("main { var x = 123; x->subString(1, 2); }", LangUndefined.INSTANCE);
+        p("main { var x = 123; var y = x->toString() + 456; x = y + 789; var sub = x->subString(3); sub(7)->toInteger(); }", 4567);
+        p("main { var x = 123, y = '123'; y = y->toInteger(); x->hashCode() == y->hashCode(); }", true);
+        p("main { var x = [5, 4, 3, 2, 1, 0]; x->size(); }", 6);
     }
 
     private static void f(String s, Object o) {

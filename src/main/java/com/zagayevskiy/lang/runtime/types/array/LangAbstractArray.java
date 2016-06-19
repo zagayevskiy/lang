@@ -1,6 +1,8 @@
 package com.zagayevskiy.lang.runtime.types.array;
 
 import com.zagayevskiy.lang.runtime.types.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.classes.ArrayClass;
+import com.zagayevskiy.lang.runtime.types.classes.LangClass;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -133,5 +135,11 @@ abstract class LangAbstractArray<E> extends AbsLangObject implements List<E>, Ra
     @Override
     public boolean containsAll(@Nonnull Collection<?> c) {
         return arrayList.containsAll(c);
+    }
+
+    @Nonnull
+    @Override
+    public LangClass getLangClass() {
+        return ArrayClass.INSTANCE;
     }
 }
