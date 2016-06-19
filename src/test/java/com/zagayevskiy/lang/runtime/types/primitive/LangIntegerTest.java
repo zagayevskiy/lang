@@ -1,6 +1,7 @@
 package com.zagayevskiy.lang.runtime.types.primitive;
 
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 import com.zagayevskiy.lang.utils.DummyLangObject;
 import org.junit.Test;
 

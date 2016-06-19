@@ -1,8 +1,7 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime.types.base;
 
-import com.zagayevskiy.lang.runtime.types.classes.BaseLangClass;
-import com.zagayevskiy.lang.runtime.types.classes.LangClass;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.IContext;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 
 import javax.annotation.Nonnull;
 

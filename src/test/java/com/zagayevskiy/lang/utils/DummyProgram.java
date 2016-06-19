@@ -1,8 +1,8 @@
 package com.zagayevskiy.lang.utils;
 
 import com.zagayevskiy.lang.runtime.IProgram;
-import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;

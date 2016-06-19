@@ -1,14 +1,16 @@
-package com.zagayevskiy.lang.runtime.types.methods;
+package com.zagayevskiy.lang.runtime.types.primitive.string.methods;
 
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.methods.AbsBuiltInMethod;
+import com.zagayevskiy.lang.runtime.types.base.methods.AbsBuiltInMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class SubStringProto extends AbsBuiltInMethodPrototype {
-    public SubStringProto() {
+class SubString extends AbsBuiltInMethodPrototype {
+    public SubString() {
         super("subString", 2);
     }
 

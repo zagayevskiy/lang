@@ -1,7 +1,7 @@
 package com.zagayevskiy.lang.utils;
 
 import com.zagayevskiy.lang.runtime.operand.Operand;
-import com.zagayevskiy.lang.runtime.types.IContext;
+import com.zagayevskiy.lang.runtime.IContext;
 
 import javax.annotation.Nonnull;
 import java.io.ByteArrayInputStream;

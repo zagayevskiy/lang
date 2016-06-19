@@ -1,6 +1,6 @@
 package com.zagayevskiy.lang.runtime.types.primitive;
 
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

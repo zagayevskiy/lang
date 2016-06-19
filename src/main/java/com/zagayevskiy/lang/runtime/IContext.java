@@ -1,6 +1,5 @@
-package com.zagayevskiy.lang.runtime.types;
+package com.zagayevskiy.lang.runtime;
 
-import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.operand.Operand;
 
 import javax.annotation.Nonnull;

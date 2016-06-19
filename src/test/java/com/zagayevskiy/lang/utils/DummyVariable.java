@@ -1,7 +1,7 @@
 package com.zagayevskiy.lang.utils;
 
 import com.zagayevskiy.lang.runtime.IVariable;
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 
 import javax.annotation.Nonnull;
 

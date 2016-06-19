@@ -1,13 +1,13 @@
 package com.zagayevskiy.lang.utils.spy;
 
-import com.zagayevskiy.lang.runtime.types.IContext;
-import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.LangClass;
+import com.zagayevskiy.lang.runtime.IContext;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

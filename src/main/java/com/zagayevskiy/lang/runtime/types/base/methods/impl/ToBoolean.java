@@ -1,14 +1,16 @@
-package com.zagayevskiy.lang.runtime.types.methods;
+package com.zagayevskiy.lang.runtime.types.base.methods.impl;
 
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.methods.AbsBuiltInMethod;
+import com.zagayevskiy.lang.runtime.types.base.methods.AbsBuiltInMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-class ToBooleanProto extends AbsBuiltInMethodPrototype {
+class ToBoolean extends AbsBuiltInMethodPrototype {
 
-    ToBooleanProto() {
+    ToBoolean() {
         super("toBoolean", 0);
     }
 

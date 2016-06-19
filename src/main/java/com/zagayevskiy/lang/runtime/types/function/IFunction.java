@@ -1,6 +1,6 @@
 package com.zagayevskiy.lang.runtime.types.function;
 
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 
 import javax.annotation.Nonnull;
 

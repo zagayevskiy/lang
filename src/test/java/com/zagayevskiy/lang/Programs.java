@@ -1,11 +1,11 @@
 package com.zagayevskiy.lang;
 
-import com.zagayevskiy.lang.runtime.types.*;
 import com.zagayevskiy.lang.runtime.types.array.LangArray;
-import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import com.zagayevskiy.lang.utils.Bottles99;
 import javafx.util.Pair;

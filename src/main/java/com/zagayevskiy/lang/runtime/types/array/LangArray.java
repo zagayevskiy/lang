@@ -1,10 +1,10 @@
 package com.zagayevskiy.lang.runtime.types.array;
 
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

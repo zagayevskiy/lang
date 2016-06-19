@@ -2,8 +2,7 @@ package com.zagayevskiy.lang.runtime.types.function.prototype;
 
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.LangClass;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 
 import javax.annotation.Nonnull;

@@ -1,9 +1,10 @@
-package com.zagayevskiy.lang.runtime.types.primitive;
+package com.zagayevskiy.lang.runtime.types.primitive.string;
 
-import com.zagayevskiy.lang.runtime.types.AbsLangObject;
-import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.LangClass;
-import com.zagayevskiy.lang.runtime.types.classes.StringClass;
+import com.zagayevskiy.lang.runtime.types.base.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangClass;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
+import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
+import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 
 import javax.annotation.Nonnull;
 
@@ -68,6 +69,6 @@ public class LangString extends AbsLangObject implements Comparable<LangObject> 
     @Nonnull
     @Override
     public LangClass getLangClass() {
-        return StringClass.INSTANCE;
+        return LangStringClass.INSTANCE;
     }
 }

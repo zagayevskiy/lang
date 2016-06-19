@@ -1,9 +1,9 @@
 package com.zagayevskiy.lang.utils;
 
-import com.zagayevskiy.lang.runtime.types.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.base.AbsLangObject;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
-import com.zagayevskiy.lang.runtime.types.primitive.LangString;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 
 import javax.annotation.Nonnull;
 

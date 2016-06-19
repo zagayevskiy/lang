@@ -1,4 +1,4 @@
-package com.zagayevskiy.lang.runtime.types.classes;
+package com.zagayevskiy.lang.runtime.types.base;
 
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 

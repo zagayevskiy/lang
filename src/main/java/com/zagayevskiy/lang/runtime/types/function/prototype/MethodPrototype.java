@@ -2,10 +2,8 @@ package com.zagayevskiy.lang.runtime.types.function.prototype;
 
 import com.zagayevskiy.lang.runtime.Variable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.types.LangObject;
 
 import javax.annotation.Nonnull;
-import java.util.Collections;
 import java.util.List;
 
 class MethodPrototype extends FunctionPrototype implements IMethodPrototype {

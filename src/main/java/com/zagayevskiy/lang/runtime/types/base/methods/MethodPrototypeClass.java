@@ -1,4 +1,6 @@
-package com.zagayevskiy.lang.runtime.types.classes;
+package com.zagayevskiy.lang.runtime.types.base.methods;
+
+import com.zagayevskiy.lang.runtime.types.base.BaseLangClass;
 
 import javax.annotation.Nonnull;
 

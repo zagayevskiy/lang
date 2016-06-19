@@ -1,6 +1,7 @@
 package com.zagayevskiy.lang.runtime.types.primitive;
 
-import com.zagayevskiy.lang.runtime.types.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.base.AbsLangObject;
+import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 
 import javax.annotation.Nonnull;
 

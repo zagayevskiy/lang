@@ -1,8 +1,10 @@
-package com.zagayevskiy.lang.runtime.types.classes;
+package com.zagayevskiy.lang.runtime.types.function.prototype;
+
+import com.zagayevskiy.lang.runtime.types.base.BaseLangClass;
 
 import javax.annotation.Nonnull;
 
-public class FunctionPrototypeClass extends BaseLangClass {
+class FunctionPrototypeClass extends BaseLangClass {
 
     public static final FunctionPrototypeClass INSTANCE = new FunctionPrototypeClass();
 

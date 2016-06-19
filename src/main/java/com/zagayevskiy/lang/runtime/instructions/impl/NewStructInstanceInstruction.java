@@ -1,10 +1,10 @@
 package com.zagayevskiy.lang.runtime.instructions.impl;
 
+import com.zagayevskiy.lang.runtime.IContext;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
-import com.zagayevskiy.lang.runtime.types.IContext;
-import com.zagayevskiy.lang.runtime.types.LangObject;
-import com.zagayevskiy.lang.runtime.types.classes.LangStructClass;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
+import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
 
 import javax.annotation.Nonnull;
 

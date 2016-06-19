@@ -2,8 +2,7 @@ package com.zagayevskiy.lang.runtime;
 
 import com.zagayevskiy.lang.Programs;
 import com.zagayevskiy.lang.parser.Parser;
-import com.zagayevskiy.lang.runtime.types.IContext;
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 import com.zagayevskiy.lang.tokenization.InputStreamTokenizer;
 import com.zagayevskiy.lang.utils.TestUtils;

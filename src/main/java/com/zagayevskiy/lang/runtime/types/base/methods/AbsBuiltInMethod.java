@@ -1,6 +1,6 @@
-package com.zagayevskiy.lang.runtime.types.methods;
+package com.zagayevskiy.lang.runtime.types.base.methods;
 
-import com.zagayevskiy.lang.runtime.types.LangObject;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.IFunction;
 
 import javax.annotation.Nonnull;
@@ -18,7 +18,7 @@ public abstract class AbsBuiltInMethod implements IFunction {
     @Nonnull
     private final List<LangObject> arguments;
 
-    public AbsBuiltInMethod(@Nonnull String name, @Nonnull List<LangObject> arguments) {
+    protected AbsBuiltInMethod(@Nonnull String name, @Nonnull List<LangObject> arguments) {
         this.name = name;
         this.self = arguments.get(0);
         if (arguments.size() > 1) {
