@@ -23,7 +23,7 @@ The lang project is written just for fun, author is not going to take over the w
     * [Boolean](#boolean)
     * [Integer](#integer)
     * [String](#string)
-    * [Undefined](#undefined)
+    * [Undefined](#undefined-type)
 * [Arrays](#array)
 * [Structures](#structures)
 * [Functions](#functions)
@@ -65,7 +65,11 @@ Can be obtained from any value by using `toString` method.
 
 Operators:  `+`.
 
-### Undefined ###
+Methods:
+
+* `subString(fromInclusive, toExclusive)` 
+
+### Undefined type ###
 
 Type with only one instance, named `undefined`. Conversion contract:
 
@@ -89,9 +93,18 @@ Element access:
 var array = [1, 2, 3];
 array[1]; //2
 array[1] = 0; //[1, 0, 3];
-
-
+array[4[ = true; //[1, 0, 3, undefined, true] - autoexpansion
 ```
+
+
+Methods:
+
+* `size()` returns size of given array 
+```javascript
+array->size(); //5
+```
+
+Auto expansion:
 
 ### Structures ###
 
