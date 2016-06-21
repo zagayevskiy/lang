@@ -64,7 +64,7 @@ public class FunctionPrototype implements IFunctionPrototype {
     @Nonnull
     @Override
     public IFunctionPrototype applyPartially(@Nonnull List<LangObject> arguments) {
-        if (argumentsCount <= arguments.size()) {
+        if (argumentsCount < arguments.size()) {
             throw new IllegalArgumentException("arguments count must be less than getArgumentsCount() to apply function partially");
         }
         return createPartiallyApplied(getName() + "$part",

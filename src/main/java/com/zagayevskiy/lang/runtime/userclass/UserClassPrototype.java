@@ -2,6 +2,7 @@ package com.zagayevskiy.lang.runtime.userclass;
 
 import com.zagayevskiy.lang.runtime.types.base.AbsLangObject;
 import com.zagayevskiy.lang.runtime.types.base.LangClass;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
@@ -11,7 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class UserClassPrototype extends AbsLangObject implements IUserClassPrototype {
+class UserClassPrototype extends AbsLangObject implements IUserClassPrototype {
 
     @Nonnull
     private final String name;
@@ -22,7 +23,7 @@ public class UserClassPrototype extends AbsLangObject implements IUserClassProto
     @Nonnull
     private final Map<Integer, IUserClass.Constructor> constructors;
 
-    public UserClassPrototype(@Nonnull String name,
+    UserClassPrototype(@Nonnull String name,
                               @Nonnull Map<String, IMethodPrototype> methodPrototypes,
                               @Nonnull Map<Integer, IUserClass.Constructor> constructors) {
         this.name = name;
@@ -78,7 +79,7 @@ public class UserClassPrototype extends AbsLangObject implements IUserClassProto
     }
 
     @Nonnull
-    public IUserClass newInstance() {
-        return null;
+    public LangObject newInstance() {
+        return new UserClass(this);
     }
 }

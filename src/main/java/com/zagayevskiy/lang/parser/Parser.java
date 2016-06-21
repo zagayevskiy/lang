@@ -5,6 +5,7 @@ import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
+import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
@@ -107,6 +108,12 @@ public class Parser {
             return false;
         }
         nextToken();
+
+        //TODO remove empty ctor
+        IMethodPrototype.Builder ctor = programFactory.createMethodBuilder("ctor");
+        IVariable self = ctor.getVariable(Token.SELF_NAME);
+        ctor.addInstruction(VariableInstruction.from(self.getId(), Token.SELF_NAME));
+        userClassBuilder.addConstructor(ctor.getStub());
 
         return true;
     }
@@ -259,7 +266,7 @@ public class Parser {
         }
         nextToken();
 
-        //TODO
+        //TODO do it
         final IFunctionPrototype.Builder temp = functionPrototypeBuilder;
         functionPrototypeBuilder = programFactory.createMethodBuilder(token.value);
 
@@ -957,10 +964,17 @@ public class Parser {
             log("identifier expected after new");
             return false;
         }
-        final LangStructClass clazz = programBuider.getStruct(token.value);
+
+        //TODO refactor this shit
+        LangObject clazz = programBuider.getStruct(token.value);
+        Instruction newInstr = Instruction.NEW_STRUCT_INSTANCE;
         if (clazz == null) {
-            log("struct " + token.value + " not defined");
-            return false;
+            clazz = programBuider.getUserClass(token.value);
+            newInstr = Instruction.NEW_CLASS_INSTANCE;
+            if (clazz == null) {
+                log("struct " + token.value + " not defined");
+                return false;
+            }
         }
         nextToken();
         if (token.type != Token.PARENTHESIS_OPEN) {
@@ -970,10 +984,11 @@ public class Parser {
         nextToken();
 
         final int argsCount = expressionsList();
-        if (argsCount != clazz.getPropertiesCount()) {
-            log(clazz.getPropertiesCount() + " args expected, but " + argsCount + " found.");
-            return false;
-        }
+//        TODO
+//        if (argsCount != clazz.getPropertiesCount()) {
+//            log(clazz.getPropertiesCount() + " args expected, but " + argsCount + " found.");
+//            return false;
+//        }
 
         if (token.type != Token.PARENTHESIS_CLOSE) {
             log(") expected.");
@@ -984,7 +999,7 @@ public class Parser {
         functionPrototypeBuilder
                 .addInstruction(LangInteger.from(argsCount))
                 .addInstruction(clazz)
-                .addInstruction(Instruction.NEW_STRUCT_INSTANCE);
+                .addInstruction(newInstr);
 
         return true;
     }

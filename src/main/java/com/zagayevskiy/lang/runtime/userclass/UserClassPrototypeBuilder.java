@@ -37,9 +37,9 @@ public class UserClassPrototypeBuilder implements IUserClassPrototype.Builder {
         if (constructors.get(actualArgsCount) != null) {
             throw new IllegalStateException("constructor with " + actualArgsCount + " arguments already exists");
         }
-        
-        //TODO: fix wildcards
-        final IFunctionPrototype actualConstructor = constructorProto.applyPartially(Collections.<LangObject>singletonList(userClassPrototype));
+
+        final IFunctionPrototype actualConstructor = constructorProto
+                .applyPartially(Collections.singletonList(userClassPrototype.newInstance()));
 
         constructors.put(actualArgsCount, new UserClassConstructor(actualConstructor));
     }

@@ -29,6 +29,7 @@ public interface Instruction {
     Instruction MOD = new ModInstruction();
     Instruction MULTIPLY = new MultiplyInstruction();
     Instruction NEW_ARRAY = new NewArrayInstruction();
+    Instruction NEW_CLASS_INSTANCE = new NewClassInstanceInstruction();
     Instruction NEW_STRUCT_INSTANCE = new NewStructInstanceInstruction();
     Instruction NOP = new NopInstruction();
     Instruction NOT_EQUALS = new NotEqualsInstruction();
