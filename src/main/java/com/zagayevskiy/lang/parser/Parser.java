@@ -60,9 +60,46 @@ public class Parser {
 
     private boolean program() {
         //noinspection StatementWithEmptyBody
-        while (defFunction() || defStruct()) ;
+        while (defFunction() || defStruct() || defClass()) ;
 
         return defMain();
+    }
+
+    private boolean defClass() {
+        if (token.type != Token.CLASS) {
+            return false;
+        }
+        nextToken();
+
+        if (token.type != Token.IDENTIFIER) {
+            log("Identifier expected after 'class'");
+            return false;
+        }
+        nextToken();
+
+        if (token.type != Token.BRACE_OPEN) {
+            log("'{' expected in class definition");
+            return false;
+        }
+        nextToken();
+
+        //TODO
+        final IFunctionPrototype.Builder fieldsInitializer = programFactory.createFunctionBuilder("TODO");
+        functionPrototypeBuilder = fieldsInitializer;
+
+        //noinspection StatementWithEmptyBody
+        while (defMethod() || defConstructor() || defVariables());
+
+        functionPrototypeBuilder = null;
+        fieldsInitializer.getStub().getName();//TODO MAY BE CALL
+
+        if (token.type != Token.BRACE_CLOSE) {
+            log("'}' expected at the end of class definition");
+            return false;
+        }
+        nextToken();
+
+        return true;
     }
 
     private boolean defMain() {
@@ -153,8 +190,82 @@ public class Parser {
         functionPrototypeBuilder = programFactory.createFunctionBuilder(token.value);
 
         nextToken();
+
+        if (!defFunctionArguments()) {
+            log("function arguments expected");
+            return false;
+        }
+
+        programBuider.addFunctionClass(functionPrototypeBuilder.getStub());
+
+        if (!block()) {
+            log("block expected after function definition");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean defMethod() {
+        if (token.type != Token.METHOD) {
+            return false;
+        }
+        nextToken();
+
+        if (token.type != Token.IDENTIFIER) {
+            log("identifier expected after 'method'");
+            return false;
+        }
+
+        //TODO
+        final IFunctionPrototype.Builder temp = functionPrototypeBuilder;
+        functionPrototypeBuilder = programFactory.createMethodBuilder(token.value);
+
+        nextToken();
+
+        if (!defFunctionArguments()) {
+            log("method arguments expected");
+            return false;
+        }
+
+        if (!block()) {
+            log("method body expected");
+            return false;
+        }
+
+        functionPrototypeBuilder = temp;
+
+        return true;
+    }
+
+    private boolean defConstructor() {
+        if (token.type != Token.IDENTIFIER) {
+            return false;
+        }
+        nextToken();
+
+        //TODO
+        final IFunctionPrototype.Builder temp = functionPrototypeBuilder;
+        functionPrototypeBuilder = programFactory.createMethodBuilder(token.value);
+
+        if (!defFunctionArguments()) {
+            log("constructor arguments expected");
+            return false;
+        }
+
+        if(!block()) {
+            log("constructor body expected");
+            return false;
+        }
+
+        functionPrototypeBuilder = temp;
+
+        return true;
+    }
+
+    private boolean defFunctionArguments() {
         if (token.type != Token.PARENTHESIS_OPEN) {
-            log("'(' expected after 'function'");
+            log("'(' expected after at the begin of args list");
             return false;
         }
 
@@ -171,16 +282,10 @@ public class Parser {
         } while (token.type == Token.COMMA);
 
         if (token.type != Token.PARENTHESIS_CLOSE) {
-            log("')' expected at the end of function args definition.");
+            log("')' expected at the end of args list");
             return false;
         }
-        programBuider.addFunctionClass(functionPrototypeBuilder.getStub());
-
         nextToken();
-        if (!block()) {
-            log("block expected after function definition");
-            return false;
-        }
 
         return true;
     }
@@ -205,7 +310,6 @@ public class Parser {
             log("} expected");
             return false;
         }
-
         nextToken();
 
         return true;

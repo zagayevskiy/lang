@@ -146,6 +146,7 @@ public class Programs {
         p("main { var x = 123; var y = x->toString() + 456; x = y + 789; var sub = x->subString(3); sub(7)->toInteger(); }", 4567);
         p("main { var x = 123, y = '123'; y = y->toInteger(); x->hashCode() == y->hashCode(); }", true);
         p("main { var x = [5, 4, 3, 2, 1, 0]; x->size(); }", 6);
+        p("class Point{ var x = 0, y = 0; method sum(dummy) {self->x + self->y;} Point (x, y) { ; } } main { 0; }", 0);
     }
 
     private static void f(String s, Object o) {

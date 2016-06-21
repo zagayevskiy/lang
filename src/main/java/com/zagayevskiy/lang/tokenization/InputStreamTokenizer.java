@@ -56,6 +56,8 @@ public class InputStreamTokenizer implements Tokenizer {
         mapKeyword(Token.MAIN_NAME, Token.MAIN);
         mapKeyword("function", Token.FUNCTION);
         mapKeyword("struct", Token.STRUCT);
+        mapKeyword("class", Token.CLASS);
+        mapKeyword("method", Token.METHOD);
         mapKeyword("var", Token.VAR);
         mapKeyword("new", Token.NEW);
         mapKeyword("return", Token.RETURN);

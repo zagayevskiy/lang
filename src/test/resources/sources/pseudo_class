@@ -1,10 +1,10 @@
-struct class {
+struct PseudoClass {
     a, setA,
     b, setB
 }
 
-function createInstance (a) {
-    var instance = new class(a, "dummy", "dummy", "dummy");
+function createPseudoClassInstance (a) {
+    var instance = new PseudoClass(a, "dummy", "dummy", "dummy");
 
     instance->setA = \(self, a) { self->a = a; self; } (instance);
     instance->setB = \(self, value) { self->b = value; self; } (instance);
@@ -13,7 +13,7 @@ function createInstance (a) {
 }
 
 main {
-    var instance = createInstance(100);
+    var instance = createPseudoClassInstance(100);
     return instance
         ->setA(100000)
         ->setB(123456)

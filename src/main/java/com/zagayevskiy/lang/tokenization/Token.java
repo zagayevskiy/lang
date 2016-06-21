@@ -50,15 +50,20 @@ public class Token {
     public static final int MAIN = 0x10000001;
     public static final int FUNCTION = 0x10000002;
     public static final int STRUCT = 0x10000003;
-    public static final int VAR = 0x10000004;
-    public static final int TRUE = 0x10000005;
-    public static final int FALSE = 0x10000006;
-    public static final int IF = 0x10000007;
-    public static final int ELSE = 0x10000008;
-    public static final int NEW = 0x10000009;
-    public static final int RETURN = 0x1000000A;
-    public static final int UNDEFINED = 0x1000000B;
-    public static final int FOR = 0x1000000C;
+    public static final int CLASS = 0x10000004;
+    public static final int METHOD = 0x10000005;
+
+    public static final int VAR = 0x10000011;
+    public static final int NEW = 0x10000012;
+    public static final int RETURN = 0x10000013;
+
+    public static final int TRUE = 0x10000021;
+    public static final int FALSE = 0x10000022;
+    public static final int UNDEFINED = 0x10000023;
+
+    public static final int IF = 0x10000031;
+    public static final int ELSE = 0x10000032;
+    public static final int FOR = 0x10000033;
 
     public final int type;
     public final String value;
