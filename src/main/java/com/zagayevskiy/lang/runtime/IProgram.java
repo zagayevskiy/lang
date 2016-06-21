@@ -4,6 +4,7 @@ import com.zagayevskiy.lang.runtime.types.base.LangObject;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
+import com.zagayevskiy.lang.runtime.userclass.IUserClassPrototype;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,6 +30,12 @@ public interface IProgram {
         Builder setMainClass(@Nonnull IFunctionPrototype mainClass);
 
         @Nonnull
+        Builder addUserClass(@Nonnull IUserClassPrototype userClass);
+
+        @Nullable
+        IUserClassPrototype getUserClass(@Nonnull String name);
+
+        @Nonnull
         IProgram build();
     }
 
@@ -41,6 +48,9 @@ public interface IProgram {
 
         @Nonnull
         IMethodPrototype.Builder createMethodBuilder(@Nonnull String name);
+
+        @Nonnull
+        IUserClassPrototype.Builder createUserClassBuilder(@Nonnull String name);
     }
 
     @Nonnull

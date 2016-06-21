@@ -6,6 +6,7 @@ import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
+import com.zagayevskiy.lang.runtime.userclass.IUserClassPrototype;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,6 +19,7 @@ public class DummyProgram implements IProgram {
 
     public SortedMap<String, IFunctionPrototype> funcs = new TreeMap<>();
     public Map<String, LangStructClass> structs = new HashMap<>();
+    public Map<String, IUserClassPrototype> classes = new HashMap<>();
 
     public static class Builder implements IProgram.Builder {
 
@@ -26,6 +28,19 @@ public class DummyProgram implements IProgram {
         @Override
         public boolean hasFunctionClass(@Nonnull String name) {
             return program.funcs.containsKey(name);
+        }
+
+        @Nonnull
+        @Override
+        public IProgram.Builder addUserClass(@Nonnull IUserClassPrototype userClass) {
+            program.classes.put(userClass.getLangClassName(), userClass);
+            return this;
+        }
+
+        @Nullable
+        @Override
+        public IUserClassPrototype getUserClass(@Nonnull String name) {
+            return program.classes.get(name);
         }
 
         @Nonnull
@@ -75,6 +90,12 @@ public class DummyProgram implements IProgram {
         @Override
         public IFunctionPrototype.Builder createFunctionBuilder(@Nonnull final String name) {
             return new DummyFunctionPrototypeBuilder(name);
+        }
+
+        @Nonnull
+        @Override
+        public IUserClassPrototype.Builder createUserClassBuilder(@Nonnull String name) {
+            return new DummyUserClassBuilder(name);
         }
 
         @Nonnull

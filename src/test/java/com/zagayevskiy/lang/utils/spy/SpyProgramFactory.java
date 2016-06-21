@@ -3,6 +3,7 @@ package com.zagayevskiy.lang.utils.spy;
 import com.zagayevskiy.lang.runtime.IProgram;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
+import com.zagayevskiy.lang.runtime.userclass.IUserClassPrototype;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -17,6 +18,12 @@ public class SpyProgramFactory implements IProgram.Factory {
 
     public SpyProgramFactory(IProgram.Factory factory) {
         this.factory = factory;
+    }
+
+    @Nonnull
+    @Override
+    public IUserClassPrototype.Builder createUserClassBuilder(@Nonnull String name) {
+        return new SpyUserClassBuilder(factory.createUserClassBuilder(name));
     }
 
     @Nonnull

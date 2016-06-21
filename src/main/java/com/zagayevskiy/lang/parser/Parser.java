@@ -6,11 +6,13 @@ import com.zagayevskiy.lang.runtime.IVariable;
 import com.zagayevskiy.lang.runtime.instructions.Instruction;
 import com.zagayevskiy.lang.runtime.instructions.impl.VariableInstruction;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
+import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.primitive.LangBoolean;
 import com.zagayevskiy.lang.runtime.types.primitive.LangInteger;
 import com.zagayevskiy.lang.runtime.types.primitive.LangUndefined;
 import com.zagayevskiy.lang.runtime.types.primitive.string.LangString;
 import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
+import com.zagayevskiy.lang.runtime.userclass.IUserClassPrototype;
 import com.zagayevskiy.lang.tokenization.Token;
 import com.zagayevskiy.lang.tokenization.Tokenizer;
 
@@ -33,6 +35,7 @@ public class Parser {
     private State state = State.IDLE;
     private Token token;
     private IFunctionPrototype.Builder functionPrototypeBuilder;
+    private IUserClassPrototype.Builder userClassBuilder;
 
 
     public Parser(@Nonnull Tokenizer tokenizer,
@@ -75,6 +78,12 @@ public class Parser {
             log("Identifier expected after 'class'");
             return false;
         }
+        if (programBuider.getUserClass(token.value) != null) {
+            log(token.value + " class already exists");
+            return false;
+        }
+        userClassBuilder = programFactory.createUserClassBuilder(token.value);
+        programBuider.addUserClass(userClassBuilder.getBuildingUserClassPrototype());
         nextToken();
 
         if (token.type != Token.BRACE_OPEN) {
@@ -219,7 +228,12 @@ public class Parser {
 
         //TODO
         final IFunctionPrototype.Builder temp = functionPrototypeBuilder;
-        functionPrototypeBuilder = programFactory.createMethodBuilder(token.value);
+        if (userClassBuilder.getMethodPrototype(token.value) != null) {
+            log(token.value + " already exists in class " + userClassBuilder.getBuildingUserClassPrototype().getLangClassName());
+        }
+
+        final IMethodPrototype.Builder methodPrototypeBuilder = programFactory.createMethodBuilder(token.value);
+        functionPrototypeBuilder = methodPrototypeBuilder;
 
         nextToken();
 
@@ -227,6 +241,7 @@ public class Parser {
             log("method arguments expected");
             return false;
         }
+        userClassBuilder.addMethodPrototype(methodPrototypeBuilder.getStub());
 
         if (!block()) {
             log("method body expected");

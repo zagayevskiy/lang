@@ -8,6 +8,8 @@ import com.zagayevskiy.lang.runtime.types.function.prototype.IFunctionPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.IMethodPrototype;
 import com.zagayevskiy.lang.runtime.types.function.prototype.MethodPrototypeBuilder;
 import com.zagayevskiy.lang.runtime.types.struct.LangStructClass;
+import com.zagayevskiy.lang.runtime.userclass.IUserClassPrototype;
+import com.zagayevskiy.lang.runtime.userclass.UserClassPrototypeBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -66,6 +68,23 @@ public class Program implements IProgram {
 
         @Nonnull
         @Override
+        public IProgram.Builder addUserClass(@Nonnull IUserClassPrototype userClass) {
+            final String className = userClass.getLangClassName();
+            if (program.userClasses.containsKey(className)) {
+                throw new IllegalStateException(className + " already exists. Must check before add.");
+            }
+            program.userClasses.put(className, userClass);
+            return this;
+        }
+
+        @Nullable
+        @Override
+        public IUserClassPrototype getUserClass(@Nonnull String name) {
+            return program.userClasses.get(name);
+        }
+
+        @Nonnull
+        @Override
         public IProgram build() {
             return program;
         }
@@ -91,10 +110,17 @@ public class Program implements IProgram {
         public IMethodPrototype.Builder createMethodBuilder(@Nonnull String name) {
             return new MethodPrototypeBuilder(name);
         }
+
+        @Nonnull
+        @Override
+        public IUserClassPrototype.Builder createUserClassBuilder(@Nonnull String name) {
+            return new UserClassPrototypeBuilder(name);
+        }
     }
 
     private Map<String, IFunctionPrototype> functionClasses = new HashMap<>();
     private Map<String, LangStructClass> structClasses = new HashMap<>();
+    private Map<String, IUserClassPrototype> userClasses = new HashMap<>();
     private IFunctionPrototype mainClass;
 
     @Nonnull
